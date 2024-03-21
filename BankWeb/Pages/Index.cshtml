@@ -8,7 +8,9 @@
     <h1 class="display-4">Welcome to Razor Bank</h1>
     @* <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p> *@
     <p>Total Customers: @Model.TotalCustomers</p>
-    <h2>Customers per Country:</h2>
+    <p>Total Accounts: @Model.TotalAccounts</p>
+    <p>Total Balance: @Model.TotalBalance.ToString("N2") SEK</p>
+    <h4>Customers per Country:</h4>
     <ul>
         @foreach (var entry in Model.CustomersPerCountry)
         {

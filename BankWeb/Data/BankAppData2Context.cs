@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankWeb.Data;
 
-public partial class BankAppData2Context : DbContext
+public partial class BankAppData2Context : IdentityDbContext
 {
     public BankAppData2Context()
     {
@@ -37,6 +38,8 @@ public partial class BankAppData2Context : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
         modelBuilder.Entity<Account>(entity =>

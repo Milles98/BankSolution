@@ -5,10 +5,10 @@ namespace BankWeb.Data;
 
 public class DataInitializer
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly BankAppData2Context _dbContext;
     private readonly UserManager<IdentityUser> _userManager;
 
-    public DataInitializer(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
+    public DataInitializer(BankAppData2Context dbContext, UserManager<IdentityUser> userManager)
     {
         _dbContext = dbContext;
         _userManager = userManager;

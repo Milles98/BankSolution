@@ -10,6 +10,8 @@ namespace BankWeb.Pages
 
         public int TotalCustomers { get; set; }
         public Dictionary<string, int> CustomersPerCountry { get; set; }
+        public decimal TotalBalance { get; set; }
+        public int TotalAccounts { get; set; }
 
         public void OnGet()
         {
@@ -17,6 +19,9 @@ namespace BankWeb.Pages
             CustomersPerCountry = _context.Customers
                 .GroupBy(c => c.Country)
                 .ToDictionary(g => g.Key, g => g.Count());
+
+            TotalBalance = _context.Accounts.Sum(a => a.Balance);
+            TotalAccounts = _context.Accounts.Count();
         }
     }
 }
