@@ -1,0 +1,111 @@
+﻿@page
+@model BankWeb.Pages.TransactionAdminInfoModel
+@{
+}
+
+<h1>Alla transaktioner</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">
+                Account ID
+                <a asp-page="/TransactionAdminInfo"
+                   asp-route-sortColumn="AccountId"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/TransactionAdminInfo"
+                   asp-route-sortColumn="AccountId"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th scope="col">
+                Date of Transaction
+                <a asp-page="/TransactionAdminInfo"
+                   asp-route-sortColumn="DateOfTransaction"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/TransactionAdminInfo"
+                   asp-route-sortColumn="DateOfTransaction"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th scope="col">
+                Operation
+                <a asp-page="/TransactionAdminInfo"
+                   asp-route-sortColumn="Operation"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/TransactionAdminInfo"
+                   asp-route-sortColumn="Operation"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th scope="col">
+                Amount
+                <a asp-page="/TransactionAdminInfo"
+                   asp-route-sortColumn="Amount"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/TransactionAdminInfo"
+                   asp-route-sortColumn="Amount"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th scope="col">
+                Balance
+                <a asp-page="/TransactionAdminInfo"
+                   asp-route-sortColumn="Balance"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/TransactionAdminInfo"
+                   asp-route-sortColumn="Balance"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var transaction in Model.Transactions)
+        {
+            <tr>
+                <td>@transaction.AccountId</td>
+                <td>@transaction.DateOfTransaction</td>
+                <td>@transaction.Operation</td>
+                <td>SEK: @transaction.Amount</td>
+                <td>SEK: @transaction.Balance</td>
+            </tr>
+        }
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <td colspan="2" style="display: flex; gap: 6px;">
+                <button class="btn btn-primary" onclick="location.href='?page=@(Model.CurrentPage - 1)&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'" @(Model.CurrentPage == 1 ? "disabled" : "")>Previous</button>
+                <button class="btn btn-primary" onclick="location.href='?page=@(Model.CurrentPage + 1)&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">Next</button>
+                <p>Page @Model.CurrentPage av @Model.TotalPages</p>
+                <button class="btn btn-primary" onclick="location.href='?page=1&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">First</button>
+                <button class="btn btn-primary" onclick="location.href='?page=@Model.TotalPages&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">Last</button>
+    </tfoot>
+</table>

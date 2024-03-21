@@ -5,6 +5,14 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to Razor Bank</h1>
+    @* <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p> *@
+    <p>Total Customers: @Model.TotalCustomers</p>
+    <h2>Customers per Country:</h2>
+    <ul>
+        @foreach (var entry in Model.CustomersPerCountry)
+        {
+            <li>@entry.Key: @entry.Value</li>
+        }
+    </ul>
 </div>

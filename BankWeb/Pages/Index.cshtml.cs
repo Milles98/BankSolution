@@ -1,20 +1,22 @@
+using BankWeb.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BankWeb.Pages
 {
-    public class IndexModel : PageModel
+    public class IndexModel(BankAppData2Context context) : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly BankAppData2Context _context = context;
 
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
+        public int TotalCustomers { get; set; }
+        public Dictionary<string, int> CustomersPerCountry { get; set; }
 
         public void OnGet()
         {
-
+            TotalCustomers = _context.Customers.Count();
+            CustomersPerCountry = _context.Customers
+                .GroupBy(c => c.Country)
+                .ToDictionary(g => g.Key, g => g.Count());
         }
     }
 }

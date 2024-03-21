@@ -1,0 +1,41 @@
+﻿@page
+@model BankWeb.Pages.CustomerAdminInfoModel
+@{
+}
+
+<h1>All Customers</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Given Name</th>
+            <th scope="col">Surname</th>
+            <th scope="col">Streetaddress</th>
+            <th scope="col">City</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var customer in Model.Customers)
+        {
+            <tr>
+                <td>@customer.Givenname</td>
+                <td>@customer.Surname</td>
+                <td>@customer.Streetaddress</td>
+                <td>@customer.City</td>
+            </tr>
+        }
+    </tbody>
+
+    <tfoot>
+        <tr>
+            <td colspan="2" style="display: flex; gap: 6px;">
+                <button class="btn btn-primary" onclick="location.href='?page=@(Model.CurrentPage - 1)'" @(Model.CurrentPage == 1 ? "disabled" : "")>Previous</button>
+                <button class="btn btn-primary" onclick="location.href='?page=@(Model.CurrentPage + 1)'">Next</button>
+                <p>Page @Model.CurrentPage of @Model.TotalPages</p>
+                <button class="btn btn-primary" onclick="location.href='?page=1'">First</button>
+                <button class="btn btn-primary" onclick="location.href='?page=@Model.TotalPages'">Last</button>
+            </td>
+        </tr>
+    </tfoot>
+</table>
