@@ -1,0 +1,29 @@
+﻿@page
+@model BankWeb.Pages.AccountModel
+@{
+}
+
+<h1 class="text-center">Account Information</h1>
+
+<table class="table table-striped">
+    <tr>
+        <th scope="col">Account ID</th>
+        <th scope="col">Frequency</th>
+        <th scope="col">Created</th>
+        <th scope="col">Balance</th>
+        <th scope="col">Details</th>
+    </tr>
+
+    <tr>
+        @foreach(var account in Model.Accounts)
+        {
+            <td>@account.AccountId</td>
+            <td>@account.Frequency</td>
+            <td>@account.Created</td>
+            <td>SEK: @account.Balance</td>
+            <td>
+                <a asp-page="/Transactions">See the transactions</a>
+            </td>
+        }
+    </tr>
+</table>
