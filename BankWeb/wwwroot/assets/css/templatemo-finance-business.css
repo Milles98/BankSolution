@@ -19,6 +19,35 @@ https://templatemo.com/tm-545-finance-business
     color: white;
 }
 
+#update-profile-button {
+    background-color: #A4C639;
+    border: none;
+}
+
+#profile.nav-link.active {
+    background-color: #A4C639;
+}
+
+#email.nav-link.active {
+    background-color: #A4C639;
+}
+
+#change-password.nav-link.active {
+    background-color: #A4C639;
+}
+
+#two-factor.nav-link.active {
+    background-color: #A4C639;
+}
+
+#personal-data.nav-link.active {
+    background-color: #A4C639;
+}
+
+.manage-account {
+    margin-bottom: 200px;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     overflow-x: hidden;
