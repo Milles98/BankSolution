@@ -1,0 +1,35 @@
+﻿@page
+@model BankWeb.Pages.CustomerDetailsModel
+@{
+    ViewData["Title"] = "Customer Details";
+}
+
+<div class="page-heading header-text">
+    <h1>@ViewData["Title"]</h1>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Customer ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">Account ID</th>
+            <th scope="col">Total Balance</th>
+            <th scope="col">Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var account in Model.Customer.Accounts)
+        {
+            <tr>
+                <td>@Model.Customer.CustomerId</td>
+                <td>@Model.Customer.Givenname @Model.Customer.Surname</td>
+                <td>@Model.Customer.Streetaddress, @Model.Customer.City</td>
+                <td>@account.AccountId</td>
+                <td>@Model.Customer.TotalBalance SEK</td>
+                <td>@account.Type</td>
+            </tr>
+        }
+    </tbody>
+</table>

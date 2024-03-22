@@ -69,6 +69,10 @@ https://templatemo.com/tm-545-finance-business
                             </li>
                         }
                     </ul>
+                    <form class="form-inline my-2 my-lg-0" method="get" asp-page="/CustomerDetails">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Enter Customer Number" aria-label="Search" name="id" required>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
