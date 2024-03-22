@@ -4,12 +4,20 @@
 }
 
 <div class="page-heading header-text">
-<h1>All Customers</h1>
+    <h1>All Customers</h1>
 </div>
+
+<form method="get" class="text-center">
+    <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
+        <input type="text" class="form-control" name="search" placeholder="Enter Customer ID" value="@Request.Query["search"]">
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
 
 <table class="table table-striped">
     <thead>
         <tr>
+            <th scope="col">Customer Id</th>
             <th scope="col">Given Name</th>
             <th scope="col">Surname</th>
             <th scope="col">Streetaddress</th>
@@ -21,6 +29,7 @@
         @foreach (var customer in Model.Customers)
         {
             <tr>
+                <td>@customer.CustomerId</td>
                 <td>@customer.Givenname</td>
                 <td>@customer.Surname</td>
                 <td>@customer.Streetaddress</td>

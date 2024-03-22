@@ -15,9 +15,9 @@ namespace BankWeb.Pages
         public List<TransactionViewModel> Transactions { get; set; } = new();
 
         public int CurrentPage { get; set; } = 1;
-        public int TransactionsPerPage { get; set; } = 15;
+        public int TransactionsPerPage { get; set; } = 7;
         public int TotalPages => (int)Math.Ceiling(_context.Transactions.Count() / (double)TransactionsPerPage);
-        public void OnGet(string sortColumn, string sortOrder)
+        public void OnGet(string sortColumn, string sortOrder, string search)
         {
             if (Request.Query.ContainsKey("page"))
             {
@@ -25,6 +25,14 @@ namespace BankWeb.Pages
             }
 
             var query = _context.Transactions.AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                if (int.TryParse(search, out int accountId))
+                {
+                    query = query.Where(t => t.AccountId == accountId);
+                }
+            }
 
             var sortExpressions = new Dictionary<string, Expression<Func<Transaction, object>>>
             {

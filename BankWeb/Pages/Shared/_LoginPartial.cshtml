@@ -7,9 +7,8 @@
     {
         var nameParts = User.Identity?.Name?.Split(new char[] { '.', '@' }, StringSplitOptions.RemoveEmptyEntries);
         var firstName = nameParts?.Length > 0 ? nameParts[0] : string.Empty;
-        var lastName = nameParts?.Length > 1 ? nameParts[1] : string.Empty;
         <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @firstName @lastName!</a>
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @firstName!</a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">

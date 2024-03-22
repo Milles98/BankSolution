@@ -6,6 +6,14 @@
 <h1>All transactions</h1>
 </div>
 
+<form method="get" class="text-center">
+    <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
+        <input type="text" class="form-control" name="search" placeholder="Enter Account ID" value="@Request.Query["search"]">
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -105,7 +113,7 @@
             <td colspan="2" style="display: flex; gap: 6px;">
                 <button class="btn btn-primary" onclick="location.href='?page=@(Model.CurrentPage - 1)&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'" @(Model.CurrentPage == 1 ? "disabled" : "")>Previous</button>
                 <button class="btn btn-primary" onclick="location.href='?page=@(Model.CurrentPage + 1)&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">Next</button>
-                <p>Page @Model.CurrentPage av @Model.TotalPages</p>
+                <p>Page @Model.CurrentPage of @Model.TotalPages</p>
                 <button class="btn btn-primary" onclick="location.href='?page=1&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">First</button>
                 <button class="btn btn-primary" onclick="location.href='?page=@Model.TotalPages&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">Last</button>
     </tfoot>
