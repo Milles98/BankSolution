@@ -847,7 +847,7 @@ ul.slick-dots {
 
 .contact-us {
     background-color: #f7f7f7;
-    padding: 140px 0px;
+    padding: 30px 0px;
 }
 
     .contact-us .contact-form {
@@ -856,12 +856,12 @@ ul.slick-dots {
     }
 
 .callback-form {
-    margin-top: 140px;
+    /*margin-top: 140px;*/
 }
 
     .callback-form .contact-form {
         background-color: #a4c639;
-        padding: 60px;
+        /*padding: 60px;*/
         border-radius: 5px;
         text-align: center;
     }
@@ -1163,7 +1163,7 @@ footer {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-    padding: 230px 0px 150px 0px;
+    padding: 200px 0px 100px 0px;
     color: #fff;
 }
 
