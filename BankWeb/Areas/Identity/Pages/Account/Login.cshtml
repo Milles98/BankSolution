@@ -18,21 +18,21 @@
 </div>
 <div class="callback-form contact-us">
     <div class="container">
-        <div class="row">
+        <div class="row row justify-content-center">
             <div class="col-md-12">
                 <div class="section-heading">
                     @* <h2>Log in with a <em>local account</em></h2> *@
                     @* <span>Enter your email and password below to log in.</span> *@
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="contact-form">
-                    <form id="account" method="post">
+                    <form style="width:500px;" id="account" method="post">
                         <!-- Email Input -->
                         <div class="row">
                             <div class="col-lg-12">
                                 <fieldset>
-                                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Email" />
+                                    <input style="border: 2px solid #808080;" asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Email" />
                                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                                 </fieldset>
                             </div>
@@ -40,7 +40,7 @@
                             <!-- Password Input -->
                             <div class="col-lg-12">
                                 <fieldset>
-                                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Password" />
+                                    <input style="border: 2px solid #808080;" asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Password" />
                                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                                 </fieldset>
                             </div>

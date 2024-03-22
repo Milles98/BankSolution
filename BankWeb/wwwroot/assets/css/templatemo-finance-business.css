@@ -24,24 +24,60 @@ https://templatemo.com/tm-545-finance-business
     border: none;
 }
 
+#change-email-button {
+    background-color: #A4C639;
+    border: none;
+}
+
+#enable-authenticator {
+    background-color: #A4C639;
+    border: none;
+}
+
+
 #profile.nav-link.active {
     background-color: #A4C639;
+    color: white;
+}
+
+#profile.nav-link {
+    color: #212529;
 }
 
 #email.nav-link.active {
     background-color: #A4C639;
+    color: white;
+}
+
+#email.nav-link {
+    color: #212529;
 }
 
 #change-password.nav-link.active {
     background-color: #A4C639;
+    color: white;
+}
+
+#change-password.nav-link {
+    color: #212529;
 }
 
 #two-factor.nav-link.active {
     background-color: #A4C639;
+    color: white;
+}
+
+#two-factor.nav-link {
+    color: #212529;
 }
 
 #personal-data.nav-link.active {
     background-color: #A4C639;
+    color: white;
+}
+
+#personal-data.nav-link {
+    color: #212529;
 }
 
 .manage-account {
