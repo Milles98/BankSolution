@@ -1,11 +1,13 @@
 using BankWeb.Data;
 using BankWeb.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Linq.Expressions;
 
 namespace BankWeb.Pages
 {
+    [Authorize(Roles = "Admin")]
     public class TransactionAdminInfoModel(BankAppData2Context context, ISortingService<Transaction> sortingService) : PageModel
     {
         private readonly BankAppData2Context _context = context;
