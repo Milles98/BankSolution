@@ -35,7 +35,10 @@
                     <p>Total Customers: @Model.TotalCustomers</p>
                     <p>Total Accounts: @Model.TotalAccounts</p>
                     <p>Total Balance: @Model.TotalBalance.ToString("N2") SEK</p>
-                  <a href="contact.html" class="filled-button">contact us</a>
+                    <form class="form-inline my-2 my-lg-0" method="get" asp-page="/CustomerDetails">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Enter Customer Number" aria-label="Search" name="id" required>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
                 </div>
             </div>
           </div>
@@ -49,7 +52,10 @@
                     <p>Total Customers: @Model.TotalCustomers</p>
                     <p>Total Accounts: @Model.TotalAccounts</p>
                     <p>Total Balance: @Model.TotalBalance.ToString("N2") SEK</p>
-                  <a href="services.html" class="filled-button">our services</a>
+                    <form class="form-inline my-2 my-lg-0" method="get" asp-page="/SearchResults">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Enter Name or City" aria-label="Search" name="query" required>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
                 </div>
             </div>
           </div>
