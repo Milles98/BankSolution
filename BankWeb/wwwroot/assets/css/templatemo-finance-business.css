@@ -49,6 +49,10 @@ https://templatemo.com/tm-545-finance-business
     border: none;
 }
 
+    #update-profile-button:hover {
+        background-color: gray;
+    }
+
 #change-email-button {
     background-color: #A4C639;
     border: none;

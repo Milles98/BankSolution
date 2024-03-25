@@ -143,10 +143,10 @@
     <tfoot>
         <tr>
             <td colspan="2" style="display: flex; gap: 6px;">
-                <button class="btn btn-primary" onclick="location.href='?page=@(Model.CurrentPage - 1)&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'" @(Model.CurrentPage == 1 ? "disabled" : "")>Previous</button>
-                <button class="btn btn-primary" onclick="location.href='?page=@(Model.CurrentPage + 1)&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">Next</button>
+                <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=@(Model.CurrentPage - 1)&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'" @(Model.CurrentPage == 1 ? "disabled" : "")>Previous</button>
+                <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=@(Model.CurrentPage + 1)&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">Next</button>
                 <p>Page @Model.CurrentPage of @Model.TotalPages</p>
-                <button class="btn btn-primary" onclick="location.href='?page=1&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">First</button>
-                <button class="btn btn-primary" onclick="location.href='?page=@Model.TotalPages&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">Last</button>
+                <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=1&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">First</button>
+                <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=@Model.TotalPages&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">Last</button>
     </tfoot>
 </table>
