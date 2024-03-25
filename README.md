@@ -37,10 +37,9 @@ Almost all my classes depend on interfaces that are registered by Autofac, thus 
 
 ## 5. 
 
-## 6. Autofac, Library & Common Classes & Interfaces
+## 6. Dependency Injection, Generic Classes & Interfaces
 
-The project has a custom made library with all necessary features included to successfully use Shape, Calculation and play Rock Paper Scissor.
-The project also uses autofac to register and resolve all necessary instances of the interfaces aswell as the DbContext.
+The bank application uses dependency injection for easier testing aswell as generic classes to follow the DRY principles. Interfaces are ofcourse included to streamline the process of relieving dependencies.
 
 ### Common Classes & Interfaces (that Shape, Calculator and Rock Paper Scissors share)
 - App
