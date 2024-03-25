@@ -29,7 +29,7 @@
                 <th scope="row">@((i + 1).ToString())</th>
                 <td>@customer.CustomerId</td>
                 <td>@customer.Givenname @customer.Surname</td>
-                <td>SEK: @customer.Dispositions.Sum(d => d.Account.Balance)</td>
+                <td>SEK: @customer.Dispositions.Sum(d => d.Account.Balance).ToString("N2")</td>
             </tr>
         }
 

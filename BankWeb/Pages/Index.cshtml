@@ -31,15 +31,15 @@
             <div class="img-fill">
                 <div class="text-content">
                     <h6>Welcome to the Modern Bank</h6>
-                  <h4>Financial Analysis<br>&amp; Consulting</h4>
+                  <h4>Customers, Accounts<br>&amp; Total Balance<br>Grouped by Country</h4>
                     <ul>
                         @foreach (var entry in Model.DataPerCountry)
                         {
                             <li class="text-white">
                                 <a class="country-styling" asp-page="/CountryDetails" asp-route-country="@entry.Key">@entry.Key</a>:
-                                Customers - @entry.Value.customers,
-                                Accounts - @entry.Value.accounts,
-                                Total Balance - @entry.Value.totalBalance.ToString("N2") SEK
+                                @entry.Value.customers Customers,
+                                @entry.Value.accounts Accounts,
+                                Total Valuation - SEK: @entry.Value.totalBalance.ToString("N2")
                             </li>
                         }
                     </ul>

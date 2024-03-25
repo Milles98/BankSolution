@@ -134,8 +134,8 @@
                 <td>@transaction.TransactionId</td>
                 <td>@transaction.DateOfTransaction</td>
                 <td>@transaction.Operation</td>
-                <td>SEK: @transaction.Amount</td>
-                <td>SEK: @transaction.Balance</td>
+                <td>SEK: @transaction.Amount.ToString("N2")</td>
+                <td>SEK: @transaction.Balance.ToString("N2")</td>
             </tr>
         }
     </tbody>
