@@ -22,8 +22,6 @@
 <!-- Page Content -->
     <!-- Banner Starts Here -->
 
-
-
     <div class="main-banner header-text" id="top">
         <div class="Modern-Slider">
           <!-- Item -->
@@ -31,27 +29,34 @@
             <div class="img-fill">
                 <div class="text-content">
                     <h6>Welcome to the Modern Bank</h6>
-                  <h4>Customers, Accounts<br>&amp; Total Balance<br>Grouped by Country</h4>
+                  <h4>Financial &amp; Banking Statistics<br>Grouped by Country</h4>
+                    @* &amp; *@
                     <ul>
                         @foreach (var entry in Model.DataPerCountry)
                         {
-                            <li class="text-white">
-                                <a class="country-styling" asp-page="/CountryDetails" asp-route-country="@entry.Key">@entry.Key</a>:
-                                @entry.Value.customers Customers,
-                                @entry.Value.accounts Accounts,
-                                Total Valuation - SEK: @entry.Value.totalBalance.ToString("N2")
+                            <li class="text-white stats-list-item">
+                                <div class="country-link">
+                                    <a class="country-styling" asp-page="/CountryDetails" asp-route-country="@entry.Key">@entry.Key</a>:
+                                </div>
+                                <div class="stats-details">
+                                    <span>@entry.Value.customers Customers,</span>
+                                    <span>@entry.Value.accounts Accounts,</span>
+                                    <span>Total Balance - SEK: @entry.Value.totalBalance.ToString("N2")</span>
+                                </div>
                             </li>
                         }
                     </ul>
 
+
                     <form class="my-2 my-lg-0" method="get" asp-page="/CustomerDetails">
                         <div class="input-group" style="width: 300px; margin-top: 10px;">
-                            <input class="form-control" type="search" placeholder="Search Customer ID" aria-label="Search" name="id" required>
+                            <input class="form-control" type="search" placeholder="Search Customer ID" aria-label="Search" name="id" required style="background-color: transparent; color: white;">
                             <div class="input-group-append">
                                 <button id="update-profile-button" class="btn btn-primary" type="submit">Search</button>
                             </div>
                         </div>
                     </form>
+
                 </div>
             </div>
           </div>

@@ -7,8 +7,28 @@ https://templatemo.com/tm-545-finance-business
 */
 
 .country-styling {
-    /*color: white;
-    text-decoration: underline;*/
+    font-size: larger; /* or use a specific size like 1.25em */
+    color: #A4C639;
+    text-decoration: underline !important;
+}
+
+    .country-styling:hover {
+        color: white;
+    }
+
+.stats-list-item {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+}
+
+.country-link {
+    flex-basis: 30%; /* adjust as needed */
+    white-space: nowrap;
+}
+
+.stats-details {
+    flex-basis: 360%; /* adjust as needed */
 }
 
 .btn-link-white {

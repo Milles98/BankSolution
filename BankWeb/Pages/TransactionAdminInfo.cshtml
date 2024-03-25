@@ -8,7 +8,7 @@
 
 <form method="get" class="text-center">
     <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
-        <input type="text" class="form-control" name="search" placeholder="Enter Account ID" value="@Request.Query["search"]">
+        <input type="text" class="form-control" name="search" placeholder="Enter Transaction ID" value="@Request.Query["search"]">
     </div>
     <button id="update-profile-button" type="submit" class="btn btn-primary">Search</button>
 </form>
@@ -17,6 +17,21 @@
 <table class="table table-striped">
     <thead>
         <tr>
+            <th scope="col">
+                Transaction ID
+                <a asp-page="/TransactionAdminInfo"
+                   asp-route-sortColumn="TransactionId"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/TransactionAdminInfo"
+                   asp-route-sortColumn="TransactionId"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
             <th scope="col">
                 Account ID
                 <a asp-page="/TransactionAdminInfo"
@@ -42,21 +57,6 @@
                 </a>
                 <a asp-page="/TransactionAdminInfo"
                    asp-route-sortColumn="CustomerId"
-                   asp-route-sortOrder="desc"
-                   style="text-decoration: none">
-                    <i class="fa-solid fa-angle-down"></i>
-                </a>
-            </th>
-            <th scope="col">
-                Transaction ID
-                <a asp-page="/TransactionAdminInfo"
-                   asp-route-sortColumn="TransactionId"
-                   asp-route-sortOrder="asc"
-                   style="text-decoration: none">
-                    <i class="fa-solid fa-angle-up"></i>
-                </a>
-                <a asp-page="/TransactionAdminInfo"
-                   asp-route-sortColumn="TransactionId"
                    asp-route-sortOrder="desc"
                    style="text-decoration: none">
                     <i class="fa-solid fa-angle-down"></i>
@@ -129,9 +129,9 @@
         @foreach (var transaction in Model.Transactions)
         {
             <tr>
+                <td>@transaction.TransactionId</td>
                 <td>@transaction.AccountId</td>
                 <td>@transaction.CustomerId</td>
-                <td>@transaction.TransactionId</td>
                 <td>@transaction.DateOfTransaction</td>
                 <td>@transaction.Operation</td>
                 <td>SEK: @transaction.Amount.ToString("N2")</td>

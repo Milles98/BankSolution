@@ -37,16 +37,16 @@ namespace BankWeb.Pages
 
             var query = _context.Transactions.AsQueryable();
 
-            if (!string.IsNullOrEmpty(search) && int.TryParse(search, out int accountId))
+            if (!string.IsNullOrEmpty(search) && int.TryParse(search, out int transactionId))
             {
-                query = query.Where(t => t.AccountId == accountId);
+                query = query.Where(t => t.TransactionId == transactionId);
             }
 
             var sortExpressions = new Dictionary<string, Expression<Func<Transaction, object>>>
             {
+                { "TransactionId", t => t.TransactionId},
                 { "AccountId", t => t.AccountId },
                 { "CustomerId", t => t.AccountNavigation.Dispositions.FirstOrDefault().CustomerId },
-                { "TransactionId", t => t.TransactionId},
                 { "DateOfTransaction", t => t.Date },
                 { "Operation", t => t.Operation },
                 { "Amount", t => t.Amount },
@@ -58,9 +58,9 @@ namespace BankWeb.Pages
             Transactions = _paginationService.GetPage(query, CurrentPage, TransactionsPerPage)
                 .Select(t => new TransactionViewModel
                 {
+                    TransactionId = t.TransactionId,
                     AccountId = t.AccountId,
                     CustomerId = t.AccountNavigation.Dispositions.FirstOrDefault().CustomerId,
-                    TransactionId = t.TransactionId,
                     DateOfTransaction = t.Date,
                     Operation = t.Operation,
                     Amount = t.Amount,
