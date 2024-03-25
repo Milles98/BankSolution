@@ -44,31 +44,41 @@ https://templatemo.com/tm-545-finance-business
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" asp-page="/Index">
-                                Home
-                                <span class="sr-only">(current)</span>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Menu
                             </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-page="/Privacy">Privacy</a>
+                                <a class="dropdown-item" asp-page="/Loans">Loans</a>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Loans">Loans</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownServices" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Transactions
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownServices">
+                                <a class="dropdown-item" asp-page="/Withdraw">Withdraw</a>
+                                <a class="dropdown-item" asp-page="/Deposit">Deposit</a>
+                                <a class="dropdown-item" asp-page="/Transfer">Transfer</a>
+                                <!-- Add more services as needed... -->
+                            </div>
                         </li>
                         @if (User.IsInRole("Admin"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-page="/CustomerAdminInfo">Customers</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-page="/TransactionAdminInfo">Transactions</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Admin
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
+                                    <a class="dropdown-item" asp-page="/CustomerAdminInfo">Customers</a>
+                                    <a class="dropdown-item" asp-page="/TransactionAdminInfo">Transactions</a>
+                                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                                </div>
                             </li>
                         }
                     </ul>
+
                     <partial name="_LoginPartial" />
                 </div>
             </div>

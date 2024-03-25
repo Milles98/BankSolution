@@ -1,0 +1,22 @@
+﻿@page
+@model BankWeb.Pages.DepositModel
+@{
+}
+
+<div class="page-heading header-text">
+    <h1>Deposit</h1>
+</div>
+
+<form method="post" class="text-center">
+    <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
+        <label for="accountId">Account ID:</label>
+        <input id="accountId" name="accountId" type="number" class="form-control" required>
+    </div>
+
+    <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
+        <label for="amount">Amount:</label>
+        <input id="amount" name="amount" type="number" step="0.01" class="form-control" required>
+    </div>
+
+    <button type="submit" id="update-profile-button" class="btn btn-primary" style="margin-top: 10px;">Deposit</button>
+</form>
