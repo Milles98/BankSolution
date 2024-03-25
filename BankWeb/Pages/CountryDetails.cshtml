@@ -8,16 +8,30 @@
     <img src="@Model.ImagePath" alt="@Model.Country" style="width: 150px; height: 150px; margin-right: 20px; z-index: 1;">
     <div>
         <h1>@Model.Country</h1>
-        <h2>Top 10 Customers</h2>
+        <h2>Top 10 Loyal Customers</h2>
     </div>
 </div>
 
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Position</th>
+            <th scope="col">Customer ID</th>
+            <th scope="col">Full Name</th>
+            <th scope="col">Balance</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.TopCustomers.Count; i++)
+        {
+            var customer = Model.TopCustomers[i];
+            <tr>
+                <th scope="row">@((i + 1).ToString())</th>
+                <td>@customer.CustomerId</td>
+                <td>@customer.Givenname @customer.Surname</td>
+                <td>@customer.Dispositions.Sum(d => d.Account.Balance) SEK</td>
+            </tr>
+        }
 
-
-<ul class="text-center">
-    @for (int i = 0; i < Model.TopCustomers.Count; i++)
-    {
-        var customer = Model.TopCustomers[i];
-        <li>@(i + 1). Customer ID @customer.CustomerId: Balance: @customer.Dispositions.Sum(d => d.Account.Balance) SEK</li>
-    }
-</ul>
+    </tbody>
+</table>
