@@ -18,6 +18,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<BankAppData2Context>();
 builder.Services.AddRazorPages();
 
+builder.Services.AddResponseCaching();
+
 builder.Services.AddTransient<DataInitializer>();
 builder.Services.AddTransient<ISortingService<Transaction>, SortingService<Transaction>>();
 builder.Services.AddTransient<IPaginationService<Transaction>, PaginationService<Transaction>>();
@@ -44,6 +46,8 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseResponseCaching();
 
 app.UseRouting();
 

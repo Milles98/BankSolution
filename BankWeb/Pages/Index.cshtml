@@ -32,9 +32,18 @@
                 <div class="text-content">
                     <h6>Welcome to the Modern Bank</h6>
                   <h4>Financial Analysis<br>&amp; Consulting</h4>
-                    <p>Total Customers: @Model.TotalCustomers</p>
-                    <p>Total Accounts: @Model.TotalAccounts</p>
-                    <p>Total Balance: @Model.TotalBalance.ToString("N2") SEK</p>
+                    <ul>
+                        @foreach (var entry in Model.DataPerCountry)
+                        {
+                            <li class="text-white">
+                                <a class="country-styling" asp-page="/CountryDetails" asp-route-country="@entry.Key">@entry.Key</a>:
+                                Customers - @entry.Value.customers,
+                                Accounts - @entry.Value.accounts,
+                                Total Balance - @entry.Value.totalBalance.ToString("N2") SEK
+                            </li>
+                        }
+                    </ul>
+
                     <form class="form-inline my-2 my-lg-0" method="get" asp-page="/CustomerDetails">
                         <input class="form-control mr-sm-2" type="search" placeholder="Enter Customer Number" aria-label="Search" name="id" required>
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -49,9 +58,18 @@
                 <div class="text-content">
                   <h6>We help with your finances</h6>
                   <h4>Accounting<br>&amp; Management</h4>
-                    <p>Total Customers: @Model.TotalCustomers</p>
-                    <p>Total Accounts: @Model.TotalAccounts</p>
-                    <p>Total Balance: @Model.TotalBalance.ToString("N2") SEK</p>
+                    <ul>
+                        @foreach (var entry in Model.DataPerCountry)
+                        {
+                            <li class="text-white">
+                                <a class="country-styling" asp-page="/CountryDetails" asp-route-country="@entry.Key">@entry.Key</a>:
+                                Customers - @entry.Value.customers,
+                                Accounts - @entry.Value.accounts,
+                                Total Balance - @entry.Value.totalBalance.ToString("N2") SEK
+                            </li>
+                        }
+                    </ul>
+
                     <form class="form-inline my-2 my-lg-0" method="get" asp-page="/SearchResults">
                         <input class="form-control mr-sm-2" type="search" placeholder="Enter Name or City" aria-label="Search" name="query" required>
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -66,9 +84,18 @@
                 <div class="text-content">
                   <h6>we have a solid background</h6>
                   <h4>Market Analysis<br>&amp; Statistics</h4>
-                    <p>Total Customers: @Model.TotalCustomers</p>
-                    <p>Total Accounts: @Model.TotalAccounts</p>
-                    <p>Total Balance: @Model.TotalBalance.ToString("N2") SEK</p>
+                    <ul>
+                        @foreach (var entry in Model.DataPerCountry)
+                        {
+                            <li class="text-white">
+                                <a class="country-styling" asp-page="/CountryDetails" asp-route-country="@entry.Key">@entry.Key</a>:
+                                Customers - @entry.Value.customers,
+                                Accounts - @entry.Value.accounts,
+                                Total Balance - @entry.Value.totalBalance.ToString("N2") SEK
+                            </li>
+                        }
+                    </ul>
+
                   <a href="about.html" class="filled-button">learn more</a>
                 </div>
             </div>

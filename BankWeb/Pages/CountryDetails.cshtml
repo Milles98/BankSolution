@@ -1,0 +1,23 @@
+﻿@page
+@model BankWeb.Pages.CountryDetailsModel
+@{
+    ViewData["Title"] = "Country Details";
+}
+
+<div class="page-heading header-text" style="display: flex; align-items: center; justify-content: center;">
+    <img src="@Model.ImagePath" alt="@Model.Country" style="width: 150px; height: 150px; margin-right: 20px; z-index: 1;">
+    <div>
+        <h1>@Model.Country</h1>
+        <h2>Top 10 Customers</h2>
+    </div>
+</div>
+
+
+
+<ul class="text-center">
+    @for (int i = 0; i < Model.TopCustomers.Count; i++)
+    {
+        var customer = Model.TopCustomers[i];
+        <li>@(i + 1). Customer ID @customer.CustomerId: Balance: @customer.Dispositions.Sum(d => d.Account.Balance) SEK</li>
+    }
+</ul>
