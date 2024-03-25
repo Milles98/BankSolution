@@ -19,6 +19,7 @@
             <th scope="col">Customer ID</th>
             <th scope="col">Full Name</th>
             <th scope="col">Balance</th>
+            <th scope="col">Loyalty Program</th>
         </tr>
     </thead>
     <tbody>
@@ -30,6 +31,7 @@
                 <td>@customer.CustomerId</td>
                 <td>@customer.Givenname @customer.Surname</td>
                 <td>SEK: @customer.Dispositions.Sum(d => d.Account.Balance).ToString("N2")</td>
+                <td><a asp-page="/GiftPage" asp-route-id="@customer.CustomerId">Send Gift</a></td>
             </tr>
         }
 
