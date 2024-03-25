@@ -45,6 +45,8 @@ namespace BankWeb.Pages
             var sortExpressions = new Dictionary<string, Expression<Func<Transaction, object>>>
             {
                 { "AccountId", t => t.AccountId },
+                { "CustomerId", t => t.AccountNavigation.Dispositions.FirstOrDefault().CustomerId },
+                { "TransactionId", t => t.TransactionId},
                 { "DateOfTransaction", t => t.Date },
                 { "Operation", t => t.Operation },
                 { "Amount", t => t.Amount },
@@ -57,6 +59,8 @@ namespace BankWeb.Pages
                 .Select(t => new TransactionViewModel
                 {
                     AccountId = t.AccountId,
+                    CustomerId = t.AccountNavigation.Dispositions.FirstOrDefault().CustomerId,
+                    TransactionId = t.TransactionId,
                     DateOfTransaction = t.Date,
                     Operation = t.Operation,
                     Amount = t.Amount,

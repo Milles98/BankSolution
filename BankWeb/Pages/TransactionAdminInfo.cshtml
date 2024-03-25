@@ -33,6 +33,36 @@
                 </a>
             </th>
             <th scope="col">
+                Customer ID
+                <a asp-page="/TransactionAdminInfo"
+                   asp-route-sortColumn="CustomerId"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/TransactionAdminInfo"
+                   asp-route-sortColumn="CustomerId"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th scope="col">
+                Transaction ID
+                <a asp-page="/TransactionAdminInfo"
+                   asp-route-sortColumn="TransactionId"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/TransactionAdminInfo"
+                   asp-route-sortColumn="TransactionId"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th scope="col">
                 Date of Transaction
                 <a asp-page="/TransactionAdminInfo"
                    asp-route-sortColumn="DateOfTransaction"
@@ -100,6 +130,8 @@
         {
             <tr>
                 <td>@transaction.AccountId</td>
+                <td>@transaction.CustomerId</td>
+                <td>@transaction.TransactionId</td>
                 <td>@transaction.DateOfTransaction</td>
                 <td>@transaction.Operation</td>
                 <td>SEK: @transaction.Amount</td>
