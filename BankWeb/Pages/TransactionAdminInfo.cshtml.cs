@@ -1,5 +1,7 @@
 using BankWeb.Data;
+using BankWeb.Services;
 using BankWeb.Services.Interfaces;
+using BankWeb.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,10 +10,19 @@ using System.Linq.Expressions;
 namespace BankWeb.Pages
 {
     [Authorize(Roles = "Admin")]
-    public class TransactionAdminInfoModel(BankAppData2Context context, ISortingService<Transaction> sortingService) : PageModel
+    public class TransactionAdminInfoModel : PageModel
     {
-        private readonly BankAppData2Context _context = context;
-        private readonly ISortingService<Transaction> _sortingService = sortingService;
+        private readonly IPaginationService<Transaction> _paginationService;
+        private readonly BankAppData2Context _context;
+        private readonly ISortingService<Transaction> _sortingService;
+
+        public TransactionAdminInfoModel(IPaginationService<Transaction> paginationService,
+            ISortingService<Transaction> sortingService, BankAppData2Context context)
+        {
+            _paginationService = paginationService;
+            _sortingService = sortingService;
+            _context = context;
+        }
         public List<TransactionViewModel> Transactions { get; set; } = new();
 
         public int CurrentPage { get; set; } = 1;
@@ -26,12 +37,9 @@ namespace BankWeb.Pages
 
             var query = _context.Transactions.AsQueryable();
 
-            if (!string.IsNullOrEmpty(search))
+            if (!string.IsNullOrEmpty(search) && int.TryParse(search, out int accountId))
             {
-                if (int.TryParse(search, out int accountId))
-                {
-                    query = query.Where(t => t.AccountId == accountId);
-                }
+                query = query.Where(t => t.AccountId == accountId);
             }
 
             var sortExpressions = new Dictionary<string, Expression<Func<Transaction, object>>>
@@ -45,9 +53,7 @@ namespace BankWeb.Pages
 
             query = _sortingService.Sort(query, sortColumn, sortOrder, sortExpressions);
 
-            Transactions = query
-                .Skip((CurrentPage - 1) * TransactionsPerPage)
-                .Take(TransactionsPerPage)
+            Transactions = _paginationService.GetPage(query, CurrentPage, TransactionsPerPage)
                 .Select(t => new TransactionViewModel
                 {
                     AccountId = t.AccountId,
@@ -58,15 +64,5 @@ namespace BankWeb.Pages
                 })
                 .ToList();
         }
-    }
-
-    public class TransactionViewModel
-    {
-        public int AccountId { get; set; }
-        public DateOnly DateOfTransaction { get; set; }
-        public string Operation { get; set; }
-        public decimal Amount { get; set; }
-        public decimal Balance { get; set; }
-
     }
 }

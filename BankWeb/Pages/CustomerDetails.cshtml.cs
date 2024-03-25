@@ -1,4 +1,5 @@
 using BankWeb.Data;
+using BankWeb.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -46,25 +47,5 @@ namespace BankWeb.Pages
 
             return Page();
         }
-
     }
-
-    public class CustomerAccountViewModel
-    {
-        public int CustomerId { get; set; }
-        public string Givenname { get; set; }
-        public string Surname { get; set; }
-        public string Streetaddress { get; set; }
-        public string City { get; set; }
-        public List<AccountViewModel> Accounts { get; set; }
-        public decimal TotalBalance { get; set; }
-    }
-
-    public class AccountViewModel
-    {
-        public string AccountId { get; set; }
-        public decimal Balance { get; set; }
-        public string Type { get; set; }
-    }
-
 }

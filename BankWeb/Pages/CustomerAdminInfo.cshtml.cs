@@ -1,4 +1,6 @@
 using BankWeb.Data;
+using BankWeb.Services.Interfaces;
+using BankWeb.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -6,9 +8,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace BankWeb.Pages
 {
     [Authorize(Roles = "Admin")]
-    public class CustomerAdminInfoModel(BankAppData2Context context) : PageModel
+    public class CustomerAdminInfoModel : PageModel
     {
-        private readonly BankAppData2Context _context = context;
+        private readonly BankAppData2Context _context;
+        private readonly IPaginationService<Customer> _paginationService;
+
+        public CustomerAdminInfoModel(BankAppData2Context context, IPaginationService<Customer> paginationService)
+        {
+            _context = context;
+            _paginationService = paginationService;
+        }
 
         public List<CustomerViewModel> Customers { get; set; } = new();
         public int CurrentPage { get; set; } = 1;
@@ -32,10 +41,7 @@ namespace BankWeb.Pages
                 }
             }
 
-            Customers = query
-                .OrderBy(c => c.CustomerId)
-                .Skip((CurrentPage - 1) * CustomerPerPage)
-                .Take(CustomerPerPage)
+            Customers = _paginationService.GetPage(query, CurrentPage, CustomerPerPage)
                 .Select(c => new CustomerViewModel
                 {
                     CustomerId = c.CustomerId,
@@ -45,14 +51,5 @@ namespace BankWeb.Pages
                     City = c.City
                 }).ToList();
         }
-    }
-
-    public class CustomerViewModel
-    {
-        public int CustomerId { get; set; }
-        public string Givenname { get; set; } = null!;
-        public string Surname { get; set; } = null!;
-        public string Streetaddress { get; set; } = null!;
-        public string City { get; set; } = null!;
     }
 }
