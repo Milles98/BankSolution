@@ -1,6 +1,6 @@
-﻿using BankWeb.Services.Interfaces;
+﻿using DataLibrary.Services.Interfaces;
 
-namespace BankWeb.Services
+namespace DataLibrary.Services
 {
     public class PaginationService<T> : IPaginationService<T>
     {

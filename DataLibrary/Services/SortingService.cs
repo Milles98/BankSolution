@@ -1,7 +1,7 @@
-﻿using BankWeb.Services.Interfaces;
+﻿using DataLibrary.Services.Interfaces;
 using System.Linq.Expressions;
 
-namespace BankWeb.Services
+namespace DataLibrary.Services
 {
     public class SortingService<T> : ISortingService<T>
     {

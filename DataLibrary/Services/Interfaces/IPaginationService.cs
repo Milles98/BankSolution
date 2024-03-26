@@ -1,4 +1,4 @@
-﻿namespace BankWeb.Services.Interfaces
+﻿namespace DataLibrary.Services.Interfaces
 {
     public interface IPaginationService<T>
     {

@@ -1,7 +1,7 @@
-﻿using BankWeb.Data;
-using BankWeb.Services.Interfaces;
+﻿using DataLibrary.Data;
+using DataLibrary.Services.Interfaces;
 
-namespace BankWeb.Services
+namespace DataLibrary.Services
 {
     public class BankService : IBankService
     {

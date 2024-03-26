@@ -1,8 +1,8 @@
-using BankWeb.Data;
-using BankWeb.Services.Interfaces;
-using BankWeb.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using DataLibrary.Data;
+using DataLibrary.Services.Interfaces;
+using DataLibrary.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

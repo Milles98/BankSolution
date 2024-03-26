@@ -1,5 +1,4 @@
-using BankWeb.Services;
-using BankWeb.Services.Interfaces;
+using DataLibrary.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

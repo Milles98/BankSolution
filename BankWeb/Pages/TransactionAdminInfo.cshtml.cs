@@ -1,7 +1,6 @@
-using BankWeb.Data;
-using BankWeb.Services;
-using BankWeb.Services.Interfaces;
 using BankWeb.ViewModel;
+using DataLibrary.Data;
+using DataLibrary.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

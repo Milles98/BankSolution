@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace BankWeb.Services.Interfaces
+namespace DataLibrary.Services.Interfaces
 {
     public interface ISortingService<T>
     {

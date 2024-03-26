@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BankWeb.Data;
+namespace DataLibrary.Data;
 
 public partial class User
 {

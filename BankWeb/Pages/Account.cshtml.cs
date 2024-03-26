@@ -1,4 +1,4 @@
-using BankWeb.Data;
+using DataLibrary.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
