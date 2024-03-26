@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankWeb", "BankWeb\BankWeb.csproj", "{D14C72F6-A418-453F-8735-DBFCA1DAA144}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DCD9B8A3-260A-410A-95E9-461D32CC6450} = {DCD9B8A3-260A-410A-95E9-461D32CC6450}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLibrary", "DataLibrary\DataLibrary.csproj", "{DCD9B8A3-260A-410A-95E9-461D32CC6450}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{D14C72F6-A418-453F-8735-DBFCA1DAA144}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D14C72F6-A418-453F-8735-DBFCA1DAA144}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D14C72F6-A418-453F-8735-DBFCA1DAA144}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCD9B8A3-260A-410A-95E9-461D32CC6450}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCD9B8A3-260A-410A-95E9-461D32CC6450}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCD9B8A3-260A-410A-95E9-461D32CC6450}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCD9B8A3-260A-410A-95E9-461D32CC6450}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
