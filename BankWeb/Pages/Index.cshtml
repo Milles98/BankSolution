@@ -30,21 +30,29 @@
                 <div class="text-content">
                     <h6>Welcome to the Modern Bank</h6>
                   <h4>Financial &amp; Banking Statistics<br>Grouped by Country</h4>
-                    <ul>
-                        @foreach (var entry in Model.DataPerCountry)
-                        {
-                            <li class="text-white stats-list-item">
-                                <div class="country-link">
-                                    <a class="country-styling" asp-page="/CountryDetails" asp-route-country="@entry.Key">@entry.Key</a>:
-                                </div>
-                                <div class="stats-details">
-                                    <span>@entry.Value.customers Customers,</span>
-                                    <span>@entry.Value.accounts Accounts,</span>
-                                    <span>Total Balance - SEK: @entry.Value.totalBalance.ToString("N2")</span>
-                                </div>
-                            </li>
-                        }
-                    </ul>
+                    <table class="table table-transparent">
+                        <thead>
+                            <tr>
+                                <th class="text-white">Country</th>
+                                <th class="text-white">Customers</th>
+                                <th class="text-white">Accounts</th>
+                                <th class="text-white">Total Balance - SEK</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var entry in Model.DataPerCountry)
+                            {
+                                <tr>
+                                    <td class="text-white">
+                                        <a class="country-styling" asp-page="/CountryDetails" asp-route-country="@entry.Key">@entry.Key</a>
+                                    </td>
+                                    <td class="text-white">@entry.Value.customers</td>
+                                    <td class="text-white">@entry.Value.accounts</td>
+                                    <td class="text-white">@entry.Value.totalBalance.ToString("N2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
 
 
                     <form class="my-2 my-lg-0" method="get" asp-page="/CustomerDetails">

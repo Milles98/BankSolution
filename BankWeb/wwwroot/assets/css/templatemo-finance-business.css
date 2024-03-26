@@ -478,7 +478,7 @@ header {
     display: block;
     overflow: hidden;
     position: relative;
-    text-align: center
+    text-align: center;
 }
 
     .img-fill img {
@@ -519,7 +519,7 @@ header {
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    height: 95vh;
+    height: 100vh;
 }
 
 .Modern-Slider .item-1 .img-fill {

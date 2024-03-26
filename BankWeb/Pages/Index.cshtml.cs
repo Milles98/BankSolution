@@ -26,7 +26,7 @@ namespace BankWeb.Pages
                     g => g.Key,
                     g => (
                         customers: g.Count(),
-                        accounts: g.SelectMany(c => c.Dispositions).Count(),
+                        accounts: g.SelectMany(c => c.Dispositions.Select(d => d.AccountId)).Distinct().Count(),
                         totalBalance: g.SelectMany(c => c.Dispositions.Select(d => d.Account.Balance)).Sum()
                     )
                 );
