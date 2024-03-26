@@ -1,6 +1,4 @@
-﻿using BankWeb.Pages;
-
-namespace BankWeb.ViewModel
+﻿namespace DataLibrary.ViewModel
 {
     public class CustomerAccountViewModel
     {
