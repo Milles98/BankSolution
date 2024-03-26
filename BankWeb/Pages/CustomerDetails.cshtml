@@ -8,6 +8,12 @@
     <h1>@ViewData["Title"]</h1>
 </div>
 
+<div class="mb-3">
+    <a asp-page="/CustomerCRUD/Create" class="btn btn-primary">Create</a>
+    <a asp-page="/CustomerCRUD/Edit" asp-route-id="@Model.Customer.CustomerId" class="btn btn-primary">Edit</a>
+    <a asp-page="/CustomerCRUD/Delete" asp-route-id="@Model.Customer.CustomerId" class="btn btn-danger">Delete</a>
+</div>
+
 <table class="table table-striped">
     <thead>
         <tr>

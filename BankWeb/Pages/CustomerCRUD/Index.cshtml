@@ -1,0 +1,108 @@
+﻿@page
+@model BankWeb.Pages.CustomerCRUD.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Givenname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Streetaddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Zipcode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].CountryCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Birthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].NationalId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Telephonecountrycode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Telephonenumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Emailaddress)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Customer) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Givenname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Streetaddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Zipcode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountryCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Birthday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NationalId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telephonecountrycode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telephonenumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Emailaddress)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.CustomerId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.CustomerId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.CustomerId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
