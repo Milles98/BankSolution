@@ -525,7 +525,8 @@ header {
     .Modern-Slider .item-1 .img-fill::before {
         content: "";
         background-image: url(../images/slide_01.jpg);
-        opacity: 0.4; /* Adjust this value to change the opacity */
+        background-size: cover;
+        opacity: 0.3; /* Adjust this value to change the opacity */
         position: absolute;
         top: 0;
         right: 0;
