@@ -9,7 +9,6 @@ https://templatemo.com/tm-545-finance-business
 .country-styling {
     font-size: larger; /* or use a specific size like 1.25em */
     color: #A4C639;
-    text-decoration: underline !important;
 }
 
     .country-styling:hover {
@@ -515,15 +514,27 @@ header {
     padding: 0;
 }
 
-.Modern-Slider .item .img-fill {
+.Modern-Slider .item-1 .img-fill {
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     height: 100vh;
+    position: relative;
 }
 
+    .Modern-Slider .item-1 .img-fill::before {
+        content: "";
+        background-image: url(../images/slide_01.jpg);
+        opacity: 0.4; /* Adjust this value to change the opacity */
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
 .Modern-Slider .item-1 .img-fill {
-    background-image: url(../images/slide_01.jpg);
+    /*background-image: url(../images/slide_01.jpg);*/
 }
 
 .Modern-Slider .item-2 .img-fill {

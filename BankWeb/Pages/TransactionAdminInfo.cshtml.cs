@@ -23,7 +23,7 @@ namespace BankWeb.Pages
             _sortingService = sortingService;
             _context = context;
         }
-        public List<TransactionViewModel> Transactions { get; set; } = new();
+        public List<TransactionViewModel> Transactions { get; set; }
 
         public int CurrentPage { get; set; } = 1;
         public int TransactionsPerPage { get; set; } = 7;

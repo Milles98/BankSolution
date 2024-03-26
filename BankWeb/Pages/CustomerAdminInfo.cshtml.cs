@@ -19,7 +19,7 @@ namespace BankWeb.Pages
             _paginationService = paginationService;
         }
 
-        public List<CustomerViewModel> Customers { get; set; } = new();
+        public List<CustomerViewModel> Customers { get; set; }
         public int CurrentPage { get; set; } = 1;
         public int CustomerPerPage { get; set; } = 7;
         public int TotalPages => (int)Math.Ceiling(_context.Customers.Count() / (double)CustomerPerPage);
