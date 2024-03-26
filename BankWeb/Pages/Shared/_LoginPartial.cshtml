@@ -5,10 +5,25 @@
 <ul class="navbar-nav ml-auto">
     @if (SignInManager.IsSignedIn(User))
     {
+        var user = await UserManager.GetUserAsync(User);
+        var roles = await UserManager.GetRolesAsync(user);
+        var role = roles.FirstOrDefault(); //en roll, ändra om flera roller
+
+        var greeting = "Hello";
+        if (role == "Admin")
+        {
+            greeting = "Hello Admin";
+        }
+        else if (role == "Cashier")
+        {
+            greeting = "Hello Cashier";
+        }
+
         var nameParts = User.Identity?.Name?.Split(new char[] { '.', '@' }, StringSplitOptions.RemoveEmptyEntries);
         var firstName = nameParts?.Length > 0 ? nameParts[0] : string.Empty;
+
         <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @firstName!</a>
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@greeting @firstName!</a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
@@ -16,14 +31,13 @@
             </form>
         </li>
     }
-
-else
-{
-    <li class="nav-item">
-        <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
 </ul>
