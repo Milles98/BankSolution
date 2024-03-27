@@ -19,11 +19,19 @@
                 <div class="row">
                     <div class="col-md-6">
                         <!-- Place half of the form fields here -->
+
+
+                        <!-- Gender dropdown -->
                         <div class="form-group">
                             <label asp-for="Customer.Gender" class="control-label"></label>
-                            <input asp-for="Customer.Gender" class="form-control" />
+                            <select asp-for="Customer.Gender" class="form-control">
+                                <option value="">Select gender...</option>
+                                <option value="male">male</option>
+                                <option value="female">female</option>
+                            </select>
                             <span asp-validation-for="Customer.Gender" class="text-danger"></span>
                         </div>
+
                         <div class="form-group">
                             <label asp-for="Customer.Givenname" class="control-label"></label>
                             <input asp-for="Customer.Givenname" class="form-control" />
@@ -49,33 +57,84 @@
                             <input asp-for="Customer.Zipcode" class="form-control" />
                             <span asp-validation-for="Customer.Zipcode" class="text-danger"></span>
                         </div>
+                        <div class="form-group">
+                            <label for="DispositionType" class="control-label">Disposition Type</label>
+                            <select asp-for="DispositionType" class="form-control">
+                                <option value="OWNER">Owner</option>
+                                <option value="DISPONENT">Disponent</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="Frequency" class="control-label">Frequency</label>
+                            <select asp-for="Frequency" class="form-control">
+                                <option value="Monthly">Monthly</option>
+                                <option value="Weekly">Weekly</option>
+                                <option value="AfterTransaction">After Transaction</option>
+                            </select>
+                        </div>
+
                         
                     </div>
                     <div class="col-md-6">
                         <!-- Place the other half of the form fields here -->
+
+                        <!-- Country dropdown -->
                         <div class="form-group">
                             <label asp-for="Customer.Country" class="control-label"></label>
-                            <input asp-for="Customer.Country" class="form-control" />
+                            <select asp-for="Customer.Country" class="form-control" id="countryDropdown">
+                                <option value="">Select Country...</option>
+                                <option value="Sweden">Sweden</option>
+                                <option value="Norway">Norway</option>
+                                <option value="Denmark">Denmark</option>
+                                <option value="Finland">Finland</option>
+                            </select>
                             <span asp-validation-for="Customer.Country" class="text-danger"></span>
                         </div>
+
+                        <!-- CountryCode dropdown -->
                         <div class="form-group">
                             <label asp-for="Customer.CountryCode" class="control-label"></label>
-                            <input asp-for="Customer.CountryCode" class="form-control" />
+                            <input asp-for="Customer.CountryCode" class="form-control" readonly id="countryCode" />
                             <span asp-validation-for="Customer.CountryCode" class="text-danger"></span>
                         </div>
+
+                        <!-- Birthday input -->
                         <div class="form-group">
-                        <label asp-for="Customer.Birthday" class="control-label"></label>
-                        <input asp-for="Customer.Birthday" class="form-control" />
-                        <span asp-validation-for="Customer.Birthday" class="text-danger"></span>
+                            <label class="control-label">Birthday</label>
+                            <select asp-for="BirthdayYear" class="form-control">
+                                <option value="">Year...</option>
+                                @for (int i = DateTime.Now.Year; i >= 1900; i--)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                            <select asp-for="BirthdayMonth" class="form-control">
+                                <option value="">Month...</option>
+                                @for (int i = 1; i <= 12; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                            <select asp-for="BirthdayDay" class="form-control">
+                                <option value="">Day...</option>
+                                @for (int i = 1; i <= 31; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
                         </div>
+
+
+                        <!-- NationalId input -->
                         <div class="form-group">
                             <label asp-for="Customer.NationalId" class="control-label"></label>
-                            <input asp-for="Customer.NationalId" class="form-control" />
+                            <input asp-for="Customer.NationalId" class="form-control" placeholder="Optional" />
                             <span asp-validation-for="Customer.NationalId" class="text-danger"></span>
                         </div>
+                        <!-- Telephonecountrycode input -->
                         <div class="form-group">
                             <label asp-for="Customer.Telephonecountrycode" class="control-label"></label>
-                            <input asp-for="Customer.Telephonecountrycode" class="form-control" />
+                            <input asp-for="Customer.Telephonecountrycode" class="form-control" readonly id="telephoneCountryCode" />
                             <span asp-validation-for="Customer.Telephonecountrycode" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -101,4 +160,32 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        document.getElementById('countryDropdown').addEventListener('change', function () {
+            var telephoneCountryCodeInput = document.getElementById('telephoneCountryCode');
+            var countryCodeInput = document.getElementById('countryCode');
+            switch (this.value) {
+                case 'Sweden':
+                    telephoneCountryCodeInput.value = '46';
+                    countryCodeInput.value = 'SE';
+                    break;
+                case 'Norway':
+                    telephoneCountryCodeInput.value = '47';
+                    countryCodeInput.value = 'NO';
+                    break;
+                case 'Denmark':
+                    telephoneCountryCodeInput.value = '45';
+                    countryCodeInput.value = 'DK';
+                    break;
+                case 'Finland':
+                    telephoneCountryCodeInput.value = '358';
+                    countryCodeInput.value = 'FI';
+                    break;
+                default:
+                    telephoneCountryCodeInput.value = '';
+                    countryCodeInput.value = '';
+            }
+        });
+    </script>
 }

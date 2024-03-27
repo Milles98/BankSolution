@@ -21,6 +21,9 @@
             <th scope="col">Name</th>
             <th scope="col">Address</th>
             <th scope="col">Account ID</th>
+            <th scope="col">Frequency</th>
+            <th scope="col">Account Created</th>
+            <th scope="col">Balance</th>
             <th scope="col">Total Balance</th>
             <th scope="col">Type</th>
         </tr>
@@ -33,9 +36,13 @@
                 <td>@Model.Customer.Givenname @Model.Customer.Surname</td>
                 <td>@Model.Customer.Streetaddress, @Model.Customer.City</td>
                 <td>@account.AccountId</td>
+                <td>@account.Frequency</td>
+                <td>@account.Created</td>
+                <td>@account.Balance</td>
                 <td>SEK: @Model.Customer.TotalBalance</td>
                 <td>@account.Type</td>
             </tr>
         }
     </tbody>
 </table>
+

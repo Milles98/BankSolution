@@ -39,6 +39,8 @@ namespace BankWeb.Pages
                 Accounts = customer.Dispositions.Select(d => new AccountViewModel
                 {
                     AccountId = d.Account.AccountId.ToString(),
+                    Frequency = d.Account.Frequency,
+                    Created = d.Account.Created.ToString("yyyy-MM-dd"),
                     Balance = d.Account.Balance,
                     Type = d.Type
                 }).ToList(),

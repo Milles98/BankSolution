@@ -42,7 +42,7 @@
 @section Scripts {
     <script>
         var page = 1;
-        var accountId = @Model.AccountId; // Get the account ID from the model
+        var accountId = @Model.AccountId;
         document.getElementById('loadMoreButton').addEventListener('click', function () {
             page++;
             fetch('/TransactionsIndividualAccount?handler=LoadMoreTransactions&page=' + page + '&accountId=' + accountId)
