@@ -97,6 +97,10 @@ namespace BankWeb.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [Display(Name = "Role")]
+            public string Role { get; set; }
         }
 
 
@@ -120,6 +124,9 @@ namespace BankWeb.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    // Add the user to the selected role
+                    await _userManager.AddToRoleAsync(user, Input.Role);
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
@@ -153,6 +160,7 @@ namespace BankWeb.Areas.Identity.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
+
 
         private IdentityUser CreateUser()
         {
