@@ -56,6 +56,14 @@ namespace BankWeb.Pages
         {
             try
             {
+                var fromAccount = _context.Accounts.FirstOrDefault(a => a.AccountId == AccountId);
+                if (fromAccount == null)
+                {
+                    TempData["Message"] = "From Account ID does not exist!";
+                    TempData["MessageClass"] = "alert-danger";
+                    return Page();
+                }
+
                 // Check if ToAccountId exists in the database
                 var toAccount = _context.Accounts.FirstOrDefault(a => a.AccountId == ToAccountId);
                 if (toAccount == null)
@@ -65,14 +73,25 @@ namespace BankWeb.Pages
                     return Page();
                 }
 
-                // Check if Amount is filled, not negative, and does not exceed the balance of FromAccountId
-                var fromAccount = _context.Accounts.FirstOrDefault(a => a.AccountId == AccountId);
-                if (fromAccount == null || Amount <= 0 || Amount > fromAccount.Balance)
+                if (AccountId == ToAccountId)
                 {
-                    TempData["Message"] = "Invalid amount!";
+                    TempData["Message"] = "Cannot transfer to the same account!";
                     TempData["MessageClass"] = "alert-danger";
                     return Page();
                 }
+                else if (Amount <= 0)
+                {
+                    TempData["Message"] = "Amount must be greater than 0!";
+                    TempData["MessageClass"] = "alert-danger";
+                    return Page();
+                }
+                else if (Amount > fromAccount.Balance)
+                {
+                    TempData["Message"] = "Amount exceeds account balance!";
+                    TempData["MessageClass"] = "alert-danger";
+                    return Page();
+                }
+
 
                 // Call Transfer method
                 var transactionId = _bankService.Transfer(AccountId, ToAccountId, Amount);
