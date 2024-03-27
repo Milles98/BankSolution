@@ -8,7 +8,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankWeb", "BankWeb\BankWeb.
 		{DCD9B8A3-260A-410A-95E9-461D32CC6450} = {DCD9B8A3-260A-410A-95E9-461D32CC6450}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLibrary", "DataLibrary\DataLibrary.csproj", "{DCD9B8A3-260A-410A-95E9-461D32CC6450}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLibrary", "DataLibrary\DataLibrary.csproj", "{DCD9B8A3-260A-410A-95E9-461D32CC6450}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

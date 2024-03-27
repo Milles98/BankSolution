@@ -66,7 +66,8 @@ namespace BankWeb.Pages
                 var transactionId = _bankService.Deposit(AccountId, Amount);
                 if (transactionId > 0)
                 {
-                    TempData["Message"] = $"Deposit successful for Account ID {AccountId}, Amount: {Amount} SEK, Date: {DateTime.Now:dd-MM-yyyy}";
+                    TempData["Message"] = $"Deposit successful for Account ID {AccountId}, Amount: {Amount} SEK, Date: {DateTime.Now:dd-MM-yyyy}, " +
+                      $"Transaction ID: <a href=\"/TransactionDetails?transactionId={transactionId}\">{transactionId}</a>";
                     TempData["MessageClass"] = "alert-success";
                 }
                 else

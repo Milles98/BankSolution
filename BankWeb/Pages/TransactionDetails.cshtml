@@ -1,0 +1,44 @@
+﻿@page
+@model BankWeb.Pages.TransactionDetailsModel
+@{
+    ViewData["Title"] = "Transaction Details";
+}
+
+<div class="page-heading header-text">
+    <h1>@ViewData["Title"]</h1>
+    <button id="update-profile-button" type="button" class="btn btn-primary" onclick="location.href='/Index';">Return Home</button>
+</div>
+
+@if (Model.Transaction != null)
+{
+    <table class="table table-striped">
+        <tr>
+            <th>Transaction ID</th>
+            <td>@Model.Transaction.TransactionId</td>
+        </tr>
+        <tr>
+            <th>Account ID</th>
+            <td>@Model.Transaction.AccountId</td>
+        </tr>
+        <tr>
+            <th>Amount</th>
+            <td>@Model.Transaction.Amount SEK</td>
+        </tr>
+        <tr>
+            <th>Balance</th>
+            <td>@Model.Transaction.Balance SEK</td>
+        </tr>
+        <tr>
+            <th>Date of Transaction</th>
+            <td>@Model.Transaction.DateOfTransaction</td>
+        </tr>
+        <tr>
+            <th>Operation</th>
+            <td>@Model.Transaction.Operation</td>
+        </tr>
+    </table>
+}
+else
+{
+    <p>No transaction details available.</p>
+}

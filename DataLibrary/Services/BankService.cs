@@ -31,7 +31,6 @@ namespace DataLibrary.Services
                 Date = DateOnly.FromDateTime(DateTime.Today),
                 Type = "Credit",
                 Operation = "Deposit"
-                // Set other transaction properties as needed
             };
 
             _context.Transactions.Add(transaction);
