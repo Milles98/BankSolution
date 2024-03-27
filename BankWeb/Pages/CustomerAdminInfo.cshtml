@@ -18,6 +18,7 @@
     <thead>
         <tr>
             <th scope="col">Customer Id</th>
+            <th scope="col">Account</th>
             <th scope="col">Account Id</th>
             <th scope="col">Given Name</th>
             <th scope="col">Surname</th>
@@ -35,6 +36,9 @@
                     <a asp-page="/CustomerDetails" asp-route-id="@customer.CustomerId" id="update-profile-button" class="btn btn-primary">
                         @customer.CustomerId
                     </a>
+                </td>
+                <td>
+                    <a asp-page="/TransactionsIndividualAccount" asp-route-accountId="@customer.AccountId">See the transactions</a>
                 </td>
                 <td>@customer.AccountId</td>
                 <td>@customer.Givenname</td>

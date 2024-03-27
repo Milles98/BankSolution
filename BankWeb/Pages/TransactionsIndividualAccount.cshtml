@@ -1,0 +1,67 @@
+﻿@page
+@model BankWeb.Pages.TransactionsIndividualAccountModel
+@{
+    ViewData["Title"] = "Transactions for Account " + Model.AccountId;
+}
+
+
+<div class="page-heading header-text">
+    <h1>@ViewData["Title"]</h1>
+    <h2>Current Balance: @Model.Balance</h2>
+</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Operation</th>
+            <th>Amount</th>
+            <th>Balance</th>
+        </tr>
+    </thead>
+    <tbody id="transactionTable">
+        @foreach (var transaction in Model.Transactions)
+        {
+            <tr>
+                <td>@transaction.DateOfTransaction</td>
+                <td>@transaction.Type</td>
+                <td>@transaction.Operation</td>
+                <td>@transaction.Amount</td>
+                <td>@transaction.Balance</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button id="loadMoreButton" class="btn btn-primary">Load More</button>
+
+@section Scripts {
+    <script>
+        var page = 1;
+        var accountId = @Model.AccountId; // Get the account ID from the model
+        document.getElementById('loadMoreButton').addEventListener('click', function () {
+            page++;
+            fetch('/TransactionsIndividualAccount?handler=LoadMoreTransactions&page=' + page + '&accountId=' + accountId)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Server error: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    var table = document.getElementById('transactionTable');
+                    data.forEach(transaction => {
+                        var row = table.insertRow(-1);
+                        row.insertCell(0).innerText = transaction.dateOfTransaction;
+                        row.insertCell(1).innerText = transaction.type;
+                        row.insertCell(2).innerText = transaction.operation;
+                        row.insertCell(3).innerText = transaction.amount;
+                        row.insertCell(4).innerText = transaction.balance;
+                    });
+                })
+                .catch(error => console.error('Fetch error:', error));
+        });
+    </script>
+}
