@@ -48,34 +48,56 @@ namespace BankWeb.Pages
 
         public IActionResult OnPost()
         {
-            var transactionId = _bankService.Deposit(AccountId, Amount);
-            if (transactionId > 0)
+            try
             {
-                TempData["Message"] = "Deposit successful!";
-                TempData["MessageClass"] = "alert-success";
-            }
-            else
-            {
-                TempData["Message"] = "Deposit failed!";
-                TempData["MessageClass"] = "alert-danger";
-            }
-
-            // Set the Account property
-            var account = _context.Accounts.FirstOrDefault(a => a.AccountId == AccountId);
-            if (account != null)
-            {
-                Account = new AccountViewModel
+                if (Amount <= 0)
                 {
-                    AccountId = account.AccountId.ToString(),
-                    Frequency = account.Frequency,
-                    Created = account.Created.ToString(),
-                    Balance = account.Balance,
-                    Type = account.GetType().Name
-                };
+                    TempData["Message"] = "Deposit amount must be greater than 0!";
+                    TempData["MessageClass"] = "alert-danger";
+                    return Page();
+                }
+                else if (Amount >= 50000)
+                {
+                    TempData["Message"] = "Deposit amount must be less than 50,000 SEK!";
+                    TempData["MessageClass"] = "alert-danger";
+                    return Page();
+                }
+
+                var transactionId = _bankService.Deposit(AccountId, Amount);
+                if (transactionId > 0)
+                {
+                    TempData["Message"] = $"Deposit successful for Account ID {AccountId}, Amount: {Amount} SEK, Date: {DateTime.Now:dd-MM-yyyy}";
+                    TempData["MessageClass"] = "alert-success";
+                }
+                else
+                {
+                    TempData["Message"] = "Deposit failed!";
+                    TempData["MessageClass"] = "alert-danger";
+                }
+
+                var account = _context.Accounts.FirstOrDefault(a => a.AccountId == AccountId);
+                if (account != null)
+                {
+                    Account = new AccountViewModel
+                    {
+                        AccountId = account.AccountId.ToString(),
+                        Frequency = account.Frequency,
+                        Created = account.Created.ToString(),
+                        Balance = account.Balance,
+                        Type = account.GetType().Name
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = $"An error occurred: {ex.Message}";
+                TempData["MessageClass"] = "alert-danger";
             }
 
             return Page();
         }
+
+
 
     }
 
