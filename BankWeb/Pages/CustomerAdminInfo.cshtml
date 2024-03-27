@@ -18,10 +18,12 @@
     <thead>
         <tr>
             <th scope="col">Customer Id</th>
+            <th scope="col">Account Id</th>
             <th scope="col">Given Name</th>
             <th scope="col">Surname</th>
             <th scope="col">Streetaddress</th>
             <th scope="col">City</th>
+            <th scope="col">Actions</th>
         </tr>
     </thead>
 
@@ -29,11 +31,24 @@
         @foreach (var customer in Model.Customers)
         {
             <tr>
-                <td>@customer.CustomerId</td>
+                <td>
+                    <a asp-page="/CustomerDetails" asp-route-id="@customer.CustomerId" id="update-profile-button" class="btn btn-primary">
+                        @customer.CustomerId
+                    </a>
+                </td>
+                <td>@customer.AccountId</td>
                 <td>@customer.Givenname</td>
                 <td>@customer.Surname</td>
                 <td>@customer.Streetaddress</td>
                 <td>@customer.City</td>
+                <td>
+                    @foreach (var account in customer.Accounts)
+                    {
+                        <a asp-page="/Deposit" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">Deposit</a>
+                        <a asp-page="/Withdraw" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">Withdraw</a>
+                        <a asp-page="/Transfer" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">Transfer</a>
+                    }
+                </td>
             </tr>
         }
     </tbody>

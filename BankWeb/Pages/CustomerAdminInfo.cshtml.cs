@@ -3,6 +3,7 @@ using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankWeb.Pages
 {
@@ -40,14 +41,19 @@ namespace BankWeb.Pages
                 }
             }
 
-            Customers = _paginationService.GetPage(query, CurrentPage, CustomerPerPage)
+            Customers = _paginationService
+                .GetPage(query
+                .Include(c => c.Dispositions)
+                .ThenInclude(d => d.Account), CurrentPage, CustomerPerPage)
                 .Select(c => new CustomerViewModel
                 {
                     CustomerId = c.CustomerId,
+                    AccountId = c.Dispositions.Select(d => d.AccountId).FirstOrDefault(),
                     Givenname = c.Givenname,
                     Surname = c.Surname,
                     Streetaddress = c.Streetaddress,
-                    City = c.City
+                    City = c.City,
+                    Accounts = c.Dispositions.Select(d => d.Account).ToList()
                 }).ToList();
         }
     }

@@ -526,7 +526,7 @@ header {
         content: "";
         background-image: url(../images/slide_01.jpg);
         background-size: cover;
-        opacity: 0.3; /* Adjust this value to change the opacity */
+        opacity: 0.4; /* Adjust this value to change the opacity */
         position: absolute;
         top: 0;
         right: 0;
