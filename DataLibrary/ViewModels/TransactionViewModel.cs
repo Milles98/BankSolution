@@ -1,4 +1,4 @@
-﻿namespace DataLibrary.ViewModel
+﻿namespace DataLibrary.ViewModels
 {
     public class TransactionViewModel
     {

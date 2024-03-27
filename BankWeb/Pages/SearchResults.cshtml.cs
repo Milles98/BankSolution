@@ -1,5 +1,5 @@
 using DataLibrary.Data;
-using DataLibrary.ViewModel;
+using DataLibrary.ViewModels;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
