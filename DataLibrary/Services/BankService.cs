@@ -70,13 +70,13 @@ namespace DataLibrary.Services
             return transaction.TransactionId;
         }
 
-        public void Transfer(int fromAccountId, int toAccountId, decimal amount)
+        public int Transfer(int fromAccountId, int toAccountId, decimal amount)
         {
             if (amount < 0)
                 throw new Exception("Transfer amount cannot be negative");
 
             Withdraw(fromAccountId, amount);
-            Deposit(toAccountId, amount);
+            return Deposit(toAccountId, amount);
         }
     }
 }
