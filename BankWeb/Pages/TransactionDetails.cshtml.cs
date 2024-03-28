@@ -1,6 +1,5 @@
+using BankWeb.ViewModels;
 using DataLibrary.Data;
-using DataLibrary.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BankWeb.Pages

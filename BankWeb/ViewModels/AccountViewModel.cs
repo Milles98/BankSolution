@@ -1,4 +1,4 @@
-﻿namespace DataLibrary.ViewModels
+﻿namespace BankWeb.ViewModels
 {
     public class AccountViewModel
     {

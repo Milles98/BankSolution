@@ -1,6 +1,6 @@
 ﻿using DataLibrary.Data;
 
-namespace DataLibrary.ViewModels
+namespace BankWeb.ViewModels
 {
     public class CustomerViewModel
     {
