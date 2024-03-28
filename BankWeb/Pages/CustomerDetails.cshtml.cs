@@ -1,5 +1,7 @@
-using BankWeb.ViewModels;
 using DataLibrary.Data;
+using DataLibrary.Services;
+using DataLibrary.Services.Interfaces;
+using DataLibrary.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -8,46 +10,26 @@ namespace BankWeb.Pages
 {
     public class CustomerDetailsModel : PageModel
     {
-        private readonly BankAppData2Context _context;
+        private readonly ICustomerService _customerService;
 
-        public CustomerDetailsModel(BankAppData2Context context)
+        public CustomerDetailsModel(ICustomerService customerService)
         {
-            _context = context;
+            _customerService = customerService;
         }
 
         public CustomerAccountViewModel Customer { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            var customer = await _context.Customers
-                .Include(c => c.Dispositions)
-                .ThenInclude(d => d.Account)
-                .FirstOrDefaultAsync(m => m.CustomerId == id);
+            Customer = await _customerService.GetCustomerDetails(id);
 
-            if (customer == null)
+            if (Customer == null)
             {
                 return NotFound();
             }
 
-            Customer = new CustomerAccountViewModel
-            {
-                CustomerId = customer.CustomerId,
-                Givenname = customer.Givenname,
-                Surname = customer.Surname,
-                Streetaddress = customer.Streetaddress,
-                City = customer.City,
-                Accounts = customer.Dispositions.Select(d => new AccountViewModel
-                {
-                    AccountId = d.Account.AccountId.ToString(),
-                    Frequency = d.Account.Frequency,
-                    Created = d.Account.Created.ToString("yyyy-MM-dd"),
-                    Balance = d.Account.Balance,
-                    Type = d.Type
-                }).ToList(),
-                TotalBalance = customer.Dispositions.Sum(d => d.Account.Balance)
-            };
-
             return Page();
         }
     }
+
 }

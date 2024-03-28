@@ -1,13 +1,11 @@
 ﻿using DataLibrary.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DataLibrary.Services.Interfaces;
+using DataLibrary.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLibrary.Services
 {
-    public class CustomerService
+    public class CustomerService : ICustomerService
     {
         private readonly BankAppData2Context _context;
 
@@ -15,9 +13,38 @@ namespace DataLibrary.Services
         {
             _context = context;
         }
-        public void CustomerDetails()
+        public async Task<CustomerAccountViewModel> GetCustomerDetails(int id)
         {
-            // Code here
+            var customer = await _context.Customers
+                .Include(c => c.Dispositions)
+                .ThenInclude(d => d.Account)
+                .FirstOrDefaultAsync(m => m.CustomerId == id);
+
+            if (customer == null)
+            {
+                return null;
+            }
+
+            var customerDetails = new CustomerAccountViewModel
+            {
+                CustomerId = customer.CustomerId,
+                Givenname = customer.Givenname,
+                Surname = customer.Surname,
+                Streetaddress = customer.Streetaddress,
+                City = customer.City,
+                Accounts = customer.Dispositions.Select(d => new AccountViewModel
+                {
+                    AccountId = d.Account.AccountId.ToString(),
+                    Frequency = d.Account.Frequency,
+                    Created = d.Account.Created.ToString("yyyy-MM-dd"),
+                    Balance = d.Account.Balance,
+                    Type = d.Type
+                }).ToList(),
+                TotalBalance = customer.Dispositions.Sum(d => d.Account.Balance)
+            };
+
+            return customerDetails;
         }
+
     }
 }

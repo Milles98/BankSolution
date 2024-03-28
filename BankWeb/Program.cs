@@ -25,6 +25,7 @@ builder.Services.AddTransient<ISortingService<Transaction>, SortingService<Trans
 builder.Services.AddTransient<IPaginationService<Transaction>, PaginationService<Transaction>>();
 builder.Services.AddTransient<IPaginationService<Customer>, PaginationService<Customer>>();
 builder.Services.AddTransient<IBankService, BankService>();
+builder.Services.AddTransient<ICustomerService, CustomerService>();
 
 var app = builder.Build();
 

@@ -1,4 +1,4 @@
-﻿namespace BankWeb.ViewModels
+﻿namespace DataLibrary.ViewModels
 {
     public class TransactionViewModel
     {
