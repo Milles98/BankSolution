@@ -6,7 +6,8 @@
 <div class="page-heading header-text">
     <h1>Deposit</h1>
     <button id="update-profile-button" type="button" class="btn btn-primary" onclick="location.href='/CustomerAdminInfo';">Return to List</button>
-</div>
+
+<div class="container">
 
 @if (TempData["Message"] != null)
 {
@@ -26,7 +27,7 @@
         <input id="amount" name="amount" type="number" step="0.01" class="form-control" required>
     </div>
 
-    <button type="submit" id="update-profile-button" class="btn btn-primary" style="margin-top: 10px;">Deposit</button>
+    <button type="submit" id="update-profile-button" class="btn btn-primary mb-3" style="margin-top: 10px;">Deposit</button>
 </form>
 
 <table class="table table-striped">
@@ -49,3 +50,8 @@
         </tr>
     }
 </table>
+
+</div>
+
+</div>
+

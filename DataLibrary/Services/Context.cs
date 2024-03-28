@@ -9,9 +9,9 @@ namespace DataLibrary.Services
 {
     public class Context
     {
-        /*public BankAppData2Context GetContext()
+        public BankAppData2Context GetContext()
         {
             return new BankAppData2Context();
-        }*/
+        }
     }
 }

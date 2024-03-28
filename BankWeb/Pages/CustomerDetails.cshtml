@@ -7,7 +7,8 @@
 <div class="page-heading header-text">
     <h1>@ViewData["Title"]</h1>
     <button id="update-profile-button" type="button" class="btn btn-primary" onclick="window.history.back();">Return</button>
-</div>
+
+<div class="container">
 
 <div class="mb-3 mt-3 d-flex justify-content-center">
     <a asp-page="/CustomerCRUD/Create" id="update-profile-button" class="btn btn-primary mr-2">Create New Customer</a>
@@ -23,7 +24,7 @@
             <th scope="col">Address</th>
             <th scope="col">Account ID</th>
             <th scope="col">Frequency</th>
-            <th scope="col">Account Created</th>
+            <th scope="col">Created</th>
             <th scope="col">Balance</th>
             <th scope="col">Total Balance</th>
             <th scope="col">Type</th>
@@ -46,4 +47,9 @@
         }
     </tbody>
 </table>
+
+</div>
+
+</div>
+
 

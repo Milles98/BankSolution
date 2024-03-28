@@ -7,7 +7,8 @@
 <div class="page-heading header-text">
     <h1>@ViewData["Title"]</h1>
     <button id="update-profile-button" type="button" class="btn btn-primary" onclick="location.href='/Index';">Return Home</button>
-</div>
+
+<div class="container">
 
 @if (Model.Transaction != null)
 {
@@ -42,3 +43,8 @@ else
 {
     <p>No transaction details available.</p>
 }
+
+</div>
+
+</div>
+
