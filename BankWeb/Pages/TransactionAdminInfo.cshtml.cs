@@ -7,7 +7,6 @@ using System.Linq.Expressions;
 
 namespace BankWeb.Pages
 {
-    [Authorize(Roles = "Admin")]
     public class TransactionAdminInfoModel : PageModel
     {
         private readonly IPaginationService<Transaction> _paginationService;

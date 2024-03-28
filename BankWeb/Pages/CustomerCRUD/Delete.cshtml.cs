@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using DataLibrary.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BankWeb.Pages.CustomerCRUD
 {
+    [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
         private readonly DataLibrary.Data.BankAppData2Context _context;

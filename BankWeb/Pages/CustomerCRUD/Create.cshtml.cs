@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using DataLibrary.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BankWeb.Pages.CustomerCRUD
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly DataLibrary.Data.BankAppData2Context _context;

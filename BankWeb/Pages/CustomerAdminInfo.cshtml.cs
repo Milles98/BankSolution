@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankWeb.Pages
 {
-    [Authorize(Roles = "Admin")]
     public class CustomerAdminInfoModel : PageModel
     {
         private readonly BankAppData2Context _context;

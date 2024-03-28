@@ -54,9 +54,11 @@ https://templatemo.com/tm-545-finance-business
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownServices" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Transactions
+                                    Services
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownServices">
+                                    <a class="dropdown-item" asp-page="/CustomerAdminInfo">Customers</a>
+                                    <a class="dropdown-item" asp-page="/TransactionAdminInfo">Transactions</a>
                                     <a class="dropdown-item" asp-page="/Withdraw">Withdraw</a>
                                     <a class="dropdown-item" asp-page="/Deposit">Deposit</a>
                                     <a class="dropdown-item" asp-page="/Transfer">Transfer</a>
@@ -70,9 +72,7 @@ https://templatemo.com/tm-545-finance-business
                                         Admin
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
-                                        <a class="dropdown-item" asp-page="/CustomerAdminInfo">Customers</a>
-                                        <a class="dropdown-item" asp-page="/TransactionAdminInfo">Transactions</a>
-                                        <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                                        <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Register Co-Worker</a>
                                     </div>
                                 </li>
                             }

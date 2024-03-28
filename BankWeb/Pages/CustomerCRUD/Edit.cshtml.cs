@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DataLibrary.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BankWeb.Pages.CustomerCRUD
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly DataLibrary.Data.BankAppData2Context _context;
@@ -29,7 +31,7 @@ namespace BankWeb.Pages.CustomerCRUD
                 return NotFound();
             }
 
-            var customer =  await _context.Customers.FirstOrDefaultAsync(m => m.CustomerId == id);
+            var customer = await _context.Customers.FirstOrDefaultAsync(m => m.CustomerId == id);
             if (customer == null)
             {
                 return NotFound();
