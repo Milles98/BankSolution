@@ -3,18 +3,26 @@
 @{
 }
 
+<style>
+    .table td, .table th {
+        width: 1%;
+        white-space: nowrap;
+        text-align: left;
+    }
+</style>
+
 
 <div class="page-heading header-text">
 <h1>All transactions</h1>
-</div>
 
-<form method="get" class="text-center">
+<div class="container">
+
+<form method="get" class="text-left">
     <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
         <input type="text" class="form-control" name="search" placeholder="Enter Transaction ID" value="@Request.Query["search"]">
     </div>
     <button id="update-profile-button" type="submit" class="btn btn-primary">Search</button>
 </form>
-
 
 <table class="table table-striped">
     <thead>
@@ -65,7 +73,7 @@
                 </a>
             </th>
             <th scope="col">
-                Date of Transaction
+                Date
                 <a asp-page="/TransactionAdminInfo"
                    asp-route-sortColumn="DateOfTransaction"
                    asp-route-sortOrder="asc"
@@ -95,7 +103,7 @@
                 </a>
             </th>
             <th scope="col">
-                Transaction Amount
+                Amount
                 <a asp-page="/TransactionAdminInfo"
                    asp-route-sortColumn="Amount"
                    asp-route-sortOrder="asc"
@@ -110,7 +118,7 @@
                 </a>
             </th>
             <th scope="col">
-                Account Balance
+                Balance
                 <a asp-page="/TransactionAdminInfo"
                    asp-route-sortColumn="Balance"
                    asp-route-sortOrder="asc"
@@ -152,3 +160,7 @@
                 <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=@Model.TotalPages&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">Last</button>
     </tfoot>
 </table>
+
+</div>
+</div>
+

@@ -1,3 +1,4 @@
+using BankWeb.ViewModels;
 using DataLibrary.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -18,7 +19,7 @@ namespace BankWeb.Pages
         public string Country { get; set; }
         public string ImagePath { get; set; }
 
-        public List<Customer> TopCustomers { get; set; }
+        public List<CountryDetailsViewModel> TopCustomers { get; set; }
 
         public void OnGet(string country)
         {
@@ -46,6 +47,14 @@ namespace BankWeb.Pages
                 .ThenInclude(d => d.Account)
                 .Where(c => c.Country == country)
                 .OrderByDescending(c => c.Dispositions.Sum(d => d.Account.Balance))
+                .Select(c => new CountryDetailsViewModel
+                {
+                    CustomerId = c.CustomerId,
+                    Givenname = c.Givenname,
+                    Surname = c.Surname,
+                    Dispositions = c.Dispositions.ToList(),
+                    TotalBalance = c.Dispositions.Sum(d => d.Account.Balance)
+                })
                 .Take(10)
                 .ToList();
         }

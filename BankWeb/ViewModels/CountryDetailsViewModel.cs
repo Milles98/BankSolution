@@ -8,5 +8,7 @@ namespace BankWeb.ViewModels
         public string Givenname { get; set; }
         public string Surname { get; set; }
         public List<Disposition> Dispositions { get; set; }
+        public decimal TotalBalance { get; set; }
     }
 }
+
