@@ -6,6 +6,10 @@ https://templatemo.com/tm-545-finance-business
 
 */
 
+.custom-width {
+    width: 29%;
+}
+
 .country-styling {
     font-size: larger; /* or use a specific size like 1.25em */
     color: #A4C639;
