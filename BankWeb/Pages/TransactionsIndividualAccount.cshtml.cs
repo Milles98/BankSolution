@@ -41,7 +41,6 @@ namespace BankWeb.Pages
         {
             if (page < 1)
             {
-                // Return an error response or set page to 1
                 page = 1;
             }
 
@@ -67,14 +66,9 @@ namespace BankWeb.Pages
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to load more transactions.");
-                // Log the exception details to your logging framework or storage
-                // For example: _logger.LogError(ex, "Failed to load more transactions.");
-
-                // Return a JsonResult indicating an error occurred
-                // You might want to customize the status code and message based on the exception or use a generic error message
                 return new JsonResult(new { error = "An error occurred while processing your request. " + ex.Message })
                 {
-                    StatusCode = 500 // Internal Server Error
+                    StatusCode = 500
                 };
             }
         }
