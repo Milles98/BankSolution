@@ -32,26 +32,24 @@ namespace MoneyLaunderingSafetyMeasure
             {
                 var account = disposition.Account;
 
+                var lastRunDate = DateOnly.FromDateTime(lastRunTime);
+
                 var newTransactions = account.Transactions
-                    .Where(t => t.Date >= DateOnly.FromDateTime(lastRunTime));
+                    .Where(t => t.Date >= lastRunDate);
 
-                if (newTransactions.Any(t => t.Amount > SingleTransactionLimit))
+                var suspiciousTransactions = newTransactions
+                    .Where(t => t.Amount > SingleTransactionLimit ||
+                                newTransactions.Where(rt => rt.Date >= t.Date.AddDays(-3)).Sum(rt => rt.Amount) > TotalTransactionLimit);
+
+                foreach (var transaction in suspiciousTransactions)
                 {
-                    suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, {account.AccountId}");
-                    continue;
-                }
-
-                var recentTransactions = newTransactions
-                    .Where(t => t.Date >= DateOnly.FromDateTime(DateTime.Now.AddDays(-3)));
-
-                if (recentTransactions.Sum(t => t.Amount) > TotalTransactionLimit)
-                {
-                    suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, {account.AccountId}");
+                    suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, {account.AccountId}, {transaction.Date}, {transaction.Amount}, {transaction.Type}");
                 }
             }
 
             return suspiciousUsers;
         }
+
 
 
         public void GenerateReport(List<string> suspiciousUsers, string filePath)
