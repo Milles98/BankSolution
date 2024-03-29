@@ -15,6 +15,7 @@
         <th scope="col">Created</th>
         <th scope="col">Balance</th>
         <th scope="col">Type</th>
+        <th scope="col">Customers</th>
         <th scope="col">Details</th>
     </tr>
 
@@ -26,6 +27,16 @@
             <td>@account.Created</td>
             <td>SEK: @account.Balance</td>
             <td>@account.Type</td>
+            <td>
+                @foreach (var customerDisposition in account.Customers)
+                {
+                    <p>
+                        <a asp-page="/CustomersFolder/CustomerDetails" asp-route-id="@customerDisposition.Customer.CustomerId">
+                            @customerDisposition.Customer.Givenname @customerDisposition.Customer.Surname (@customerDisposition.DispositionType)
+                        </a>
+                    </p>
+                }
+            </td>
             <td>
                 <a asp-page="/TransactionsFolder/TransactionsIndividualAccount" asp-route-accountId="@account.AccountId">See the transactions</a>
             </td>
