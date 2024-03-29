@@ -65,7 +65,6 @@ namespace DataLibrary.Services
                 Date = DateOnly.FromDateTime(DateTime.Today),
                 Type = "Debit",
                 Operation = "Withdraw"
-                // Set other transaction properties as needed
             };
 
             _context.Transactions.Add(transaction);
