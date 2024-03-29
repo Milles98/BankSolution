@@ -28,7 +28,7 @@ class Program
                 var suspiciousUsers = detector.DetectSuspiciousActivity(dispositions, lastRunTime);
 
                 var reportFilePath = Path.Combine(currentDirectory, "..", "..", "..", "SuspicionReport", $"report_{country}.txt");
-                detector.GenerateReport(suspiciousUsers, reportFilePath);
+                detector.GenerateReport(suspiciousUsers, reportFilePath, country);
 
                 detector.SaveLastRunTime(DateTime.Now, lastRunTimeFilePath);
             }

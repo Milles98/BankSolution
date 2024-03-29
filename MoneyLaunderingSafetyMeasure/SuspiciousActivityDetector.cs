@@ -43,7 +43,7 @@ namespace MoneyLaunderingSafetyMeasure
 
                 foreach (var transaction in suspiciousTransactions)
                 {
-                    suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, {account.AccountId}, {transaction.Date}, {transaction.Amount}, {transaction.Type}");
+                    suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, {account.AccountId}, {transaction.Date}, {transaction.Amount}, {transaction.Type}, {transaction.Date}");
                 }
             }
 
@@ -53,7 +53,7 @@ namespace MoneyLaunderingSafetyMeasure
 
 
 
-        public void GenerateReport(List<string> suspiciousUsers, string filePath)
+        public void GenerateReport(List<string> suspiciousUsers, string filePath, string country)
         {
             try
             {
@@ -67,13 +67,14 @@ namespace MoneyLaunderingSafetyMeasure
                 }
 
                 File.AppendAllLines(filePath, suspiciousUsers);
-                Console.WriteLine($"Report generated at {filePath} with {suspiciousUsers.Count} suspicious users.");
+                Console.WriteLine($"Report for {country} generated with {suspiciousUsers.Count} suspicious users.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred while generating the report: {ex.Message}");
             }
         }
+
 
 
 
@@ -87,7 +88,7 @@ namespace MoneyLaunderingSafetyMeasure
                 }
 
                 File.WriteAllText(filePath, lastRunTime.ToString());
-                Console.WriteLine($"Last run time saved at {filePath}.");
+                /*Console.WriteLine($"Last run time saved at {filePath}.");*/
             }
             catch (Exception ex)
             {
