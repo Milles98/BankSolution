@@ -1,10 +1,11 @@
 ﻿@page
-@model BankWeb.Pages.AccountModel
+@model BankWeb.Pages.AccountsFolder.AccountModel
 @{
 }
 
 <div class="page-heading header-text">
     <h1 class="text-center">Account Information</h1>
+    <button id="update-profile-button" type="button" class="btn btn-primary" onclick="window.history.back();">Return</button>
 </div>
 
 <table class="table table-striped">
@@ -13,19 +14,21 @@
         <th scope="col">Frequency</th>
         <th scope="col">Created</th>
         <th scope="col">Balance</th>
+        <th scope="col">Type</th>
         <th scope="col">Details</th>
     </tr>
 
-    <tr>
-        @foreach(var account in Model.Accounts)
-        {
+    @foreach (var account in Model.Accounts)
+    {
+        <tr>
             <td>@account.AccountId</td>
             <td>@account.Frequency</td>
             <td>@account.Created</td>
             <td>SEK: @account.Balance</td>
+            <td>@account.Type</td>
             <td>
-                <a asp-page="/Transactions">See the transactions</a>
+                <a asp-page="/TransactionsFolder/TransactionsIndividualAccount" asp-route-accountId="@account.AccountId">See the transactions</a>
             </td>
-        }
-    </tr>
+        </tr>
+    }
 </table>

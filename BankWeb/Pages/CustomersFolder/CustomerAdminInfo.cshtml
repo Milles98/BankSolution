@@ -41,7 +41,12 @@
                 <td>
                     <a asp-page="/TransactionsFolder/TransactionsIndividualAccount" asp-route-accountId="@customer.AccountId">See the transactions</a>
                 </td>
-                <td>@customer.AccountId</td>
+                <td>
+                    @foreach (var account in customer.Accounts)
+                    {
+                        <a asp-page="/AccountsFolder/Account" asp-route-accountId="@account.AccountId">View Account @account.AccountId</a>
+                    }
+                </td>
                 <td>@customer.Givenname</td>
                 <td>@customer.Surname</td>
                 <td>@customer.Streetaddress</td>
