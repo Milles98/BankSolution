@@ -33,25 +33,26 @@ namespace MoneyLaunderingSafetyMeasure
                 var account = disposition.Account;
 
                 var lastRunDate = DateOnly.FromDateTime(lastRunTime);
+                var currentDate = DateOnly.FromDateTime(DateTime.Now);
 
                 var newTransactions = account.Transactions
                     .Where(t => t.Date >= lastRunDate);
 
+                var totalAmountLastThreeDays = newTransactions
+                    .Where(t => t.Date >= currentDate.AddDays(-3))
+                    .Sum(t => Math.Abs(t.Amount));
+
                 var suspiciousTransactions = newTransactions
-                    .Where(t => Math.Abs(t.Amount) > SingleTransactionLimit ||
-                                newTransactions.Where(rt => rt.Date >= t.Date.AddDays(-3)).Sum(rt => Math.Abs(rt.Amount)) > TotalTransactionLimit);
+                    .Where(t => Math.Abs(t.Amount) > SingleTransactionLimit || totalAmountLastThreeDays > TotalTransactionLimit);
 
                 foreach (var transaction in suspiciousTransactions)
                 {
-                    suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, {account.AccountId}, {transaction.Date}, {transaction.Amount}, {transaction.Type}, {transaction.Date}");
+                    suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, {account.AccountId}, {transaction.Date}, {transaction.Amount}, {transaction.Type}");
                 }
             }
 
             return suspiciousUsers;
         }
-
-
-
 
         public void GenerateReport(List<string> suspiciousUsers, string filePath, string country)
         {
@@ -101,10 +102,11 @@ namespace MoneyLaunderingSafetyMeasure
         {
             try
             {
-                if (!File.Exists(filePath))
+                if (!File.Exists(filePath) || new FileInfo(filePath).Length == 0)
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(filePath));
                     File.WriteAllText(filePath, DateTime.MinValue.ToString());
+                    return DateTime.MinValue;
                 }
 
                 var lastRunTimeStr = File.ReadAllText(filePath);
@@ -116,5 +118,6 @@ namespace MoneyLaunderingSafetyMeasure
                 return DateTime.MinValue;
             }
         }
+
     }
 }
