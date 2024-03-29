@@ -38,8 +38,8 @@ namespace MoneyLaunderingSafetyMeasure
                     .Where(t => t.Date >= lastRunDate);
 
                 var suspiciousTransactions = newTransactions
-                    .Where(t => t.Amount > SingleTransactionLimit ||
-                                newTransactions.Where(rt => rt.Date >= t.Date.AddDays(-3)).Sum(rt => rt.Amount) > TotalTransactionLimit);
+                    .Where(t => Math.Abs(t.Amount) > SingleTransactionLimit ||
+                                newTransactions.Where(rt => rt.Date >= t.Date.AddDays(-3)).Sum(rt => Math.Abs(rt.Amount)) > TotalTransactionLimit);
 
                 foreach (var transaction in suspiciousTransactions)
                 {
@@ -49,6 +49,7 @@ namespace MoneyLaunderingSafetyMeasure
 
             return suspiciousUsers;
         }
+
 
 
 
