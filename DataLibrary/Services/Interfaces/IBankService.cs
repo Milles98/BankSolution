@@ -9,5 +9,6 @@ namespace DataLibrary.Services.Interfaces
         int Transfer(int fromAccountId, int toAccountId, decimal amount);
         AccountViewModel GetAccountDetails(int accountId);
         AccountViewModel GetAccountDetailsForDisplay(int accountId);
+        int DepositFunds(int accountId, decimal amount);
     }
 }

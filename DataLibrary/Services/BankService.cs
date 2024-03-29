@@ -121,6 +121,18 @@ namespace DataLibrary.Services
             return null;
         }
 
+        public int DepositFunds(int accountId, decimal amount)
+        {
+            if (amount <= 0)
+                throw new Exception("Deposit amount must be greater than 0!");
+
+            if (amount >= 50000)
+                throw new Exception("Deposit amount must be less than 50,000 SEK!");
+
+            return Deposit(accountId, amount);
+        }
+
+
 
     }
 }
