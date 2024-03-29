@@ -42155,3 +42155,12 @@ Henrik Magnussen, 11325, 2016-11-02, 29209,00, Credit
 Henrik Magnussen, 11325, 2017-04-08, 31128,00, Credit
 Henrik Magnussen, 11325, 2017-04-02, -20120,00, Debit
 Henrik Magnussen, 11325, 2016-12-14, -29900,00, Debit
+
+---
+
+---
+
+---
+
+---
+Thomas Eliassen, 12, 2024-03-25, 20000,00, Credit

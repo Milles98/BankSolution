@@ -25,13 +25,14 @@ class Program
                 var lastRunTime = detector.GetLastRunTime(lastRunTimeFilePath);
 
                 var dispositions = detector.GetDispositions(dbContext, country);
-                var suspiciousUsers = detector.DetectSuspiciousActivity(dispositions, lastRunTime);
+                var (suspiciousUsers, latestTransactionTime) = detector.DetectSuspiciousActivity(dispositions, lastRunTime);
 
                 var reportFilePath = Path.Combine(currentDirectory, "..", "..", "..", "SuspicionReport", $"report_{country}.txt");
                 detector.GenerateReport(suspiciousUsers, reportFilePath, country);
 
-                detector.SaveLastRunTime(DateTime.Now, lastRunTimeFilePath);
+                detector.SaveLastRunTime(latestTransactionTime, lastRunTimeFilePath);
             }
+
 
             Console.WriteLine("Suspicious activity detection completed.");
         }

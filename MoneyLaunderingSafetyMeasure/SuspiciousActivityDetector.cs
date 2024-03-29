@@ -24,9 +24,10 @@ namespace MoneyLaunderingSafetyMeasure
         }
 
 
-        public List<string> DetectSuspiciousActivity(List<Disposition> dispositions, DateTime lastRunTime)
+        public (List<string>, DateTime) DetectSuspiciousActivity(List<Disposition> dispositions, DateTime lastRunTime)
         {
             var suspiciousUsers = new List<string>();
+            var latestTransactionTime = lastRunTime;
 
             foreach (var disposition in dispositions)
             {
@@ -38,21 +39,30 @@ namespace MoneyLaunderingSafetyMeasure
                 var newTransactions = account.Transactions
                     .Where(t => t.Date >= lastRunDate);
 
-                var totalAmountLastThreeDays = newTransactions
-                    .Where(t => t.Date >= currentDate.AddDays(-3))
-                    .Sum(t => Math.Abs(t.Amount));
+                var latestTransactionDate = account.Transactions.Max(t => t.Date);
+                latestTransactionTime = new DateTime(latestTransactionDate.Year, latestTransactionDate.Month, latestTransactionDate.Day, latestTransactionTime.Hour, latestTransactionTime.Minute, latestTransactionTime.Second);
 
-                var suspiciousTransactions = newTransactions
-                    .Where(t => Math.Abs(t.Amount) > SingleTransactionLimit || totalAmountLastThreeDays > TotalTransactionLimit);
-
-                foreach (var transaction in suspiciousTransactions)
+                if (newTransactions.Any())
                 {
-                    suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, {account.AccountId}, {transaction.Date}, {transaction.Amount}, {transaction.Type}");
+                    var totalAmountLastThreeDays = newTransactions
+                        .Where(t => t.Date >= currentDate.AddDays(-3))
+                        .Sum(t => Math.Abs(t.Amount));
+
+                    var suspiciousTransactions = newTransactions
+                        .Where(t => Math.Abs(t.Amount) > SingleTransactionLimit || totalAmountLastThreeDays > TotalTransactionLimit);
+
+                    foreach (var transaction in suspiciousTransactions)
+                    {
+                        suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, {account.AccountId}, {transaction.Date}, {transaction.Amount}, {transaction.Type}");
+                    }
                 }
             }
 
-            return suspiciousUsers;
+
+            return (suspiciousUsers, latestTransactionTime);
         }
+
+
 
         public void GenerateReport(List<string> suspiciousUsers, string filePath, string country)
         {
