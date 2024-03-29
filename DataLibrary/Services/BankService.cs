@@ -1,5 +1,6 @@
 ﻿using DataLibrary.Data;
 using DataLibrary.Services.Interfaces;
+using DataLibrary.ViewModels;
 
 namespace DataLibrary.Services
 {
@@ -41,8 +42,11 @@ namespace DataLibrary.Services
 
         public int Withdraw(int accountId, decimal amount)
         {
-            if (amount < 0)
-                throw new Exception("Withdrawal amount cannot be negative");
+            if (amount <= 0)
+                throw new Exception("Withdraw amount must be greater than 0!");
+
+            if (amount >= 50000)
+                throw new Exception("Withdraw amount must be less than 50,000 SEK!");
 
             var account = _context.Accounts.Find(accountId);
             if (account == null)
@@ -70,6 +74,7 @@ namespace DataLibrary.Services
             return transaction.TransactionId;
         }
 
+
         public int Transfer(int fromAccountId, int toAccountId, decimal amount)
         {
             if (amount < 0)
@@ -78,5 +83,44 @@ namespace DataLibrary.Services
             Withdraw(fromAccountId, amount);
             return Deposit(toAccountId, amount);
         }
+
+        public AccountViewModel GetAccountDetails(int accountId)
+        {
+            var account = _context.Accounts.FirstOrDefault(a => a.AccountId == accountId);
+            if (account != null)
+            {
+                return new AccountViewModel
+                {
+                    AccountId = account.AccountId.ToString(),
+                    Frequency = account.Frequency,
+                    Created = account.Created.ToString(),
+                    Balance = account.Balance,
+                    Type = account.GetType().Name
+                };
+            }
+            return null;
+        }
+
+        public AccountViewModel GetAccountDetailsForDisplay(int accountId)
+        {
+            if (accountId > 0)
+            {
+                var account = _context.Accounts.FirstOrDefault(a => a.AccountId == accountId);
+                if (account != null)
+                {
+                    return new AccountViewModel
+                    {
+                        AccountId = account.AccountId.ToString(),
+                        Frequency = account.Frequency,
+                        Created = account.Created.ToString(),
+                        Balance = account.Balance,
+                        Type = account.GetType().Name
+                    };
+                }
+            }
+            return null;
+        }
+
+
     }
 }
