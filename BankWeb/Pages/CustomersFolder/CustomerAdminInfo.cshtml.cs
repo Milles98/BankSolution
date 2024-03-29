@@ -4,7 +4,7 @@ using DataLibrary.ViewModels;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankWeb.Pages
+namespace BankWeb.Pages.CustomersFolder
 {
     public class CustomerAdminInfoModel : PageModel
     {

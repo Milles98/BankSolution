@@ -1,5 +1,5 @@
 ﻿@page
-@model BankWeb.Pages.CustomerAdminInfoModel
+@model CustomerAdminInfoModel
 @{
 }
 
@@ -34,7 +34,7 @@
         {
             <tr>
                 <td>
-                    <a asp-page="/CustomerDetails" asp-route-id="@customer.CustomerId" id="update-profile-button" class="btn btn-primary">
+                    <a asp-page="/CustomersFolder/CustomerDetails" asp-route-id="@customer.CustomerId" id="update-profile-button" class="btn btn-primary">
                         @customer.CustomerId
                     </a>
                 </td>

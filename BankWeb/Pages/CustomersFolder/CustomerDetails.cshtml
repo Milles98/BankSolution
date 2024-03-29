@@ -1,5 +1,5 @@
 ﻿@page
-@model BankWeb.Pages.CustomerDetailsModel
+@model CustomerDetailsModel
 @{
     ViewData["Title"] = "Customer Details";
 }
@@ -11,9 +11,9 @@
 
 
 <div class="mb-3 mt-3 d-flex justify-content-center">
-    <a asp-page="/CustomerCRUD/Create" id="update-profile-button" class="btn btn-primary mr-2">Create New Customer</a>
-    <a asp-page="/CustomerCRUD/Edit" asp-route-id="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary mr-2">Edit Customer</a>
-    <a asp-page="/CustomerCRUD/Delete" asp-route-id="@Model.Customer.CustomerId" class="btn btn-danger">Delete Customer</a>
+    <a asp-page="/CustomersFolder/Create" id="update-profile-button" class="btn btn-primary mr-2">Create New Customer</a>
+    <a asp-page="/CustomersFolder/Edit" asp-route-id="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary mr-2">Edit Customer</a>
+    <a asp-page="/CustomersFolder/Delete" asp-route-id="@Model.Customer.CustomerId" class="btn btn-danger">Delete Customer</a>
 </div>
 
 <table class="table table-striped">

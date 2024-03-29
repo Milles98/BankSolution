@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankWeb.Pages
+namespace BankWeb.Pages.CustomersFolder
 {
     public class CustomerDetailsModel : PageModel
     {
