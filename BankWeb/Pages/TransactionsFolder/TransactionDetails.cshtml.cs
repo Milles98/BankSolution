@@ -2,7 +2,7 @@ using DataLibrary.Data;
 using DataLibrary.ViewModels;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BankWeb.Pages
+namespace BankWeb.Pages.TransactionsFolder
 {
     public class TransactionDetailsModel : PageModel
     {

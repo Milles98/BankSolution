@@ -39,7 +39,7 @@
                     </a>
                 </td>
                 <td>
-                    <a asp-page="/TransactionsIndividualAccount" asp-route-accountId="@customer.AccountId">See the transactions</a>
+                    <a asp-page="/TransactionsFolder/TransactionsIndividualAccount" asp-route-accountId="@customer.AccountId">See the transactions</a>
                 </td>
                 <td>@customer.AccountId</td>
                 <td>@customer.Givenname</td>
@@ -49,9 +49,9 @@
                 <td>
                     @foreach (var account in customer.Accounts)
                     {
-                        <a asp-page="/Deposit" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">Deposit</a>
-                        <a asp-page="/Withdraw" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">Withdraw</a>
-                        <a asp-page="/Transfer" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">Transfer</a>
+                        <a asp-page="/TransactionsFolder/Deposit" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">Deposit</a>
+                        <a asp-page="/TransactionsFolder/Withdraw" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">Withdraw</a>
+                        <a asp-page="/TransactionsFolder/Transfer" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">Transfer</a>
                     }
                 </td>
             </tr>

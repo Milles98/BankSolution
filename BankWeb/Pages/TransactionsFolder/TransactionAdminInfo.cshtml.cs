@@ -4,7 +4,7 @@ using DataLibrary.ViewModels;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Linq.Expressions;
 
-namespace BankWeb.Pages
+namespace BankWeb.Pages.TransactionsFolder
 {
     public class TransactionAdminInfoModel : PageModel
     {

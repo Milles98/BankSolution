@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankWeb.Pages
+namespace BankWeb.Pages.TransactionsFolder
 {
     public class TransactionsIndividualAccountModel : PageModel
     {

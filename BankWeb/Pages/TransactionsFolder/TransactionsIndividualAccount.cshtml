@@ -1,5 +1,5 @@
 ﻿@page
-@model BankWeb.Pages.TransactionsIndividualAccountModel
+@model TransactionsIndividualAccountModel
 @{
     ViewData["Title"] = "Transactions for Account " + Model.AccountId;
 }
@@ -45,7 +45,7 @@
         var accountId = @Model.AccountId;
         document.getElementById('loadMoreButton').addEventListener('click', function () {
             page++;
-            fetch('/TransactionsIndividualAccount?handler=LoadMoreTransactions&page=' + page + '&accountId=' + accountId)
+            fetch('/TransactionsFolder/TransactionsIndividualAccount?handler=LoadMoreTransactions&page=' + page + '&accountId=' + accountId)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Server error: ' + response.status);

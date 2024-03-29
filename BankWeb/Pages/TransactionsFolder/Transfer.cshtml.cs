@@ -4,7 +4,7 @@ using DataLibrary.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BankWeb.Pages
+namespace BankWeb.Pages.TransactionsFolder
 {
     public class TransferModel : PageModel
     {
