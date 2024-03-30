@@ -68,5 +68,25 @@ namespace DataLibrary.Services
             return _paginationService.GetTotalPages(query, transactionsPerPage);
         }
 
+        public async Task<TransactionViewModel> GetTransactionDetails(int transactionId)
+        {
+            var transaction = await _context.Transactions.FirstAsync(t => t.TransactionId == transactionId);
+            if (transaction != null)
+            {
+                return new TransactionViewModel
+                {
+                    TransactionId = transaction.TransactionId,
+                    AccountId = transaction.AccountId,
+                    Amount = transaction.Amount,
+                    Balance = transaction.Balance,
+                    DateOfTransaction = transaction.Date,
+                    Operation = transaction.Operation
+                };
+            }
+
+            return null;
+        }
+
+
     }
 }

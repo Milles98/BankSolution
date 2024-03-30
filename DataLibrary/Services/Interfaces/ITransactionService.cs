@@ -12,5 +12,6 @@ namespace DataLibrary.Services.Interfaces
         Task<List<TransactionViewModel>> GetTransactions(int currentPage, int transactionsPerPage,
             string sortColumn, string sortOrder, string search);
         int GetTotalPages(int transactionsPerPage);
+        Task<TransactionViewModel> GetTransactionDetails(int transactionId);
     }
 }

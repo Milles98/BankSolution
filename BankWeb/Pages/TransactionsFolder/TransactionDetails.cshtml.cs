@@ -1,4 +1,5 @@
 using DataLibrary.Data;
+using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -6,31 +7,19 @@ namespace BankWeb.Pages.TransactionsFolder
 {
     public class TransactionDetailsModel : PageModel
     {
-        private readonly BankAppData2Context _context;
+        private readonly ITransactionService _transactionService;
 
+        public TransactionDetailsModel(ITransactionService transactionService)
+        {
+            _transactionService = transactionService;
+        }
         public TransactionViewModel Transaction { get; set; }
 
-        public TransactionDetailsModel(BankAppData2Context context)
+        public async Task OnGet(int transactionId)
         {
-            _context = context;
+            Transaction = await _transactionService.GetTransactionDetails(transactionId);
         }
 
-        public void OnGet(int transactionId)
-        {
-            var transaction = _context.Transactions.FirstOrDefault(t => t.TransactionId == transactionId);
-            if (transaction != null)
-            {
-                Transaction = new TransactionViewModel
-                {
-                    TransactionId = transaction.TransactionId,
-                    AccountId = transaction.AccountId,
-                    Amount = transaction.Amount,
-                    Balance = transaction.Balance,
-                    DateOfTransaction = transaction.Date,
-                    Operation = transaction.Operation
-                };
-            }
-        }
     }
 
 }
