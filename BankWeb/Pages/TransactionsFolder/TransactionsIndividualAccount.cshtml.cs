@@ -1,4 +1,5 @@
 using DataLibrary.Data;
+using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,33 +9,23 @@ namespace BankWeb.Pages.TransactionsFolder
 {
     public class TransactionsIndividualAccountModel : PageModel
     {
+        private readonly ITransactionService _transactionService;
         private readonly BankAppData2Context _context;
-        private readonly ILogger<TransactionsIndividualAccountModel> _logger;
-        public TransactionsIndividualAccountModel(BankAppData2Context context, ILogger<TransactionsIndividualAccountModel> logger)
+
+        public TransactionsIndividualAccountModel(ITransactionService transactionService, BankAppData2Context context)
         {
+            _transactionService = transactionService;
             _context = context;
-            _logger = logger;
         }
+
         public int AccountId { get; set; }
         public decimal Balance { get; set; }
         public List<TransactionViewModel> Transactions { get; set; }
-        public void OnGet(int accountId)
+        public async Task OnGet(int accountId)
         {
             AccountId = accountId;
-            var account = _context.Accounts.Include(a => a.Transactions).FirstOrDefault(a => a.AccountId == accountId);
-            Balance = account.Balance;
-            Transactions = account.Transactions
-                .OrderByDescending(t => t.Date)
-                .Take(20)
-                .Select(t => new TransactionViewModel
-                {
-                    TransactionId = t.TransactionId,
-                    DateOfTransaction = t.Date,
-                    Type = t.Type,
-                    Operation = t.Operation,
-                    Amount = t.Amount,
-                    Balance = t.Balance
-                }).ToList();
+            Balance = await _transactionService.GetAccountBalance(accountId);
+            Transactions = await _transactionService.GetTransactionsForAccount(accountId, 1);
         }
 
         public JsonResult OnGetLoadMoreTransactions(int accountId, int page)
@@ -65,7 +56,6 @@ namespace BankWeb.Pages.TransactionsFolder
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to load more transactions.");
                 return new JsonResult(new { error = "An error occurred while processing your request. " + ex.Message })
                 {
                     StatusCode = 500

@@ -87,6 +87,33 @@ namespace DataLibrary.Services
             return null;
         }
 
+        public async Task<List<TransactionViewModel>> GetTransactionsForAccount(int accountId, int page)
+        {
+            var transactions = await _context.Transactions
+                .Where(t => t.AccountId == accountId)
+                .OrderByDescending(t => t.Date)
+                .Skip((page - 1) * 20)
+                .Take(20)
+                .Select(t => new TransactionViewModel
+                {
+                    TransactionId = t.TransactionId,
+                    DateOfTransaction = t.Date,
+                    Type = t.Type,
+                    Operation = t.Operation,
+                    Amount = t.Amount,
+                    Balance = t.Balance
+                }).ToListAsync();
+
+            return transactions;
+        }
+
+        public async Task<decimal> GetAccountBalance(int accountId)
+        {
+            var account = await _context.Accounts.FirstAsync(a => a.AccountId == accountId);
+            return account.Balance;
+        }
+
+
 
     }
 }
