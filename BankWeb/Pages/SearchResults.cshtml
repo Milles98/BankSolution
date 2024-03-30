@@ -6,6 +6,7 @@
 
 <div class="page-heading header-text">
     <h1>@ViewData["Title"]</h1>
+    <button id="update-profile-button" type="button" class="btn btn-primary" onclick="window.history.back();">Return</button>
 </div>
 
 @if (Model.Customers != null && Model.Customers.Any())
@@ -23,7 +24,7 @@
             @foreach (var customer in Model.Customers)
             {
                 <tr>
-                    <td><a asp-page="/CustomerDetails" asp-route-id="@customer.CustomerId">@customer.CustomerId</a></td>
+                    <td><a asp-page="/CustomersFolder/CustomerDetails" asp-route-id="@customer.CustomerId" class="btn btn-primary" id="update-profile-button">@customer.CustomerId</a></td>
                     <td>@customer.Givenname @customer.Surname</td>
                     <td>@customer.Streetaddress</td>
                     <td>@customer.City</td>
@@ -31,6 +32,13 @@
             }
         </tbody>
     </table>
+
+    <div>
+        <a asp-page="/SearchResults" asp-route-page="@(((int)ViewData["CurrentPage"]) - 1)" asp-route-query="@Request.Query["query"]" class="btn btn-primary" id="update-profile-button">Previous</a>
+        <a asp-page="/SearchResults" asp-route-page="@(((int)ViewData["CurrentPage"]) + 1)" asp-route-query="@Request.Query["query"]" class="btn btn-primary" id="update-profile-button">Next</a>
+        <p>Page @Model.CurrentPage of @Model.TotalPages</p>
+    </div>
+
 }
 else
 {

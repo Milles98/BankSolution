@@ -8,12 +8,13 @@
     <button id="update-profile-button" type="button" class="btn btn-primary" onclick="window.history.back();">Return</button>
 </div>
 
-<form method="get" class="text-center">
-    <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
-        <input type="text" class="form-control" name="search" placeholder="Enter Customer ID" value="@Request.Query["search"]">
+<form method="get" class="text-center" asp-page="/SearchResults">
+    <div class="form-group d-inline-block" style="width: 300px; margin-top: 10px;">
+        <input type="text" class="form-control" name="query" placeholder="Enter Customer ID or Name or City" value="@Request.Query["query"]">
     </div>
     <button id="update-profile-button" type="submit" class="btn btn-primary">Search</button>
 </form>
+
 
 <table class="table table-striped">
     <thead>
