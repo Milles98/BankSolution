@@ -56,28 +56,22 @@ namespace BankWeb.Pages.CustomerCRUD
                 Customer.Birthday = new DateOnly(BirthdayYear, BirthdayMonth, BirthdayDay);
             }
 
-            // Create a new account for the customer
             var account = new Account
             {
-                // Set properties for the account
-                Frequency = Frequency, // Set this to whatever is appropriate
+                Frequency = Frequency,
                 Created = DateOnly.FromDateTime(DateTime.Today),
-                Balance = 0, // Initial balance is 0
-                             // You can add other properties as needed
+                Balance = 0,
             };
 
-            // Create a new disposition for the customer and account
             var disposition = new Disposition
             {
                 Customer = Customer,
                 Account = account,
-                Type = DispositionType // Set this to whatever is appropriate
+                Type = DispositionType
             };
 
-            // Add the disposition to the account's dispositions
             account.Dispositions.Add(disposition);
 
-            // Add the account to the context so it gets saved to the database
             _context.Accounts.Add(account);
 
             _context.Customers.Add(Customer);
