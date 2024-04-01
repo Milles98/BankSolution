@@ -1,0 +1,61 @@
+﻿@page
+@model BankWeb.Pages.AccountsFolder.CreateAccountModel
+@{
+    ViewData["Title"] = "Create new Account";
+}
+
+<div class="page-heading header-text">
+    <h1>@ViewData["Title"]</h1>
+    <h2>For Customer ID @Model.Account.CustomerId</h2>
+    <button id="update-profile-button" type="button" class="btn btn-primary mt-4" onclick="window.history.back();">Return to Customer</button>
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert @TempData["MessageClass"]">
+        @Html.Raw(TempData["Message"])
+    </div>
+}
+
+<hr />
+<div class="container">
+    <div class="row d-flex justify-content-center align-items-center min-vh-100">
+        <div class="col-md-8">
+            <form method="post" class="m-auto text-center">
+                <input type="hidden" asp-for="Account.CustomerId" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Frequency dropdown -->
+                        <div class="form-group">
+                            <label asp-for="Account.Frequency" class="control-label"></label>
+                            <select asp-for="Account.Frequency" class="form-control">
+                                <option value="">Select frequency...</option>
+                                <option value="Monthly">Monthly</option>
+                                <option value="Weekly">Weekly</option>
+                                <option value="AfterTransaction">After Transaction</option>
+                            </select>
+                            <span asp-validation-for="Account.Frequency" class="text-danger"></span>
+                        </div>
+
+                        <!-- Balance input -->
+                        <div class="form-group">
+                            <label for="Account.Balance" class="control-label">Initial Deposit (Balance)</label>
+                            <input asp-for="Account.Balance" class="form-control" />
+                            <span asp-validation-for="Account.Balance" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group d-flex justify-content-center">
+                    <input type="submit" value="Create" id="update-profile-button" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

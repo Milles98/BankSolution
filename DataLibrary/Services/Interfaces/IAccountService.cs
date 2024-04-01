@@ -10,5 +10,6 @@ namespace DataLibrary.Services.Interfaces
     public interface IAccountService
     {
         List<AccountViewModel> GetAccountDetails(int accountId);
+        Task CreateAccount(AccountViewModel accountViewModel, int customerId);
     }
 }

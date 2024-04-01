@@ -37,5 +37,32 @@ namespace DataLibrary.Services
                 })
                 .ToList();
         }
+
+        public async Task CreateAccount(AccountViewModel accountViewModel, int customerId)
+        {
+            var account = new Account
+            {
+                Frequency = accountViewModel.Frequency,
+                Created = DateOnly.Parse(accountViewModel.Created),
+                Balance = accountViewModel.Balance
+            };
+
+            var customer = await _context.Customers.FindAsync(customerId);
+            if (customer == null)
+            {
+                throw new Exception("Customer not found");
+            }
+
+            var disposition = new Disposition
+            {
+                Account = account,
+                Customer = customer,
+                Type = "Owner"
+            };
+
+            _context.Dispositions.Add(disposition);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

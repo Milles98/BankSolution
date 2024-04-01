@@ -58,7 +58,7 @@ namespace BankWeb.Pages.CustomerCRUD
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("/CustomerDetails");
+            return RedirectToPage("/CustomersFolder/CustomerDetails");
         }
     }
 }

@@ -11,6 +11,7 @@
 
 
 <div class="mb-3 mt-3 d-flex justify-content-center">
+    <a asp-page="/AccountsFolder/CreateAccount" asp-route-customerId="@Model.Customer.CustomerId" id="update-profile-button" id="add-account-button" class="btn btn-primary mr-2">Add New Account</a>
     <a asp-page="/CustomersFolder/Create" id="update-profile-button" class="btn btn-primary mr-2">Create New Customer</a>
     <a asp-page="/CustomersFolder/Edit" asp-route-id="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary mr-2">Edit Customer</a>
     <a asp-page="/CustomersFolder/Delete" asp-route-id="@Model.Customer.CustomerId" class="btn btn-danger">Delete Customer</a>

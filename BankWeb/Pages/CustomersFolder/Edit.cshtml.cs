@@ -67,7 +67,7 @@ namespace BankWeb.Pages.CustomerCRUD
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/CustomersFolder/CustomerDetails");
         }
 
         private bool CustomerExists(int id)
