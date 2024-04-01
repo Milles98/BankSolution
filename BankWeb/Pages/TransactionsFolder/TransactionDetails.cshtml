@@ -7,44 +7,36 @@
 <div class="page-heading header-text">
     <h1>@ViewData["Title"]</h1>
     <button id="update-profile-button" type="button" class="btn btn-primary" onclick="location.href='/Index';">Return Home</button>
-
-<div class="container">
+</div>
 
 @if (Model.Transaction != null)
 {
     <table class="table table-striped">
-        <tr>
-            <th>Transaction ID</th>
-            <td>@Model.Transaction.TransactionId</td>
-        </tr>
-        <tr>
-            <th>Account ID</th>
-            <td>@Model.Transaction.AccountId</td>
-        </tr>
-        <tr>
-            <th>Amount</th>
-            <td>@Model.Transaction.Amount SEK</td>
-        </tr>
-        <tr>
-            <th>Balance</th>
-            <td>@Model.Transaction.Balance SEK</td>
-        </tr>
-        <tr>
-            <th>Date of Transaction</th>
-            <td>@Model.Transaction.DateOfTransaction</td>
-        </tr>
-        <tr>
-            <th>Operation</th>
-            <td>@Model.Transaction.Operation</td>
-        </tr>
+        <thead>
+            <tr>
+                <th scope="col">Transaction ID</th>
+                <th scope="col">Account ID</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Balance</th>
+                <th scope="col">Date of Transaction</th>
+                <th scope="col">Operation</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Transaction.TransactionId</td>
+                <td>
+                    <a asp-page="/AccountsFolder/Account" asp-route-accountId="@Model.Transaction.AccountId" class="btn btn-primary" id="update-profile-button">View Account @Model.Transaction.AccountId</a>
+                </td>
+                <td>@Model.Transaction.Amount SEK</td>
+                <td>@Model.Transaction.Balance SEK</td>
+                <td>@Model.Transaction.DateOfTransaction</td>
+                <td>@Model.Transaction.Operation</td>
+            </tr>
+        </tbody>
     </table>
 }
 else
 {
     <p>No transaction details available.</p>
 }
-
-</div>
-
-</div>
-

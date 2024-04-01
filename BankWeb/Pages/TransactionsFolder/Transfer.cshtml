@@ -5,9 +5,10 @@
 
 <div class="page-heading header-text">
     <h1>Transfer</h1>
-    <button id="update-profile-button" type="button" class="btn btn-primary" onclick="location.href='/CustomersFolder/CustomerAdminInfo';">Return to List</button>
+    <h2>From Account ID: @Model.AccountId</h2>
+    <button id="update-profile-button" type="button" class="btn btn-primary mt-3" onclick="location.href='/CustomersFolder/CustomerAdminInfo';">Return to List</button>
+</div>
 
-<div class="container">
 
 @if (TempData["Message"] != null)
 {
@@ -17,11 +18,7 @@
 }
 
 <form method="post" class="text-center">
-    <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
-        <label for="fromAccountId">From Account ID:</label>
-        <input id="AccountId" name="AccountId" type="number" class="form-control" value="@Model.AccountId" required>
-    </div>
-
+    <input type="hidden" id="AccountId" name="AccountId" value="@Model.AccountId" />
     <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
         <label for="toAccountId">To Account ID:</label>
         <input id="ToAccountId" name="ToAccountId" type="number" class="form-control" value="@Model.ToAccountId" required>
@@ -56,7 +53,4 @@
     }
 </table>
 
-</div>
-
-</div>
 

@@ -12,7 +12,6 @@ namespace BankWeb.Pages.TransactionsFolder
         private readonly BankAppData2Context _context;
 
         [BindProperty]
-        [FromRoute]
         public int AccountId { get; set; }
 
 
@@ -97,7 +96,7 @@ namespace BankWeb.Pages.TransactionsFolder
                 var transactionId = _bankService.Transfer(AccountId, ToAccountId, Amount);
 
                 // Update the Account view model
-                fromAccount = _context.Accounts.FirstOrDefault(a => a.AccountId == AccountId);
+                fromAccount = _context.Accounts.First(a => a.AccountId == AccountId);
                 if (fromAccount != null)
                 {
                     Account = new AccountViewModel
@@ -111,7 +110,7 @@ namespace BankWeb.Pages.TransactionsFolder
                 }
 
                 TempData["Message"] = $"Transfer successful for Account ID {AccountId} to Account ID {ToAccountId}, Amount: {Amount} SEK, Date: {DateTime.Now:dd-MM-yyyy}, " +
-                    $"Transaction ID: <a href=\"/TransactionDetails?transactionId={transactionId}\">{transactionId}</a>";
+                    $"Transaction ID: <a href=\"/TransactionsFolder/TransactionDetails?transactionId={transactionId}\">{transactionId}</a>";
                 TempData["MessageClass"] = "alert-success";
             }
             catch (Exception ex)

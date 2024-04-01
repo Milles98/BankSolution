@@ -79,9 +79,51 @@ namespace DataLibrary.Services
             if (amount < 0)
                 throw new Exception("Transfer amount cannot be negative");
 
-            Withdraw(fromAccountId, amount);
-            return Deposit(toAccountId, amount);
+            // Withdraw from the source account
+            var fromAccount = _context.Accounts.Find(fromAccountId);
+            if (fromAccount == null)
+                throw new Exception("Source account not found");
+
+            if (fromAccount.Balance < amount)
+                throw new Exception("Insufficient balance");
+
+            fromAccount.Balance -= amount;
+
+            var withdrawTransaction = new Transaction
+            {
+                AccountId = fromAccountId,
+                Amount = -amount,
+                Balance = fromAccount.Balance,
+                Date = DateOnly.FromDateTime(DateTime.Today),
+                Type = "Debit",
+                Operation = "Transfer"
+            };
+
+            // Deposit to the target account
+            var toAccount = _context.Accounts.Find(toAccountId);
+            if (toAccount == null)
+                throw new Exception("Target account not found");
+
+            toAccount.Balance += amount;
+
+            var depositTransaction = new Transaction
+            {
+                AccountId = toAccountId,
+                Amount = amount,
+                Balance = toAccount.Balance,
+                Date = DateOnly.FromDateTime(DateTime.Today),
+                Type = "Credit",
+                Operation = "Transfer"
+            };
+
+            _context.Transactions.Add(withdrawTransaction);
+            _context.Transactions.Add(depositTransaction);
+
+            _context.SaveChanges();
+
+            return depositTransaction.TransactionId;
         }
+
 
         public AccountViewModel GetAccountDetails(int accountId)
         {
