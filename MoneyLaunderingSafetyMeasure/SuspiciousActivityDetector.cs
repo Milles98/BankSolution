@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using DataLibrary.Data;
-using Microsoft.EntityFrameworkCore; // Assuming your user and transaction models are in this namespace
+using Microsoft.EntityFrameworkCore;
 
 namespace MoneyLaunderingSafetyMeasure
 {

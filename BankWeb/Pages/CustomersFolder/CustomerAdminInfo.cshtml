@@ -19,13 +19,96 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th scope="col">Customer Id</th>
-            <th scope="col">Account</th>
-            <th scope="col">Account Id</th>
-            <th scope="col">Given Name</th>
-            <th scope="col">Surname</th>
-            <th scope="col">Streetaddress</th>
-            <th scope="col">City</th>
+            <th scope="col">
+                Customer Id
+                <a asp-page="/CustomersFolder/CustomerAdminInfo"
+                   asp-route-sortColumn="CustomerId"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/CustomersFolder/CustomerAdminInfo"
+                   asp-route-sortColumn="CustomerId"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th scope="col">
+                Account Id
+                <a asp-page="/CustomersFolder/CustomerAdminInfo"
+                   asp-route-sortColumn="AccountId"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/CustomersFolder/CustomerAdminInfo"
+                   asp-route-sortColumn="AccountId"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th scope="col">
+                Given Name
+                <a asp-page="/CustomersFolder/CustomerAdminInfo"
+                   asp-route-sortColumn="Givenname"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/CustomersFolder/CustomerAdminInfo"
+                   asp-route-sortColumn="Givenname"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th scope="col">
+                Surname
+                <a asp-page="/CustomersFolder/CustomerAdminInfo"
+                   asp-route-sortColumn="Surname"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/CustomersFolder/CustomerAdminInfo"
+                   asp-route-sortColumn="Surname"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th scope="col">
+                Streetaddress
+                <a asp-page="/CustomersFolder/CustomerAdminInfo"
+                   asp-route-sortColumn="Streetaddress"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/CustomersFolder/CustomerAdminInfo"
+                   asp-route-sortColumn="Streetaddress"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th scope="col">
+                City
+                <a asp-page="/CustomersFolder/CustomerAdminInfo"
+                   asp-route-sortColumn="City"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/CustomersFolder/CustomerAdminInfo"
+                   asp-route-sortColumn="City"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
         </tr>
     </thead>
 
@@ -39,12 +122,9 @@
                     </a>
                 </td>
                 <td>
-                    <a asp-page="/TransactionsFolder/TransactionsIndividualAccount" asp-route-accountId="@customer.AccountId">See the transactions</a>
-                </td>
-                <td>
                     @foreach (var account in customer.Accounts)
                     {
-                        <a asp-page="/AccountsFolder/Account" asp-route-accountId="@account.AccountId">View Account @account.AccountId</a>
+                        <a asp-page="/AccountsFolder/Account" asp-route-accountId="@account.AccountId" class="btn btn-primary" id="update-profile-button">View Account @account.AccountId</a>
                     }
                 </td>
                 <td>@customer.Givenname</td>
@@ -58,11 +138,11 @@
     <tfoot>
         <tr>
             <td colspan="2" style="display: flex; gap: 6px;">
-                <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=@(Model.CurrentPage - 1)'" @(Model.CurrentPage == 1 ? "disabled" : "")>Previous</button>
-                <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=@(Model.CurrentPage + 1)'">Next</button>
+                <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=@(Model.CurrentPage - 1)&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'" @(Model.CurrentPage == 1 ? "disabled" : "")>Previous</button>
+                <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=@(Model.CurrentPage + 1)&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">Next</button>
                 <p>Page @Model.CurrentPage of @Model.TotalPages</p>
-                <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=1'">First</button>
-                <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=@Model.TotalPages'">Last</button>
+                <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=1&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">First</button>
+                <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=@Model.TotalPages&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">Last</button>
             </td>
         </tr>
     </tfoot>

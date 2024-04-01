@@ -57,7 +57,7 @@ namespace DataLibrary.Services
             {
                 Account = account,
                 Customer = customer,
-                Type = "Owner"
+                Type = "OWNER"
             };
 
             _context.Dispositions.Add(disposition);

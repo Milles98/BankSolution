@@ -2,6 +2,7 @@
 using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DataLibrary.Services
 {
@@ -9,11 +10,13 @@ namespace DataLibrary.Services
     {
         private readonly BankAppData2Context _context;
         private readonly IPaginationService<Customer> _paginationService;
+        private readonly ISortingService<Customer> _sortingService;
 
-        public CustomerService(BankAppData2Context context, IPaginationService<Customer> paginationService)
+        public CustomerService(BankAppData2Context context, IPaginationService<Customer> paginationService, ISortingService<Customer> sortingService)
         {
             _context = context;
             _paginationService = paginationService;
+            _sortingService = sortingService;
         }
         public async Task<CustomerAccountViewModel> GetCustomerDetails(int id)
         {
@@ -48,7 +51,7 @@ namespace DataLibrary.Services
             return customerDetails;
         }
 
-        public async Task<List<CustomerViewModel>> GetCustomers(int currentPage, int customersPerPage, string search)
+        public async Task<List<CustomerViewModel>> GetCustomers(int currentPage, int customersPerPage, string sortColumn, string sortOrder, string search)
         {
             var query = _context.Customers.AsQueryable();
 
@@ -59,6 +62,18 @@ namespace DataLibrary.Services
                     query = query.Where(c => c.CustomerId == customerId);
                 }
             }
+
+            var sortExpressions = new Dictionary<string, Expression<Func<Customer, object>>>
+            {
+                { "CustomerId", c => c.CustomerId },
+                { "AccountId", c => c.Dispositions.Select(d => d.AccountId).First() },
+                { "Givenname", c => c.Givenname },
+                { "Surname", c => c.Surname },
+                { "Streetaddress", c => c.Streetaddress },
+                { "City", c => c.City }
+            };
+
+            query = _sortingService.Sort(query, sortColumn, sortOrder, sortExpressions);
 
             var customers = await _paginationService
                 .GetPage(query
