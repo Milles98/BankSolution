@@ -27,7 +27,9 @@
         @foreach (var transaction in Model.Transactions)
         {
             <tr>
-                <td>@transaction.TransactionId</td>
+                <td>
+                    <a asp-page="/TransactionsFolder/TransactionDetails" asp-route-transactionId="@transaction.TransactionId" id="update-profile-button" class="btn btn-primary">@transaction.TransactionId</a>
+                </td>
                 <td>@transaction.DateOfTransaction</td>
                 <td>@transaction.Type</td>
                 <td>@transaction.Operation</td>
@@ -68,12 +70,18 @@
                     data.transactions.forEach(transaction => {
                         loadedTransactionIds.add(transaction.transactionId);
                         var row = table.insertRow(-1);
-                        row.insertCell(0).innerText = transaction.transactionId;
+                        var cell = row.insertCell(0);
+                        var link = document.createElement('a');
+                        link.href = '/TransactionsFolder/TransactionDetails?transactionId=' + transaction.transactionId;
+                        link.innerText = transaction.transactionId;
+                        link.id = 'update-profile-button';
+                        link.className = 'btn btn-primary';
+                        cell.appendChild(link);
                         row.insertCell(1).innerText = transaction.dateOfTransaction;
                         row.insertCell(2).innerText = transaction.type;
                         row.insertCell(3).innerText = transaction.operation;
-                        row.insertCell(4).innerText = 'SEK: ' + transaction.amount; 
-                        row.insertCell(5).innerText = 'SEK: ' + transaction.balance; 
+                        row.insertCell(4).innerText = 'SEK: ' + transaction.amount;
+                        row.insertCell(5).innerText = 'SEK: ' + transaction.balance;
                     });
 
                     if (!data.hasMore) {
@@ -92,5 +100,6 @@
         loadMoreTransactions();
     </script>
 }
+
 
 
