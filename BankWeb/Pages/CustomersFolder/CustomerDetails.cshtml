@@ -37,7 +37,9 @@
                 <td>@Model.Customer.CustomerId</td>
                 <td>@Model.Customer.Givenname @Model.Customer.Surname</td>
                 <td>@Model.Customer.Streetaddress, @Model.Customer.City</td>
-                <td>@account.AccountId</td>
+                <td>
+                    <a asp-page="/AccountsFolder/Account" asp-route-accountId="@account.AccountId">View Account @account.AccountId</a>
+                </td>
                 <td>@account.Frequency</td>
                 <td>@account.Created</td>
                 <td>@account.Balance</td>
