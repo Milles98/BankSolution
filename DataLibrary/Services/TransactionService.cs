@@ -87,12 +87,21 @@ namespace DataLibrary.Services
             return null;
         }
 
-        public async Task<List<TransactionViewModel>> GetTransactionsForAccount(int accountId, int page)
+        public async Task<List<TransactionViewModel>> GetTransactionsForAccount(int accountId, DateTime? lastFetchedTransactionTimestamp)
         {
-            var transactions = await _context.Transactions
-                .Where(t => t.AccountId == accountId)
+            var transactionsQuery = _context.Transactions
+                .Where(t => t.AccountId == accountId);
+
+            if (lastFetchedTransactionTimestamp.HasValue)
+            {
+                var lastFetchedDate = DateOnly.FromDateTime(lastFetchedTransactionTimestamp.Value);
+                transactionsQuery = transactionsQuery
+                    .Where(t => t.Date < lastFetchedDate);
+            }
+
+
+            var transactions = await transactionsQuery
                 .OrderByDescending(t => t.Date)
-                .Skip((page - 1) * 20)
                 .Take(20)
                 .Select(t => new TransactionViewModel
                 {
@@ -104,8 +113,11 @@ namespace DataLibrary.Services
                     Balance = t.Balance
                 }).ToListAsync();
 
+
             return transactions;
         }
+
+
 
         public async Task<decimal> GetAccountBalance(int accountId)
         {

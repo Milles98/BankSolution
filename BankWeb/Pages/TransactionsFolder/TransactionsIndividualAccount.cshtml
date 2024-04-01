@@ -15,6 +15,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th>Transaction ID</th>
             <th>Date</th>
             <th>Type</th>
             <th>Operation</th>
@@ -26,11 +27,12 @@
         @foreach (var transaction in Model.Transactions)
         {
             <tr>
+                <td>@transaction.TransactionId</td>
                 <td>@transaction.DateOfTransaction</td>
                 <td>@transaction.Type</td>
                 <td>@transaction.Operation</td>
-                <td>@transaction.Amount</td>
-                <td>@transaction.Balance</td>
+                <td>SEK: @transaction.Amount</td>
+                <td>SEK: @transaction.Balance</td>
             </tr>
         }
     </tbody>
@@ -44,9 +46,17 @@
     <script>
         var page = 1;
         var accountId = @Model.AccountId;
-        document.getElementById('loadMoreButton').addEventListener('click', function () {
-            page++;
-            fetch('/TransactionsFolder/TransactionsIndividualAccount?handler=LoadMoreTransactions&page=' + page + '&accountId=' + accountId)
+        var loadedTransactionIds = new Set();
+        var loadMoreButton = document.getElementById('loadMoreButton');
+        var warningText = document.createElement('p');
+        warningText.innerText = 'No more transactions to load.';
+        warningText.style.display = 'none';
+        warningText.style.color = 'red';
+        loadMoreButton.parentNode.appendChild(warningText);
+
+        function loadMoreTransactions() {
+            var lastTransactionDate = document.querySelector('#transactionTable tr:last-child td:nth-child(2)').innerText;
+            fetch(`/TransactionsFolder/TransactionsIndividualAccount?handler=LoadMoreTransactions&accountId=${accountId}&lastFetchedTransactionTimestamp=${lastTransactionDate}&loadedTransactionIds=${Array.from(loadedTransactionIds).join(',')}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Server error: ' + response.status);
@@ -55,16 +65,32 @@
                 })
                 .then(data => {
                     var table = document.getElementById('transactionTable');
-                    data.forEach(transaction => {
+                    data.transactions.forEach(transaction => {
+                        loadedTransactionIds.add(transaction.transactionId);
                         var row = table.insertRow(-1);
-                        row.insertCell(0).innerText = transaction.dateOfTransaction;
-                        row.insertCell(1).innerText = transaction.type;
-                        row.insertCell(2).innerText = transaction.operation;
-                        row.insertCell(3).innerText = transaction.amount;
-                        row.insertCell(4).innerText = transaction.balance;
+                        row.insertCell(0).innerText = transaction.transactionId;
+                        row.insertCell(1).innerText = transaction.dateOfTransaction;
+                        row.insertCell(2).innerText = transaction.type;
+                        row.insertCell(3).innerText = transaction.operation;
+                        row.insertCell(4).innerText = 'SEK: ' + transaction.amount; 
+                        row.insertCell(5).innerText = 'SEK: ' + transaction.balance; 
                     });
+
+                    if (!data.hasMore) {
+                        loadMoreButton.disabled = true;
+                        warningText.style.display = 'block';
+                    }
                 })
                 .catch(error => console.error('Fetch error:', error));
+        }
+
+        loadMoreButton.addEventListener('click', function () {
+            page++;
+            loadMoreTransactions();
         });
+
+        loadMoreTransactions();
     </script>
 }
+
+

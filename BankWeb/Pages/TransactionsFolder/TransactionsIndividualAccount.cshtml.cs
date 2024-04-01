@@ -25,22 +25,32 @@ namespace BankWeb.Pages.TransactionsFolder
         {
             AccountId = accountId;
             Balance = await _transactionService.GetAccountBalance(accountId);
-            Transactions = await _transactionService.GetTransactionsForAccount(accountId, 1);
+            Transactions = await _transactionService.GetTransactionsForAccount(accountId, null);
         }
 
-        public JsonResult OnGetLoadMoreTransactions(int accountId, int page)
+        public JsonResult OnGetLoadMoreTransactions(int accountId, DateTime? lastFetchedTransactionTimestamp, string loadedTransactionIds)
         {
-            if (page < 1)
+            var loadedIds = new List<int>();
+            if (!string.IsNullOrEmpty(loadedTransactionIds))
             {
-                page = 1;
+                loadedIds = loadedTransactionIds.Split(',').Select(int.Parse).ToList();
             }
 
             try
             {
-                var transactions = _context.Transactions
-                    .Where(t => t.AccountId == accountId)
+                var transactionsQuery = _context.Transactions
+                    .Where(t => t.AccountId == accountId && !loadedIds.Contains(t.TransactionId));
+
+                if (lastFetchedTransactionTimestamp.HasValue)
+                {
+                    var lastFetchedDate = DateOnly.FromDateTime(lastFetchedTransactionTimestamp.Value);
+                    transactionsQuery = transactionsQuery
+                        .Where(t => t.Date < lastFetchedDate);
+                }
+
+
+                var transactions = transactionsQuery
                     .OrderByDescending(t => t.Date)
-                    .Skip((page - 1) * 20)
                     .Take(20)
                     .Select(t => new TransactionViewModel
                     {
@@ -50,9 +60,15 @@ namespace BankWeb.Pages.TransactionsFolder
                         Operation = t.Operation,
                         Amount = t.Amount,
                         Balance = t.Balance
-                    }).ToList();
+                    })
+                    .ToList();
 
-                return new JsonResult(transactions);
+                var hasMore = transactionsQuery
+                    .OrderByDescending(t => t.Date)
+                    .Skip(20)
+                    .Any();
+
+                return new JsonResult(new { transactions, hasMore });
             }
             catch (Exception ex)
             {
@@ -62,5 +78,8 @@ namespace BankWeb.Pages.TransactionsFolder
                 };
             }
         }
+
+
+
     }
 }

@@ -13,7 +13,7 @@ namespace DataLibrary.Services.Interfaces
             string sortColumn, string sortOrder, string search);
         int GetTotalPages(int transactionsPerPage);
         Task<TransactionViewModel> GetTransactionDetails(int transactionId);
-        Task<List<TransactionViewModel>> GetTransactionsForAccount(int accountId, int page);
+        Task<List<TransactionViewModel>> GetTransactionsForAccount(int accountId, DateTime? lastFetchedTransactionTimestamp);
         Task<decimal> GetAccountBalance(int accountId);
     }
 }
