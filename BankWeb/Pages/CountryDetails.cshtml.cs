@@ -1,4 +1,5 @@
 using DataLibrary.Data;
+using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,11 +10,11 @@ namespace BankWeb.Pages
     [ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "country" })]
     public class CountryDetailsModel : PageModel
     {
-        private readonly BankAppData2Context _context;
+        private readonly ICountryService _countryService;
 
-        public CountryDetailsModel(BankAppData2Context context)
+        public CountryDetailsModel(ICountryService countryService)
         {
-            _context = context;
+            _countryService = countryService;
         }
 
         public string Country { get; set; }
@@ -21,7 +22,7 @@ namespace BankWeb.Pages
 
         public List<CountryDetailsViewModel> TopCustomers { get; set; }
 
-        public void OnGet(string country)
+        public async Task OnGet(string country)
         {
             Country = country;
             switch (country)
@@ -42,21 +43,7 @@ namespace BankWeb.Pages
                     ImagePath = "/assets/images/default.jpg";
                     break;
             }
-            TopCustomers = _context.Customers
-                .Include(c => c.Dispositions)
-                .ThenInclude(d => d.Account)
-                .Where(c => c.Country == country)
-                .OrderByDescending(c => c.Dispositions.Sum(d => d.Account.Balance))
-                .Select(c => new CountryDetailsViewModel
-                {
-                    CustomerId = c.CustomerId,
-                    Givenname = c.Givenname,
-                    Surname = c.Surname,
-                    Dispositions = c.Dispositions.ToList(),
-                    TotalBalance = c.Dispositions.Sum(d => d.Account.Balance)
-                })
-                .Take(10)
-                .ToList();
+            TopCustomers = await _countryService.GetTopCustomersByCountry(country);
         }
     }
 

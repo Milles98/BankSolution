@@ -28,6 +28,7 @@ builder.Services.AddTransient<IBankService, BankService>();
 builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<ITransactionService, TransactionService>();
+builder.Services.AddTransient<ICountryService, CountryService>();
 
 var app = builder.Build();
 
