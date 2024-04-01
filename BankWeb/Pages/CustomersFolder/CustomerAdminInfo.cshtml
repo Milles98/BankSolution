@@ -26,7 +26,6 @@
             <th scope="col">Surname</th>
             <th scope="col">Streetaddress</th>
             <th scope="col">City</th>
-            <th scope="col">Actions</th>
         </tr>
     </thead>
 
@@ -52,14 +51,6 @@
                 <td>@customer.Surname</td>
                 <td>@customer.Streetaddress</td>
                 <td>@customer.City</td>
-                <td>
-                    @foreach (var account in customer.Accounts)
-                    {
-                        <a asp-page="/TransactionsFolder/Deposit" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">Deposit</a>
-                        <a asp-page="/TransactionsFolder/Withdraw" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">Withdraw</a>
-                        <a asp-page="/TransactionsFolder/Transfer" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">Transfer</a>
-                    }
-                </td>
             </tr>
         }
     </tbody>

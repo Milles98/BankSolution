@@ -17,6 +17,7 @@
         <th scope="col">Type</th>
         <th scope="col">Customers</th>
         <th scope="col">Details</th>
+        <th scope="col">Actions</th>
     </tr>
 
     @foreach (var account in Model.Accounts)
@@ -39,6 +40,11 @@
             </td>
             <td>
                 <a asp-page="/TransactionsFolder/TransactionsIndividualAccount" asp-route-accountId="@account.AccountId">See the transactions</a>
+            </td>
+            <td>
+                <a asp-page="/TransactionsFolder/Deposit" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">Deposit</a>
+                <a asp-page="/TransactionsFolder/Withdraw" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">Withdraw</a>
+                <a asp-page="/TransactionsFolder/Transfer" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">Transfer</a>
             </td>
         </tr>
     }
