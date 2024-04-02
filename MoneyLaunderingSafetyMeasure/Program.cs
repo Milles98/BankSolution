@@ -9,10 +9,10 @@ class Program
     {
         try
         {
-            var optionsBuilder = new DbContextOptionsBuilder<BankAppData2Context>();
+            var optionsBuilder = new DbContextOptionsBuilder<BankAppDataContext>();
             optionsBuilder.UseSqlServer("DefaultConnection");
 
-            using var dbContext = new BankAppData2Context(optionsBuilder.Options);
+            using var dbContext = new BankAppDataContext(optionsBuilder.Options);
             var detector = new SuspiciousActivityDetector();
 
             var countries = new List<string> { "Sweden", "Norway", "Denmark", "Finland" };

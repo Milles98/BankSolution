@@ -13,11 +13,11 @@ namespace DataLibrary.Services
 {
     public class TransactionService : ITransactionService
     {
-        private readonly BankAppData2Context _context;
+        private readonly BankAppDataContext _context;
         private readonly IPaginationService<Transaction> _paginationService;
         private readonly ISortingService<Transaction> _sortingService;
 
-        public TransactionService(BankAppData2Context context, IPaginationService<Transaction> paginationService, ISortingService<Transaction> sortingService)
+        public TransactionService(BankAppDataContext context, IPaginationService<Transaction> paginationService, ISortingService<Transaction> sortingService)
         {
             _context = context;
             _paginationService = paginationService;

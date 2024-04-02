@@ -7,9 +7,9 @@ namespace BankWeb.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly BankAppData2Context _context;
+        private readonly BankAppDataContext _context;
 
-        public IndexModel(BankAppData2Context context)
+        public IndexModel(BankAppDataContext context)
         {
             _context = context;
         }

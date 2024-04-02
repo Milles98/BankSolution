@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataLibrary.Data;
 
-public partial class BankAppData2Context : IdentityDbContext
+public partial class BankAppDataContext : IdentityDbContext
 {
-    public BankAppData2Context()
+    public BankAppDataContext()
     {
     }
 
-    public BankAppData2Context(DbContextOptions<BankAppData2Context> options)
+    public BankAppDataContext(DbContextOptions<BankAppDataContext> options)
         : base(options)
     {
     }
@@ -34,7 +34,7 @@ public partial class BankAppData2Context : IdentityDbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=localhost;Database=BankAppData2;Trusted_Connection=True;TrustServerCertificate=true");
+        => optionsBuilder.UseSqlServer("Server=localhost;Database=BankAppData;Trusted_Connection=True;TrustServerCertificate=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

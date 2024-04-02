@@ -8,7 +8,7 @@ using System;
 
 namespace DataLibrary.Data.Migrations
 {
-    [DbContext(typeof(BankAppData2Context))]
+    [DbContext(typeof(BankAppDataContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

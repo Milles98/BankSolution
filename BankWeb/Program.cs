@@ -9,14 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<BankAppData2Context>(options =>
+builder.Services.AddDbContext<BankAppDataContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<BankAppData2Context>();
+    .AddEntityFrameworkStores<BankAppDataContext>();
 builder.Services.AddRazorPages();
 
 builder.Services.AddResponseCaching();

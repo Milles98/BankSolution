@@ -9,7 +9,7 @@ namespace BankWeb.Pages.TransactionsFolder
     public class TransferModel : PageModel
     {
         private readonly IBankService _bankService;
-        private readonly BankAppData2Context _context;
+        private readonly BankAppDataContext _context;
 
         [BindProperty]
         public int AccountId { get; set; }
@@ -23,7 +23,7 @@ namespace BankWeb.Pages.TransactionsFolder
         public int ToAccountId { get; set; }
 
 
-        public TransferModel(IBankService bankService, BankAppData2Context context)
+        public TransferModel(IBankService bankService, BankAppDataContext context)
         {
             _bankService = bankService;
             _context = context;

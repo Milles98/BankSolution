@@ -12,9 +12,9 @@ namespace DataLibrary.Services
 {
     public class CountryService : ICountryService
     {
-        private readonly BankAppData2Context _context;
+        private readonly BankAppDataContext _context;
 
-        public CountryService(BankAppData2Context context)
+        public CountryService(BankAppDataContext context)
         {
             _context = context;
         }

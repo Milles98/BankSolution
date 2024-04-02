@@ -6,9 +6,9 @@ namespace DataLibrary.Services
 {
     public class BankService : IBankService
     {
-        private readonly BankAppData2Context _context;
+        private readonly BankAppDataContext _context;
 
-        public BankService(BankAppData2Context context)
+        public BankService(BankAppDataContext context)
         {
             _context = context;
         }

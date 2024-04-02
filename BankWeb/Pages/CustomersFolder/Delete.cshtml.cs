@@ -13,9 +13,9 @@ namespace BankWeb.Pages.CustomerCRUD
     [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
-        private readonly DataLibrary.Data.BankAppData2Context _context;
+        private readonly DataLibrary.Data.BankAppDataContext _context;
 
-        public DeleteModel(DataLibrary.Data.BankAppData2Context context)
+        public DeleteModel(DataLibrary.Data.BankAppDataContext context)
         {
             _context = context;
         }

@@ -13,9 +13,9 @@ namespace BankWeb.Pages.CustomerCRUD
     [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
-        private readonly DataLibrary.Data.BankAppData2Context _context;
+        private readonly DataLibrary.Data.BankAppDataContext _context;
 
-        public CreateModel(DataLibrary.Data.BankAppData2Context context)
+        public CreateModel(DataLibrary.Data.BankAppDataContext context)
         {
             _context = context;
         }

@@ -9,9 +9,9 @@ namespace BankWeb.Pages
 {
     public class SearchResultsModel : PageModel
     {
-        private readonly BankAppData2Context _context;
+        private readonly BankAppDataContext _context;
 
-        public SearchResultsModel(BankAppData2Context context)
+        public SearchResultsModel(BankAppDataContext context)
         {
             _context = context;
         }

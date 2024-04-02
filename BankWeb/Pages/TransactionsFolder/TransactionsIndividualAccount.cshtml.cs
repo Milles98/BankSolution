@@ -10,9 +10,9 @@ namespace BankWeb.Pages.TransactionsFolder
     public class TransactionsIndividualAccountModel : PageModel
     {
         private readonly ITransactionService _transactionService;
-        private readonly BankAppData2Context _context;
+        private readonly BankAppDataContext _context;
 
-        public TransactionsIndividualAccountModel(ITransactionService transactionService, BankAppData2Context context)
+        public TransactionsIndividualAccountModel(ITransactionService transactionService, BankAppDataContext context)
         {
             _transactionService = transactionService;
             _context = context;

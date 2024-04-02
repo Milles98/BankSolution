@@ -13,9 +13,9 @@ namespace BankWeb.Pages.CustomerCRUD
     [Authorize(Roles = "Admin")]
     public class DetailsModel : PageModel
     {
-        private readonly DataLibrary.Data.BankAppData2Context _context;
+        private readonly DataLibrary.Data.BankAppDataContext _context;
 
-        public DetailsModel(DataLibrary.Data.BankAppData2Context context)
+        public DetailsModel(DataLibrary.Data.BankAppDataContext context)
         {
             _context = context;
         }

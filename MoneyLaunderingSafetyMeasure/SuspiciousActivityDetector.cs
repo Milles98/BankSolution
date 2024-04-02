@@ -13,7 +13,7 @@ namespace MoneyLaunderingSafetyMeasure
         private const decimal TotalTransactionLimit = 23000m;
         private const int TransactionPeriodInHours = 72;
 
-        public List<Disposition> GetDispositions(BankAppData2Context dbContext, string country)
+        public List<Disposition> GetDispositions(BankAppDataContext dbContext, string country)
         {
             return dbContext.Dispositions
                 .Include(d => d.Account)

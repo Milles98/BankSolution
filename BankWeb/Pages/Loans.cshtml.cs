@@ -6,9 +6,9 @@ namespace BankWeb.Pages
 {
     public class LoansModel : PageModel
     {
-        private readonly BankAppData2Context _context;
+        private readonly BankAppDataContext _context;
         public List<Loan> Loans { get; set; }
-        public LoansModel(BankAppData2Context context)
+        public LoansModel(BankAppDataContext context)
         {
             _context = context;
         }

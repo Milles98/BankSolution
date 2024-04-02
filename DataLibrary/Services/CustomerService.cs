@@ -8,11 +8,11 @@ namespace DataLibrary.Services
 {
     public class CustomerService : ICustomerService
     {
-        private readonly BankAppData2Context _context;
+        private readonly BankAppDataContext _context;
         private readonly IPaginationService<Customer> _paginationService;
         private readonly ISortingService<Customer> _sortingService;
 
-        public CustomerService(BankAppData2Context context, IPaginationService<Customer> paginationService, ISortingService<Customer> sortingService)
+        public CustomerService(BankAppDataContext context, IPaginationService<Customer> paginationService, ISortingService<Customer> sortingService)
         {
             _context = context;
             _paginationService = paginationService;

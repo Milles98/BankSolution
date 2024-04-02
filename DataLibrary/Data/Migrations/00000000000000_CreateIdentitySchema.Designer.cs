@@ -9,7 +9,7 @@ using System;
 
 namespace DataLibrary.Data.Migrations
 {
-    [DbContext(typeof(BankAppData2Context))]
+    [DbContext(typeof(BankAppDataContext))]
     [Migration("00000000000000_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {
