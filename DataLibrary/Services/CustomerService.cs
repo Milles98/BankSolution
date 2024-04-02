@@ -62,9 +62,16 @@ namespace DataLibrary.Services
 
             if (!string.IsNullOrEmpty(search))
             {
+                search = search.ToLower();
                 if (int.TryParse(search, out int customerId))
                 {
                     query = query.Where(c => c.CustomerId == customerId);
+                }
+                else
+                {
+                    query = query.Where(c => c.Givenname.ToLower().Contains(search) ||
+                                             c.Surname.ToLower().Contains(search) ||
+                                             c.City.ToLower().Contains(search));
                 }
             }
 
