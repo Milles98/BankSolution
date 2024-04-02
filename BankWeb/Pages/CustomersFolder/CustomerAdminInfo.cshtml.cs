@@ -21,8 +21,7 @@ namespace BankWeb.Pages.CustomersFolder
         public int CurrentPage { get; set; } = 1;
         public int CustomerPerPage { get; set; } = 5;
         public int TotalPages => _customerService.GetTotalPages(CustomerPerPage);
-        public int PageCount => (int)Math.Ceiling((double)_customerService.GetTotalCustomers() / CustomerPerPage);
-
+        public int PageCount { get; set; }
         public string Search { get; set; }
 
         public async Task OnGet(string sortColumn, string sortOrder, string query)
@@ -33,8 +32,11 @@ namespace BankWeb.Pages.CustomersFolder
                 CurrentPage = int.Parse(Request.Query["page"]);
             }
 
-            Customers = await _customerService.GetCustomers(CurrentPage, CustomerPerPage, sortColumn, sortOrder, query);
+            var result = await _customerService.GetCustomers(CurrentPage, CustomerPerPage, sortColumn, sortOrder, Search);
+            Customers = result.Item1;
+            PageCount = (int)Math.Ceiling(result.Item2 / (double)CustomerPerPage);
         }
+
 
     }
 }

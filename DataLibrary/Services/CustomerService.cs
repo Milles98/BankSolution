@@ -56,7 +56,7 @@ namespace DataLibrary.Services
             return customerDetails;
         }
 
-        public async Task<List<CustomerViewModel>> GetCustomers(int currentPage, int customersPerPage, string sortColumn, string sortOrder, string search)
+        public async Task<(List<CustomerViewModel>, int)> GetCustomers(int currentPage, int customersPerPage, string sortColumn, string sortOrder, string search)
         {
             var query = _context.Customers.AsQueryable();
 
@@ -75,15 +75,17 @@ namespace DataLibrary.Services
                 }
             }
 
+            int totalCustomers = await query.CountAsync();
+
             var sortExpressions = new Dictionary<string, Expression<Func<Customer, object>>>
-            {
-                { "CustomerId", c => c.CustomerId },
-                { "AccountId", c => c.Dispositions.Select(d => d.AccountId).First() },
-                { "Givenname", c => c.Givenname },
-                { "Surname", c => c.Surname },
-                { "Streetaddress", c => c.Streetaddress },
-                { "City", c => c.City }
-            };
+    {
+        { "CustomerId", c => c.CustomerId },
+        { "AccountId", c => c.Dispositions.Select(d => d.AccountId).First() },
+        { "Givenname", c => c.Givenname },
+        { "Surname", c => c.Surname },
+        { "Streetaddress", c => c.Streetaddress },
+        { "City", c => c.City }
+    };
 
             query = _sortingService.Sort(query, sortColumn, sortOrder, sortExpressions);
 
@@ -102,8 +104,9 @@ namespace DataLibrary.Services
                     Accounts = c.Dispositions.Select(d => d.Account).ToList()
                 }).ToListAsync();
 
-            return customers;
+            return (customers, totalCustomers);
         }
+
 
         public int GetTotalPages(int customersPerPage)
         {

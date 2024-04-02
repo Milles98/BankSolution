@@ -7,7 +7,7 @@
 
 <div class="page-heading header-text">
     <h1>All Customers</h1>
-    <button id="update-profile-button" type="button" class="btn btn-primary" onclick="window.history.back();">Return</button>
+    <button id="update-profile-button" type="button" class="btn btn-primary" onclick="location.href='/CustomersFolder/CustomerAdminInfo';">Return to List</button>
 </div>
 
 <form method="get" class="text-center" asp-page="/CustomersFolder/CustomerAdminInfo">
@@ -26,12 +26,14 @@
                 <a asp-page="/CustomersFolder/CustomerAdminInfo"
                    asp-route-sortColumn="CustomerId"
                    asp-route-sortOrder="asc"
+                   asp-route-query="@Model.Search"
                    style="text-decoration: none">
                     <i class="fa-solid fa-angle-up"></i>
                 </a>
                 <a asp-page="/CustomersFolder/CustomerAdminInfo"
                    asp-route-sortColumn="CustomerId"
                    asp-route-sortOrder="desc"
+                   asp-route-query="@Model.Search"
                    style="text-decoration: none">
                     <i class="fa-solid fa-angle-down"></i>
                 </a>
@@ -56,12 +58,14 @@
                 <a asp-page="/CustomersFolder/CustomerAdminInfo"
                    asp-route-sortColumn="Givenname"
                    asp-route-sortOrder="asc"
+                   asp-route-query="@Model.Search"
                    style="text-decoration: none">
                     <i class="fa-solid fa-angle-up"></i>
                 </a>
                 <a asp-page="/CustomersFolder/CustomerAdminInfo"
                    asp-route-sortColumn="Givenname"
                    asp-route-sortOrder="desc"
+                   asp-route-query="@Model.Search"
                    style="text-decoration: none">
                     <i class="fa-solid fa-angle-down"></i>
                 </a>
@@ -71,12 +75,14 @@
                 <a asp-page="/CustomersFolder/CustomerAdminInfo"
                    asp-route-sortColumn="Surname"
                    asp-route-sortOrder="asc"
+                   asp-route-query="@Model.Search"
                    style="text-decoration: none">
                     <i class="fa-solid fa-angle-up"></i>
                 </a>
                 <a asp-page="/CustomersFolder/CustomerAdminInfo"
                    asp-route-sortColumn="Surname"
                    asp-route-sortOrder="desc"
+                   asp-route-query="@Model.Search"
                    style="text-decoration: none">
                     <i class="fa-solid fa-angle-down"></i>
                 </a>
@@ -101,12 +107,14 @@
                 <a asp-page="/CustomersFolder/CustomerAdminInfo"
                    asp-route-sortColumn="City"
                    asp-route-sortOrder="asc"
+                   asp-route-query="@Model.Search"
                    style="text-decoration: none">
                     <i class="fa-solid fa-angle-up"></i>
                 </a>
                 <a asp-page="/CustomersFolder/CustomerAdminInfo"
                    asp-route-sortColumn="City"
                    asp-route-sortOrder="desc"
+                   asp-route-query="@Model.Search"
                    style="text-decoration: none">
                     <i class="fa-solid fa-angle-down"></i>
                 </a>
