@@ -17,9 +17,12 @@ namespace BankWeb.Pages.AccountsFolder
 
         public List<AccountViewModel> Accounts { get; set; }
 
-        public void OnGet(int accountId)
+        public void OnGet(string accountIds)
         {
-            Accounts = _accountService.GetAccountDetails(accountId);
+            var accountIdList = accountIds.Split(',').Select(int.Parse).ToList();
+            Accounts = _accountService.GetAccountDetails(accountIdList);
         }
+
+
     }
 }

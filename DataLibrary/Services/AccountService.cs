@@ -16,10 +16,10 @@ namespace DataLibrary.Services
             _context = context;
         }
 
-        public List<AccountViewModel> GetAccountDetails(int accountId)
+        public List<AccountViewModel> GetAccountDetails(List<int> accountIds)
         {
             return _context.Accounts
-                .Where(a => a.AccountId == accountId)
+                .Where(a => accountIds.Contains(a.AccountId))
                 .Include(a => a.Dispositions)
                 .ThenInclude(d => d.Customer)
                 .Select(a => new AccountViewModel
