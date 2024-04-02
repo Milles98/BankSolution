@@ -18,6 +18,11 @@ namespace DataLibrary.Services
             _paginationService = paginationService;
             _sortingService = sortingService;
         }
+
+        public int GetTotalCustomers()
+        {
+            return _context.Customers.Count();
+        }
         public async Task<CustomerAccountViewModel> GetCustomerDetails(int id)
         {
             var customer = await _context.Customers

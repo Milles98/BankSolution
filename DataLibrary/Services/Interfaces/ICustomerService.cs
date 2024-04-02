@@ -12,5 +12,6 @@ namespace DataLibrary.Services.Interfaces
         Task<CustomerAccountViewModel> GetCustomerDetails(int id);
         Task<List<CustomerViewModel>> GetCustomers(int currentPage, int customersPerPage, string sortColumn, string sortOrder, string search);
         int GetTotalPages(int customersPerPage);
+        int GetTotalCustomers();
     }
 }
