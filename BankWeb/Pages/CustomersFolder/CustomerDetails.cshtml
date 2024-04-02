@@ -10,24 +10,29 @@
 </div>
 
 <div class="container" style="width: 80%; margin: auto; padding: 20px;">
-    <div class="mb-3 mt-3 d-flex justify-content-center">
-        <a asp-page="/AccountsFolder/CreateAccount" asp-route-customerId="@Model.Customer.CustomerId" id="update-profile-button" id="add-account-button" class="btn btn-primary mr-2">Add New Account</a>
-        <a asp-page="/CustomersFolder/Create" id="update-profile-button" class="btn btn-primary mr-2">Create New Customer</a>
-        <a asp-page="/CustomersFolder/Edit" asp-route-id="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary mr-2">Edit Customer</a>
-        <a asp-page="/CustomersFolder/Delete" asp-route-id="@Model.Customer.CustomerId" class="btn btn-danger">Delete Customer</a>
+    <!-- Customer card -->
+    <div class="card">
+        <div class="card-header">
+            <i class="@ViewData["GenderIcon"]"></i> <!-- Font Awesome icon -->
+            @Model.Customer.Givenname @Model.Customer.Surname
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">@Model.Customer.Streetaddress</h5>
+            <p class="card-text mb-3">Total Balance: @Model.Customer.TotalBalance</p>
+            <a asp-page="/AccountsFolder/CreateAccount" asp-route-customerId="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary">Create Account</a>
+            <a asp-page="/CustomersFolder/Create" id="update-profile-button" class="btn btn-primary">Create Customer</a>
+            <a asp-page="/CustomersFolder/Edit" asp-route-id="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary">Edit Customer</a>
+            <a asp-page="/CustomersFolder/Delete" asp-route-id="@Model.Customer.CustomerId" class="btn btn-danger">Delete Customer</a>
+        </div>
     </div>
 
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Address</th>
                 <th scope="col">Account ID</th>
                 <th scope="col">Frequency</th>
                 <th scope="col">Created</th>
-                <th scope="col">Balance</th>
-                <th scope="col">Total</th>
+                <th scope="col">Account Balance</th>
                 <th scope="col">Type</th>
             </tr>
         </thead>
@@ -35,16 +40,12 @@
             @foreach (var account in Model.Customer.Accounts)
             {
                 <tr>
-                    <td>@Model.Customer.CustomerId</td>
-                    <td>@Model.Customer.Givenname @Model.Customer.Surname</td>
-                    <td>@Model.Customer.Streetaddress</td>
                     <td>
                         <a asp-page="/AccountsFolder/Account" asp-route-accountIds="@account.AccountId" id="update-profile-button" class="btn btn-primary">@account.AccountId</a>
                     </td>
                     <td>@account.Frequency</td>
                     <td>@DateTime.Parse(account.Created).Year</td>
                     <td>@account.Balance</td>
-                    <td>@Model.Customer.TotalBalance</td>
                     <td>@account.Type</td>
                 </tr>
             }

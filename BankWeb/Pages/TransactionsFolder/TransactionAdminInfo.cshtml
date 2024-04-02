@@ -3,21 +3,20 @@
 @{
 }
 
-<style>
+@* <style>
     .table td, .table th {
         width: 1%;
         white-space: nowrap;
         text-align: left;
     }
-</style>
+</style> *@
 
 
 <div class="page-heading header-text">
-<h1>All transactions</h1>
+    <h1>All transactions</h1>
+</div>
 
-<div class="container">
-
-<form method="get" class="text-left">
+<form method="get" class="text-center">
     <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
         <input type="text" class="form-control" name="search" placeholder="Enter Transaction ID" value="@Request.Query["search"]">
     </div>
@@ -161,6 +160,4 @@
     </tfoot>
 </table>
 
-</div>
-</div>
 
