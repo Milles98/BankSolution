@@ -82,7 +82,7 @@ namespace DataLibrary.Services
                 .Select(c => new CustomerViewModel
                 {
                     CustomerId = c.CustomerId,
-                    AccountId = c.Dispositions.Select(d => d.AccountId).FirstOrDefault(),
+                    AccountId = c.Dispositions.Select(d => d.AccountId).First(),
                     Givenname = c.Givenname,
                     Surname = c.Surname,
                     Streetaddress = c.Streetaddress,
