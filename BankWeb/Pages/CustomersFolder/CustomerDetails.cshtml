@@ -18,7 +18,7 @@
         </div>
         <div class="card-body">
             <h5 class="card-title">@Model.Customer.Streetaddress</h5>
-            <p class="card-text mb-3">Total Balance: @Model.Customer.TotalBalance</p>
+            <p class="card-text mb-3">Total Balance: SEK: @Model.Customer.TotalBalance</p>
             <a asp-page="/AccountsFolder/CreateAccount" asp-route-customerId="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary">Create Account</a>
             <a asp-page="/CustomersFolder/Create" id="update-profile-button" class="btn btn-primary">Create Customer</a>
             <a asp-page="/CustomersFolder/Edit" asp-route-id="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary">Edit Customer</a>
@@ -44,8 +44,9 @@
                         <a asp-page="/AccountsFolder/Account" asp-route-accountIds="@account.AccountId" id="update-profile-button" class="btn btn-primary">@account.AccountId</a>
                     </td>
                     <td>@account.Frequency</td>
-                    <td>@DateTime.Parse(account.Created).Year</td>
-                    <td>@account.Balance</td>
+                    @* <td>@DateTime.Parse(account.Created).Year</td> *@
+                    <td>@account.Created</td>
+                    <td>SEK: @account.Balance</td>
                     <td>@account.Type</td>
                 </tr>
             }

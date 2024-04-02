@@ -39,28 +39,36 @@ namespace MoneyLaunderingSafetyMeasure
                 var newTransactions = account.Transactions
                     .Where(t => t.Date >= lastRunDate);
 
-                var latestTransactionDate = account.Transactions.Max(t => t.Date);
-                latestTransactionTime = new DateTime(latestTransactionDate.Year, latestTransactionDate.Month, latestTransactionDate.Day, latestTransactionTime.Hour, latestTransactionTime.Minute, latestTransactionTime.Second);
-
-                if (newTransactions.Any())
+                if (account.Transactions.Any())
                 {
-                    var totalAmountLastThreeDays = newTransactions
-                        .Where(t => t.Date >= currentDate.AddDays(-3))
-                        .Sum(t => Math.Abs(t.Amount));
+                    var latestTransactionDate = account.Transactions.Max(t => t.Date);
+                    latestTransactionTime = new DateTime(latestTransactionDate.Year, latestTransactionDate.Month, latestTransactionDate.Day, latestTransactionTime.Hour, latestTransactionTime.Minute, latestTransactionTime.Second);
 
-                    var suspiciousTransactions = newTransactions
-                        .Where(t => Math.Abs(t.Amount) > SingleTransactionLimit || totalAmountLastThreeDays > TotalTransactionLimit);
-
-                    foreach (var transaction in suspiciousTransactions)
+                    if (newTransactions.Any())
                     {
-                        suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, {account.AccountId}, {transaction.Date}, {transaction.Amount}, {transaction.Type}");
+                        var totalAmountLastThreeDays = newTransactions
+                            .Where(t => t.Date >= currentDate.AddDays(-3))
+                            .Sum(t => Math.Abs(t.Amount));
+
+                        var suspiciousTransactions = newTransactions
+                            .Where(t => Math.Abs(t.Amount) > SingleTransactionLimit || totalAmountLastThreeDays > TotalTransactionLimit);
+
+                        foreach (var transaction in suspiciousTransactions)
+                        {
+                            suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, {account.AccountId}, {transaction.Date}, {transaction.Amount}, {transaction.Type}");
+                        }
                     }
+                }
+                else
+                {
+                    // Handle the case when there are no transactions.
+                    Console.WriteLine($"No transactions found for account {account.AccountId}.");
                 }
             }
 
-
             return (suspiciousUsers, latestTransactionTime);
         }
+
 
 
 
