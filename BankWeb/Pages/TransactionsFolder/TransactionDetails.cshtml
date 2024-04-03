@@ -11,7 +11,7 @@
 
 @if (Model.Transaction != null)
 {
-    <table class="table table-striped">
+    <table class="table table-striped container">
         <thead>
             <tr>
                 <th scope="col">Transaction ID</th>
@@ -26,7 +26,7 @@
             <tr>
                 <td>@Model.Transaction.TransactionId</td>
                 <td>
-                    <a asp-page="/AccountsFolder/Account" asp-route-accountId="@Model.Transaction.AccountId" class="btn btn-primary" id="update-profile-button">View Account @Model.Transaction.AccountId</a>
+                    <a asp-page="/AccountsFolder/Account" asp-route-accountIds="@Model.Transaction.AccountId" class="btn btn-primary" id="update-profile-button">View Account @Model.Transaction.AccountId</a>
                 </td>
                 <td>@Model.Transaction.Amount SEK</td>
                 <td>@Model.Transaction.Balance SEK</td>

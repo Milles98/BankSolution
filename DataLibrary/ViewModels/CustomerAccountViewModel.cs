@@ -8,6 +8,7 @@
         public string Surname { get; set; }
         public string Streetaddress { get; set; }
         public string City { get; set; }
+        public string Country { get; set; }
         public List<AccountViewModel> Accounts { get; set; }
         public decimal TotalBalance { get; set; }
     }

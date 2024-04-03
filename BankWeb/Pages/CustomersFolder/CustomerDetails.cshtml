@@ -4,6 +4,16 @@
     ViewData["Title"] = "Customer Details";
 }
 
+<style>
+    .large-icon {
+        font-size: 1.5em; 
+    }
+
+    .large-text {
+        font-size: 1.5em; 
+    }
+</style>
+
 <div class="page-heading header-text">
     <h1>@ViewData["Title"]</h1>
     <button id="update-profile-button" type="button" class="btn btn-primary" onclick="window.history.back();">Return</button>
@@ -13,11 +23,11 @@
     <!-- Customer card -->
     <div class="card">
         <div class="card-header">
-            <i class="@ViewData["GenderIcon"]"></i> <!-- Font Awesome icon -->
-            @Model.Customer.Givenname @Model.Customer.Surname
+            <i class="@ViewData["GenderIcon"] large-icon"></i> <!-- Font Awesome icon -->
+            <span class="large-text">@Model.Customer.Givenname @Model.Customer.Surname</span>
         </div>
         <div class="card-body">
-            <h5 class="card-title">@Model.Customer.Streetaddress</h5>
+            <h5 class="card-title">@Model.Customer.Streetaddress, @Model.Customer.Country</h5>
             <p class="card-text mb-3">Total Balance: SEK: @Model.Customer.TotalBalance</p>
             <a asp-page="/AccountsFolder/CreateAccount" asp-route-customerId="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary">Create Account</a>
             <a asp-page="/CustomersFolder/Create" id="update-profile-button" class="btn btn-primary">Create Customer</a>

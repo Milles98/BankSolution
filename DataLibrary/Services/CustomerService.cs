@@ -42,6 +42,7 @@ namespace DataLibrary.Services
                 Surname = customer.Surname,
                 Streetaddress = customer.Streetaddress,
                 City = customer.City,
+                Country = customer.Country,
                 Accounts = customer.Dispositions.Select(d => new AccountViewModel
                 {
                     AccountId = d.Account.AccountId.ToString(),
