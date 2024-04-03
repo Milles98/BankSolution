@@ -23,12 +23,27 @@ namespace BankWeb.Pages.CustomerCRUD
 
         [BindProperty]
         public Customer Customer { get; set; } = default!;
+        [BindProperty]
+        public int BirthdayYear { get; set; }
+        [BindProperty]
+        public int BirthdayMonth { get; set; }
+
+        [BindProperty]
+        public int BirthdayDay { get; set; }
+        public string DispositionType { get; set; } = "OWNER";
+        [BindProperty]
+        public string Frequency { get; set; } = "Monthly";
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
             {
                 return NotFound();
+            }
+
+            if (BirthdayYear > 0 && BirthdayMonth > 0 && BirthdayDay > 0)
+            {
+                Customer.Birthday = new DateOnly(BirthdayYear, BirthdayMonth, BirthdayDay);
             }
 
             var customer = await _context.Customers.FirstOrDefaultAsync(m => m.CustomerId == id);
