@@ -37,7 +37,7 @@ namespace BankWeb.Pages.TransactionsFolder
             {
                 var transactionId = _bankService.Withdraw(AccountId, Amount);
                 TempData["Message"] = $"Withdraw successful for Account ID {AccountId}, Amount: -{Amount} SEK, Date: {DateTime.Now:dd-MM-yyyy}, " +
-                  $"Transaction ID: <a href=\"/TransactionDetails?transactionId={transactionId}\">{transactionId}</a>";
+                  $"Transaction ID: <a href=\"/TransactionsFolder/TransactionDetails?transactionId={transactionId}\">{transactionId}</a>";
                 TempData["MessageClass"] = "alert-success";
 
                 Account = _bankService.GetAccountDetails(AccountId);

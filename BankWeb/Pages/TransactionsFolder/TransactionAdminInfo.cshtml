@@ -16,14 +16,15 @@
     <h1>All transactions</h1>
 </div>
 
-<form method="get" class="text-center">
+<div class="container">
+<form method="get" class="text-left mt-3">
     <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
         <input type="text" class="form-control" name="search" placeholder="Enter Transaction ID" value="@Request.Query["search"]">
     </div>
     <button id="update-profile-button" type="submit" class="btn btn-primary">Search</button>
 </form>
 
-<table class="table table-striped container">
+<table class="table">
     <thead>
         <tr>
             <th scope="col">
@@ -148,5 +149,5 @@
                 <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=@Model.TotalPages&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">Last</button>
     </tfoot>
 </table>
-
+</div>
 

@@ -79,14 +79,16 @@ namespace DataLibrary.Services
             int totalCustomers = await query.CountAsync();
 
             var sortExpressions = new Dictionary<string, Expression<Func<Customer, object>>>
-    {
-        { "CustomerId", c => c.CustomerId },
-        { "AccountId", c => c.Dispositions.Select(d => d.AccountId).First() },
-        { "Givenname", c => c.Givenname },
-        { "Surname", c => c.Surname },
-        { "Streetaddress", c => c.Streetaddress },
-        { "City", c => c.City }
-    };
+            {
+                { "CustomerId", c => c.CustomerId },
+                { "AccountId", c => c.Dispositions.Select(d => d.AccountId).First() },
+                { "Givenname", c => c.Givenname },
+                { "Surname", c => c.Surname },
+                { "Streetaddress", c => c.Streetaddress },
+                { "City", c => c.City },
+                { "Country", c => c.Country }
+
+            };
 
             query = _sortingService.Sort(query, sortColumn, sortOrder, sortExpressions);
 
@@ -102,6 +104,7 @@ namespace DataLibrary.Services
                     Surname = c.Surname,
                     Streetaddress = c.Streetaddress,
                     City = c.City,
+                    Country = c.Country,
                     Accounts = c.Dispositions.Select(d => d.Account).ToList()
                 }).ToListAsync();
 

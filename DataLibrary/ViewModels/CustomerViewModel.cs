@@ -10,6 +10,7 @@ namespace DataLibrary.ViewModels
         public string Surname { get; set; } = null!;
         public string Streetaddress { get; set; } = null!;
         public string City { get; set; } = null!;
+        public string Country { get; set; } = null!;
         public List<Account> Accounts { get; set; }
     }
 }
