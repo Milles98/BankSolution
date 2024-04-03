@@ -44,6 +44,7 @@
                 <th scope="col">Created</th>
                 <th scope="col">Account Balance</th>
                 <th scope="col">Type</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -58,6 +59,17 @@
                     <td>@account.Created</td>
                     <td>SEK: @account.Balance</td>
                     <td>@account.Type</td>
+                    <td>
+                        <a asp-page="/TransactionsFolder/Deposit" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary" title="Deposit">
+                            <i class="fa-solid fa-plus"></i>
+                        </a>
+                        <a asp-page="/TransactionsFolder/Withdraw" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary" title="Withdraw">
+                            <i class="fa-solid fa-minus"></i>
+                        </a>
+                        <a asp-page="/TransactionsFolder/Transfer" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary" title="Transfer">
+                            <i class="fa-solid fa-right-left"></i>
+                        </a>
+                    </td>
                 </tr>
             }
         </tbody>

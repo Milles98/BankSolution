@@ -1,12 +1,14 @@
 using DataLibrary.Data;
 using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Identity.Client;
 
 namespace BankWeb.Pages.TransactionsFolder
 {
+    [Authorize(Roles = "Admin")]
     public class WithdrawModel : PageModel
     {
         private readonly IBankService _bankService;

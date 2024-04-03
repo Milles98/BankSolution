@@ -2,12 +2,14 @@ using DataLibrary.Data;
 using DataLibrary.Services;
 using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace BankWeb.Pages.CustomersFolder
 {
+    [Authorize(Roles = "Admin,Cashier")]
     public class CustomerAdminInfoModel : PageModel
     {
         private readonly ICustomerService _customerService;
