@@ -47,7 +47,6 @@ https://templatemo.com/tm-545-finance-business
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" asp-page="/Privacy">Privacy</a>
-                                    <a class="dropdown-item" asp-page="/Loans">Loans</a>
                                 </div>
                             </li>
                             @if (User.IsInRole("Admin") || User.IsInRole("Cashier"))
@@ -60,9 +59,6 @@ https://templatemo.com/tm-545-finance-business
                                         <a class="dropdown-item" asp-page="/CustomersFolder/CustomerAdminInfo">Customers</a>
                                         <a class="dropdown-item" asp-page="/TransactionsFolder/TransactionAdminInfo">Transactions</a>
                                         <a class="dropdown-item" asp-page="/AccountsFolder/AccountsAdminInfo">Accounts</a>
-                                        @* <a class="dropdown-item" asp-page="/TransactionsFolder/Withdraw">Withdraw</a>
-                                    <a class="dropdown-item" asp-page="/TransactionsFolder/Deposit">Deposit</a>
-                                    <a class="dropdown-item" asp-page="/TransactionsFolder/Transfer">Transfer</a> *@
                                     </div>
                                 </li>
                             }
