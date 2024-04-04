@@ -48,6 +48,8 @@ namespace BankWeb.Pages.CustomerCRUD
                 return NotFound();
             }
 
+            return RedirectToPage("/CustomersFolder/DeleteAccessDenied");
+
             await _personService.DeleteCustomerAsync(id.Value);
 
             TempData["Message"] = $"Customer ID {id} has been permanently deleted at {DateTime.Now:yyyy-MM-dd}";

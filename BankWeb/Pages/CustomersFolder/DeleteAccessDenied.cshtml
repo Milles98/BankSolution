@@ -1,0 +1,12 @@
+﻿@page
+@model BankWeb.Pages.CustomersFolder.DeleteAccessDeniedModel
+@{
+    ViewData["Title"] = "Delete Error";
+}
+
+<div class="page-heading header-text">
+    <h1 class="text-danger">@ViewData["Title"]</h1>
+    <p class="text-success">Delete functionality is available.<br /> </p>
+    <p class="text-danger">However it is not available for Admins or Cashiers.<br /> Contact programmer to gain access.</p>
+    <button id="update-profile-button" type="button" class="btn btn-primary mt-3" onclick="window.history.back();">Return</button>
+</div>
