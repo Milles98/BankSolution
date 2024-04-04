@@ -12,5 +12,7 @@ namespace DataLibrary.Services.Interfaces
         Dictionary<string, (int customers, int accounts, decimal totalBalance)> GetDataPerCountry();
         List<AccountViewModel> GetAccountDetails(List<int> accountIds);
         Task CreateAccount(AccountViewModel accountViewModel, int customerId);
+        Task<(List<AccountViewModel>, int)> GetAccounts(int currentPage, int accountsPerPage, string sortColumn, string sortOrder, string search);
+        int GetTotalPages(int accountsPerPage);
     }
 }

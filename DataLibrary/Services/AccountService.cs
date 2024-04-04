@@ -4,16 +4,21 @@ using DataLibrary.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace DataLibrary.Services
 {
     public class AccountService : IAccountService
     {
         private readonly BankAppDataContext _context;
+        private readonly IPaginationService<Account> _paginationService;
+        private readonly ISortingService<Account> _sortingService;
 
-        public AccountService(BankAppDataContext context)
+        public AccountService(BankAppDataContext context, IPaginationService<Account> paginationService, ISortingService<Account> sortingService)
         {
             _context = context;
+            _paginationService = paginationService;
+            _sortingService = sortingService;
         }
 
         public Dictionary<string, (int customers, int accounts, decimal totalBalance)> GetDataPerCountry()
@@ -80,6 +85,62 @@ namespace DataLibrary.Services
             _context.Dispositions.Add(disposition);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<(List<AccountViewModel>, int)> GetAccounts(int currentPage, int accountsPerPage, string sortColumn, string sortOrder, string search)
+        {
+            var query = _context.Accounts.AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                search = search.ToLower();
+                if (int.TryParse(search, out int accountId))
+                {
+                    query = query.Where(a => a.AccountId == accountId);
+                }
+                else
+                {
+                    query = query.Where(a => a.Frequency.ToLower().Contains(search));
+                }
+            }
+
+            int totalAccounts = await query.CountAsync();
+
+            var sortExpressions = new Dictionary<string, Expression<Func<Account, object>>>
+            {
+                { "AccountId", a => a.AccountId },
+                { "Frequency", a => a.Frequency },
+                { "Created", a => a.Created },
+                { "Balance", a => a.Balance }
+            };
+
+            query = _sortingService.Sort(query, sortColumn, sortOrder, sortExpressions);
+
+            var accounts = await _paginationService
+                .GetPage(query
+                .Include(a => a.Dispositions)
+                .ThenInclude(d => d.Customer), currentPage, accountsPerPage)
+                .Select(a => new AccountViewModel
+                {
+                    AccountId = a.AccountId.ToString(),
+                    Frequency = a.Frequency,
+                    Created = a.Created.ToString("yyyy-MM-dd"),
+                    Balance = a.Balance,
+                    Customers = a.Dispositions.Select(d => new CustomerDispositionViewModel
+                    {
+                        Customer = d.Customer,
+                        DispositionType = d.Type
+                    }).ToList()
+                }).ToListAsync();
+
+            return (accounts, totalAccounts);
+        }
+
+        public int GetTotalPages(int accountsPerPage)
+        {
+            var query = _context.Accounts.AsQueryable();
+            return _paginationService.GetTotalPages(query, accountsPerPage);
+        }
+
 
     }
 }

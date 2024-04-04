@@ -32,12 +32,13 @@ namespace DataLibrary.Services
         {
             var customer = await _context.Customers.Include(c => c.Dispositions)
                                                    .ThenInclude(d => d.Account)
+                                                   .ThenInclude(a => a.Transactions)
                                                    .FirstAsync(c => c.CustomerId == id);
             if (customer != null)
             {
-                // Remove all related dispositions and their accounts
                 foreach (var disposition in customer.Dispositions.ToList())
                 {
+                    _context.Transactions.RemoveRange(disposition.Account.Transactions);
                     _context.Dispositions.Remove(disposition);
                     _context.Accounts.Remove(disposition.Account);
                 }
@@ -46,6 +47,7 @@ namespace DataLibrary.Services
                 await _context.SaveChangesAsync();
             }
         }
+
 
         public async Task<Customer> GetCustomerAsync(int id)
         {
