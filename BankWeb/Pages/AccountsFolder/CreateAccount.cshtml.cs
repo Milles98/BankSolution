@@ -53,10 +53,8 @@ namespace BankWeb.Pages.AccountsFolder
                 return Page();
             }
 
-            // Set the Created date to the current date
             Account.Created = DateTime.Now.ToString("yyyy-MM-dd");
 
-            // Create the account and the disposition
             await _accountService.CreateAccount(Account, Account.CustomerId);
 
             TempData["Message"] = "Account created successfully.";

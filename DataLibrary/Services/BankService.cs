@@ -77,7 +77,7 @@ namespace DataLibrary.Services
         public int Transfer(int fromAccountId, int toAccountId, decimal amount)
         {
             if (amount < 50)
-                throw new Exception("Deposit amount cannot be less than 50 SEK");
+                throw new Exception("Transfer amount cannot be less than 50 SEK");
 
             var fromAccount = _context.Accounts.Find(fromAccountId);
             if (fromAccount == null)
@@ -140,9 +140,9 @@ namespace DataLibrary.Services
             {
                 throw new Exception("Cannot transfer to the same account!");
             }
-            else if (amount <= 0)
+            else if (amount < 50)
             {
-                throw new Exception("Amount must be greater than 0!");
+                throw new Exception("Transfer amount cannot be less than 50 SEK");
             }
             else if (amount > fromAccount.Balance)
             {
@@ -197,7 +197,7 @@ namespace DataLibrary.Services
                 throw new Exception("Deposit amount cannot be less than 50 SEK");
 
             if (amount >= 50000)
-                throw new Exception("Deposit amount must be less than 50,000 SEK at a time!s");
+                throw new Exception("Deposit amount must be less than 50,000 SEK at a time!");
 
             return Deposit(accountId, amount);
         }
