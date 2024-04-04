@@ -18,7 +18,7 @@
 <form method="post" class="text-center">
     <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
         <label for="accountId">Account ID:</label>
-        <input id="accountId" name="accountId" type="number" class="form-control" value="@Model.AccountId" required>
+        <input id="accountId" name="accountId" type="number" class="form-control" value="@Model.AccountId" required readonly>
         <span class="field-validation-error" asp-validation-for="AccountId"></span>
     </div>
 
@@ -31,7 +31,7 @@
     <button type="submit" id="update-profile-button" class="btn btn-primary mb-3" style="margin-top: 10px;">Withdraw</button>
 </form>
 
-<table class="table table-striped">
+<table class="table table-striped container">
     <tr>
         <th scope="col">Account ID</th>
         <th scope="col">Frequency</th>
