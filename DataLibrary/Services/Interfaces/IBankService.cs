@@ -7,6 +7,7 @@ namespace DataLibrary.Services.Interfaces
         int Deposit(int accountId, decimal amount);
         int Withdraw(int accountId, decimal amount);
         int Transfer(int fromAccountId, int toAccountId, decimal amount);
+        int TransferFunds(int fromAccountId, int toAccountId, decimal amount);
         AccountViewModel GetAccountDetails(int accountId);
         AccountViewModel GetAccountDetailsForDisplay(int accountId);
         int DepositFunds(int accountId, decimal amount);

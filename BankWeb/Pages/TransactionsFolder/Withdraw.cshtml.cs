@@ -30,6 +30,7 @@ namespace BankWeb.Pages.TransactionsFolder
         {
             AccountId = accountId;
             Account = _bankService.GetAccountDetailsForDisplay(accountId);
+            TempData["Account"] = System.Text.Json.JsonSerializer.Serialize(Account);
         }
 
 

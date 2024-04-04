@@ -28,6 +28,7 @@ namespace BankWeb.Pages.TransactionsFolder
         {
             AccountId = accountId;
             Account = _bankService.GetAccountDetailsForDisplay(accountId);
+            TempData["Account"] = System.Text.Json.JsonSerializer.Serialize(Account);
         }
 
         public IActionResult OnPost()
@@ -45,6 +46,7 @@ namespace BankWeb.Pages.TransactionsFolder
             {
                 TempData["Message"] = $"An error occurred: {ex.Message}";
                 TempData["MessageClass"] = "alert-danger";
+                Account = System.Text.Json.JsonSerializer.Deserialize<AccountViewModel>((string)TempData.Peek("Account"));
             }
 
             return Page();

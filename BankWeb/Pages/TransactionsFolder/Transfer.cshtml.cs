@@ -37,92 +37,33 @@ namespace BankWeb.Pages.TransactionsFolder
             AccountId = accountId;
             if (accountId > 0)
             {
-                var account = _context.Accounts.FirstOrDefault(a => a.AccountId == accountId);
-                if (account != null)
-                {
-                    Account = new AccountViewModel
-                    {
-                        AccountId = account.AccountId.ToString(),
-                        Frequency = account.Frequency,
-                        Created = account.Created.ToString(),
-                        Balance = account.Balance,
-                        Type = account.GetType().Name
-                    };
-                }
+                Account = _bankService.GetAccountDetailsForDisplay(accountId);
             }
+            TempData["Account"] = System.Text.Json.JsonSerializer.Serialize(Account);
         }
-
 
         public IActionResult OnPost()
         {
             try
             {
-                var fromAccount = _context.Accounts.FirstOrDefault(a => a.AccountId == AccountId);
-                if (fromAccount == null)
-                {
-                    TempData["Message"] = "From Account ID does not exist!";
-                    TempData["MessageClass"] = "alert-danger";
-                    return Page();
-                }
-
-                // Check if ToAccountId exists in the database
-                var toAccount = _context.Accounts.FirstOrDefault(a => a.AccountId == ToAccountId);
-                if (toAccount == null)
-                {
-                    TempData["Message"] = "To Account ID does not exist!";
-                    TempData["MessageClass"] = "alert-danger";
-                    return Page();
-                }
-
-                if (AccountId == ToAccountId)
-                {
-                    TempData["Message"] = "Cannot transfer to the same account!";
-                    TempData["MessageClass"] = "alert-danger";
-                    return Page();
-                }
-                else if (Amount <= 0)
-                {
-                    TempData["Message"] = "Amount must be greater than 0!";
-                    TempData["MessageClass"] = "alert-danger";
-                    return Page();
-                }
-                else if (Amount > fromAccount.Balance)
-                {
-                    TempData["Message"] = "Amount exceeds account balance!";
-                    TempData["MessageClass"] = "alert-danger";
-                    return Page();
-                }
-
-
-                // Call Transfer method
-                var transactionId = _bankService.Transfer(AccountId, ToAccountId, Amount);
-
-                // Update the Account view model
-                fromAccount = _context.Accounts.First(a => a.AccountId == AccountId);
-                if (fromAccount != null)
-                {
-                    Account = new AccountViewModel
-                    {
-                        AccountId = fromAccount.AccountId.ToString(),
-                        Frequency = fromAccount.Frequency,
-                        Created = fromAccount.Created.ToString(),
-                        Balance = fromAccount.Balance,
-                        Type = fromAccount.GetType().Name
-                    };
-                }
-
-                TempData["Message"] = $"Transfer successful for Account ID {AccountId} to Account ID {ToAccountId}, Amount: {Amount} SEK, Date: {DateTime.Now:dd-MM-yyyy}, " +
+                var transactionId = _bankService.TransferFunds(AccountId, ToAccountId, Amount);
+                TempData["Message"] = $"Transfer successful from Account ID {AccountId} to Account ID {ToAccountId}, Amount: {Amount} SEK, Date: {DateTime.Now:dd-MM-yyyy}, " +
                     $"Transaction ID: <a href=\"/TransactionsFolder/TransactionDetails?transactionId={transactionId}\">{transactionId}</a>";
                 TempData["MessageClass"] = "alert-success";
+
+                Account = _bankService.GetAccountDetailsForDisplay(AccountId);
             }
             catch (Exception ex)
             {
                 TempData["Message"] = $"An error occurred: {ex.Message}";
                 TempData["MessageClass"] = "alert-danger";
+                Account = System.Text.Json.JsonSerializer.Deserialize<AccountViewModel>((string)TempData.Peek("Account"));
             }
 
             return Page();
         }
+
+
 
     }
 }

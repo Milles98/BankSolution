@@ -5,13 +5,13 @@
 
 <div class="page-heading header-text">
     <h1>Deposit</h1>
-    <button id="update-profile-button" type="button" class="btn btn-primary mt-3" onclick="window.history.back();">Return</button>
+    <button id="update-profile-button" type="button" class="btn btn-primary mt-3" onclick="location.href='/CustomersFolder/CustomerAdminInfo';">Return</button>
 </div>
 
 
 @if (TempData["Message"] != null)
 {
-    <div class="alert @TempData["MessageClass"]">
+    <div class="alert text-center @TempData["MessageClass"]">
         @Html.Raw(TempData["Message"])
     </div>
 }
@@ -20,11 +20,13 @@
     <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
         <label for="accountId">Account ID:</label>
         <input id="accountId" name="accountId" type="number" class="form-control" value="@Model.AccountId" required>
+        <span class="field-validation-error" asp-validation-for="AccountId"></span>
     </div>
 
     <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
         <label for="amount">Amount SEK:</label>
         <input id="amount" name="amount" type="number" step="0.01" class="form-control" required>
+        <span class="field-validation-error" asp-validation-for="Amount"></span>
     </div>
 
     <button type="submit" id="update-profile-button" class="btn btn-primary mb-3" style="margin-top: 10px;">Deposit</button>
