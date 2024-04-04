@@ -4,6 +4,68 @@
     ViewData["Title"] = "Home page";
 }
 
+@functions {
+    public static string FormatNumber(decimal num)
+    {
+        if (num >= 1000000000)
+            return (num / 1000000000).ToString("0.0") + "B";
+        else if (num >= 1000000)
+            return (num / 1000000).ToString("0.0") + "M";
+        else if (num >= 1000)
+            return (num / 1000).ToString("0.0") + "K";
+        else
+            return num.ToString("0.0");
+    }
+}
+
+<style>
+    .spaced-table {
+        width: 75%; /* Stretch table full width for better spacing */
+        border-spacing: 0 20px; /* Add more vertical space between rows */
+    }
+
+        .spaced-table th, .spaced-table td {
+            padding: 15px; /* Increase padding for a more airy table */
+            font-weight: 600; /* Make text bolder for readability */
+            font-size: 1.1rem; /* Slightly larger text for easier reading */
+            text-align: left; /* Align text to the left for consistency */
+        }
+
+        .spaced-table th {
+            letter-spacing: 1px; /* Space out header letters for readability */
+        }
+
+        .spaced-table td {
+           /*  font-family: 'Courier New', Courier, monospace; /* Monospaced font for numbers */ */
+        }
+
+        .spaced-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.1); /* Row highlight on hover */
+        }
+
+    /* Ensure links stand out and are legible */
+    .country-styling {
+        color: #A4C639; /* A light blue to contrast well with the dark background */
+        text-decoration: none; /* No underline for a cleaner look */
+    }
+
+        .country-styling:hover {
+            text-decoration: underline; /* Underline on hover for clear interactivity */
+        }
+
+    /* Adjust the search input to match the overall dark theme and styling */
+    .form-control {
+        background-color: transparent; /* Keep background consistent */
+        color: white; /* White text for readability */
+        border: 1px solid #555; /* Subtle border for definition */
+        border-radius: 4px; /* Consistent rounded corners with the button */
+    }
+
+        .form-control:hover {
+            border-color: #777; /* Lighter border on hover for interactivity */
+        }
+</style>
+
 
 
 <!-- Page Content -->
@@ -15,15 +77,15 @@
           <div class="item item-1">
             <div class="img-fill">
                 <div class="text-content">
-                    <h6>Welcome to the Modern Bank</h6>
-                  <h4>Financial &amp; Banking Statistics</h4>
-                    <table class="table table-transparent table-hover">
+                    <h6 class="pl-4">Welcome to the Modern Bank</h6>
+                    <h4 class="pl-4">Financial &amp; Banking Statistics</h4>
+                    <table class="table-borderless spaced-table">
                         <thead>
                             <tr>
-                                <th class="text-white custom-width">Country</th>
+                                <th class="text-white custom-width pl-4">Country</th>
                                 <th class="text-white custom-width">Customers</th>
                                 <th class="text-white custom-width">Accounts</th>
-                                <th class="text-white custom-width">Total Balance - SEK</th>
+                                <th class="text-white custom-width">Combined Balance</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,16 +95,16 @@
                                     <td class="text-white custom-width">
                                         <a class="country-styling" asp-page="/CountryDetails" asp-route-country="@entry.Key">@entry.Key</a>
                                     </td>
-                                    <td class="text-white custom-width">@entry.Value.customers</td>
-                                    <td class="text-white custom-width">@entry.Value.accounts</td>
-                                    <td class="text-white custom-width">@entry.Value.totalBalance.ToString("N2")</td>
+                                    <td class="text-white custom-width pl-4">@entry.Value.customers</td>
+                                    <td class="text-white custom-width pl-4">@entry.Value.accounts</td>
+                                    <td class="text-white custom-width pl-5">SEK: @FormatNumber(entry.Value.totalBalance)</td>
                                 </tr>
                             }
                         </tbody>
                     </table>
 
 
-                    <form class="my-2 my-lg-0" method="get" asp-page="/CustomersFolder/CustomerAdminInfo">
+                    <form class="my-2 my-lg-0 pl-3" method="get" asp-page="/CustomersFolder/CustomerAdminInfo">
                         <div class="input-group" style="width: 380px; margin-top: 10px;">
                             <input class="form-control" type="search" placeholder="Search Customer ID, Name or City" aria-label="Search" name="query" required style="background-color: transparent; color: white;" value="@Request.Query["query"]">
                             <div class="input-group-append">
