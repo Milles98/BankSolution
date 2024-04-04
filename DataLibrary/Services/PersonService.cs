@@ -48,10 +48,15 @@ namespace DataLibrary.Services
             }
         }
 
-
         public async Task<Customer> GetCustomerAsync(int id)
         {
             return await _context.Customers.FirstAsync(m => m.CustomerId == id);
         }
+
+        public async Task<Customer?> GetCustomerByEmailAsync(string email)
+        {
+            return await _context.Customers.FirstOrDefaultAsync(c => c.Emailaddress == email);
+        }
+
     }
 }

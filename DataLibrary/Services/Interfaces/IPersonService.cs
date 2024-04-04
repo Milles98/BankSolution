@@ -12,5 +12,6 @@ namespace DataLibrary.Services.Interfaces
         Task<Customer> CreateCustomerAsync(Customer customer, Account account, Disposition disposition);
         Task DeleteCustomerAsync(int id);
         Task<Customer> GetCustomerAsync(int id);
+        Task<Customer?> GetCustomerByEmailAsync(string email);
     }
 }

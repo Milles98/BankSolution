@@ -93,14 +93,17 @@ namespace BankWeb.Pages.CustomerCRUD
         [BindProperty]
         public string? NationalId { get; set; }
 
-
-
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
+                return Page();
+            }
+
+            var existingCustomer = await _personService.GetCustomerByEmailAsync(Emailaddress);
+            if (existingCustomer != null)
+            {
+                ModelState.AddModelError("Emailaddress", "A customer with this email address already exists.");
                 return Page();
             }
 
