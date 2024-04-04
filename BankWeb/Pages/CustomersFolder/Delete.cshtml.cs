@@ -30,7 +30,7 @@ namespace BankWeb.Pages.CustomerCRUD
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FirstOrDefaultAsync(m => m.CustomerId == id);
+            var customer = await _context.Customers.FirstAsync(m => m.CustomerId == id);
 
             if (customer == null)
             {
@@ -50,15 +50,31 @@ namespace BankWeb.Pages.CustomerCRUD
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = await _context.Customers.Include(c => c.Dispositions)
+                                                   .ThenInclude(d => d.Account)
+                                                   .FirstAsync(c => c.CustomerId == id);
             if (customer != null)
             {
-                Customer = customer;
-                _context.Customers.Remove(Customer);
+                var accountId = customer.Dispositions.First().Account.AccountId;
+                var dispositionId = customer.Dispositions.First().DispositionId;
+
+                // Remove all related dispositions and their accounts
+                foreach (var disposition in customer.Dispositions.ToList())
+                {
+                    _context.Dispositions.Remove(disposition);
+                    _context.Accounts.Remove(disposition.Account);
+                }
+
+                _context.Customers.Remove(customer);
                 await _context.SaveChangesAsync();
+
+                TempData["Message"] = $"Customer ID {customer.CustomerId} has been permanently deleted along with Account ID {accountId} and Disposition ID {dispositionId} at {DateTime.Now:yyyy-MM-dd}";
             }
 
-            return RedirectToPage("/CustomersFolder/CustomerDetails");
+            return RedirectToPage("/CustomersFolder/CustomerAdminInfo");
         }
+
+
+
     }
 }

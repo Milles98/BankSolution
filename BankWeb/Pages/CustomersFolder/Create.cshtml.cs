@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using DataLibrary.Data;
 using Microsoft.AspNetCore.Authorization;
+using System.ComponentModel.DataAnnotations;
 
 namespace BankWeb.Pages.CustomerCRUD
 {
@@ -28,6 +29,45 @@ namespace BankWeb.Pages.CustomerCRUD
         [BindProperty]
         public Customer Customer { get; set; } = default!;
         [BindProperty]
+        [Required]
+        [RegularExpression("^(male|female)$", ErrorMessage = "Gender must be either 'male' or 'female'")]
+        public string Gender { get; set; }
+
+        [BindProperty]
+        [Required]
+        [StringLength(15, MinimumLength = 2, ErrorMessage = "Given name must be between 2 and 15 characters long")]
+        public string Givenname { get; set; }
+        [BindProperty]
+        [Required]
+        [StringLength(15, MinimumLength = 2, ErrorMessage = "Sur name must be between 2 and 15 characters long")]
+        public string Surname { get; set; }
+        [BindProperty]
+        [Required]
+        [StringLength(15, MinimumLength = 2, ErrorMessage = "Streetaddress must be between 2 and 30 characters long")]
+        public string Streetaddress { get; set; }
+        [BindProperty]
+        [Required]
+        [StringLength(15, MinimumLength = 2, ErrorMessage = "City must be between 2 and 15 characters long")]
+        public string City { get; set; }
+        [BindProperty]
+        [Required]
+        [RegularExpression(@"^\d{1,5}(?:\s*\d{1,5})*$", ErrorMessage = "Zipcode must be exactly 5 digits long")]
+        public string Zipcode { get; set; }
+
+        [BindProperty]
+        [Required]
+        [RegularExpression("^(Sweden|Norway|Denmark|Finland)$", ErrorMessage = "Country must be either 'Sweden', 'Norway', 'Denmark' or 'Finland'")]
+        public string Country { get; set; }
+
+        [BindProperty]
+        [Required]
+        [RegularExpression("^(OWNER|DISPONENT)$", ErrorMessage = "Disposition Type must be either 'OWNER' or 'DISPONENT'")]
+        public string DispositionType { get; set; }
+        [BindProperty]
+        [Required]
+        [RegularExpression("^(Monthly|Weekly|AfterTransaction)$", ErrorMessage = "Frequency must be either 'Monthly', 'Weekly' or 'After Transaction'")]
+        public string Frequency { get; set; }
+        [BindProperty]
         public int BirthdayYear { get; set; }
 
         [BindProperty]
@@ -36,9 +76,21 @@ namespace BankWeb.Pages.CustomerCRUD
         [BindProperty]
         public int BirthdayDay { get; set; }
         [BindProperty]
-        public string DispositionType { get; set; } = "OWNER";
+        [Required]
+        [RegularExpression(@"^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$", ErrorMessage = "Invalid email format")]
+        public string Emailaddress { get; set; }
         [BindProperty]
-        public string Frequency { get; set; } = "Monthly";
+        [Required]
+        public string CountryCode { get; set; }
+        [BindProperty]
+        [Required]
+        public string Telephonecountrycode { get; set; }
+
+        [BindProperty]
+        public string Telephonenumber { get; set; }
+
+        [BindProperty]
+        public string? NationalId { get; set; }
 
 
 
@@ -51,9 +103,25 @@ namespace BankWeb.Pages.CustomerCRUD
                 return Page();
             }
 
+            var customer = new Customer
+            {
+                Gender = Gender,
+                Givenname = Givenname,
+                Surname = Surname,
+                Streetaddress = Streetaddress,
+                City = City,
+                Zipcode = Zipcode,
+                Country = Country,
+                CountryCode = CountryCode,
+                Emailaddress = Emailaddress,
+                Telephonecountrycode = Telephonecountrycode,
+                Telephonenumber = Telephonenumber,
+                NationalId = NationalId
+            };
+
             if (BirthdayYear > 0 && BirthdayMonth > 0 && BirthdayDay > 0)
             {
-                Customer.Birthday = new DateOnly(BirthdayYear, BirthdayMonth, BirthdayDay);
+                customer.Birthday = new DateOnly(BirthdayYear, BirthdayMonth, BirthdayDay);
             }
 
             var account = new Account
@@ -65,7 +133,7 @@ namespace BankWeb.Pages.CustomerCRUD
 
             var disposition = new Disposition
             {
-                Customer = Customer,
+                Customer = customer,
                 Account = account,
                 Type = DispositionType
             };
@@ -74,10 +142,10 @@ namespace BankWeb.Pages.CustomerCRUD
 
             _context.Accounts.Add(account);
 
-            _context.Customers.Add(Customer);
+            _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("/CustomersFolder/CustomerDetails", new { id = Customer.CustomerId });
+            return RedirectToPage("/CustomersFolder/CustomerDetails", new { id = customer.CustomerId });
         }
 
     }

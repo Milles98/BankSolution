@@ -49,6 +49,7 @@ namespace BankWeb.Pages.TransactionsFolder
             {
                 TempData["Message"] = $"An error occurred: {ex.Message}";
                 TempData["MessageClass"] = "alert-danger";
+                Account = System.Text.Json.JsonSerializer.Deserialize<AccountViewModel>((string)TempData.Peek("Account"));
             }
 
             return Page();
