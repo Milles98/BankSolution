@@ -37,8 +37,7 @@
         <th scope="col">Account ID</th>
         <th scope="col">Frequency</th>
         <th scope="col">Created</th>
-        <th scope="col">Balance</th>
-        <th scope="col">Details</th>
+        <th scope="col">Account Balance</th>
     </tr>
 
     @if (Model.Account != null)
@@ -48,7 +47,6 @@
             <td>@Model.Account.Frequency</td>
             <td>@Model.Account.Created</td>
             <td>SEK: @Model.Account.Balance</td>
-            <td>@Model.Account.Type</td>
         </tr>
     }
 </table>
