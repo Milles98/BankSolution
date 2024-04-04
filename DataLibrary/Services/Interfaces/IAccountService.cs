@@ -9,6 +9,7 @@ namespace DataLibrary.Services.Interfaces
 {
     public interface IAccountService
     {
+        Dictionary<string, (int customers, int accounts, decimal totalBalance)> GetDataPerCountry();
         List<AccountViewModel> GetAccountDetails(List<int> accountIds);
         Task CreateAccount(AccountViewModel accountViewModel, int customerId);
     }

@@ -1,4 +1,5 @@
 using DataLibrary.Data;
+using DataLibrary.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -7,29 +8,19 @@ namespace BankWeb.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly BankAppDataContext _context;
+        private readonly IAccountService _accountService;
 
-        public IndexModel(BankAppDataContext context)
+        public IndexModel(IAccountService accountService)
         {
-            _context = context;
+            _accountService = accountService;
         }
 
         public Dictionary<string, (int customers, int accounts, decimal totalBalance)> DataPerCountry { get; set; }
 
         public void OnGet()
         {
-            DataPerCountry = _context.Customers
-                .Include(c => c.Dispositions)
-                .ThenInclude(d => d.Account)
-                .GroupBy(c => c.Country)
-                .ToDictionary(
-                    g => g.Key,
-                    g => (
-                        customers: g.Count(),
-                        accounts: g.SelectMany(c => c.Dispositions.Select(d => d.AccountId)).Distinct().Count(),
-                        totalBalance: g.SelectMany(c => c.Dispositions.Select(d => d.Account.Balance)).Sum()
-                    )
-                );
+            DataPerCountry = _accountService.GetDataPerCountry();
         }
+
     }
 }

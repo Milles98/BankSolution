@@ -16,6 +16,23 @@ namespace DataLibrary.Services
             _context = context;
         }
 
+        public Dictionary<string, (int customers, int accounts, decimal totalBalance)> GetDataPerCountry()
+        {
+            return _context.Customers
+                .Include(c => c.Dispositions)
+                .ThenInclude(d => d.Account)
+                .GroupBy(c => c.Country)
+                .ToDictionary(
+                    g => g.Key,
+                    g => (
+                        customers: g.Count(),
+                        accounts: g.SelectMany(c => c.Dispositions.Select(d => d.AccountId)).Distinct().Count(),
+                        totalBalance: g.SelectMany(c => c.Dispositions.Select(d => d.Account.Balance)).Sum()
+                    )
+                );
+        }
+
+
         public List<AccountViewModel> GetAccountDetails(List<int> accountIds)
         {
             return _context.Accounts
