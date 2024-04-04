@@ -7,17 +7,18 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using DataLibrary.Data;
 using Microsoft.AspNetCore.Authorization;
+using DataLibrary.Services.Interfaces;
 
 namespace BankWeb.Pages.CustomerCRUD
 {
     [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
-        private readonly DataLibrary.Data.BankAppDataContext _context;
+        private readonly IPersonService _personService;
 
-        public DeleteModel(DataLibrary.Data.BankAppDataContext context)
+        public DeleteModel(IPersonService personService)
         {
-            _context = context;
+            _personService = personService;
         }
 
         [BindProperty]
@@ -30,16 +31,13 @@ namespace BankWeb.Pages.CustomerCRUD
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FirstAsync(m => m.CustomerId == id);
+            Customer = await _personService.GetCustomerAsync(id.Value);
 
-            if (customer == null)
+            if (Customer == null)
             {
                 return NotFound();
             }
-            else
-            {
-                Customer = customer;
-            }
+
             return Page();
         }
 
@@ -50,26 +48,9 @@ namespace BankWeb.Pages.CustomerCRUD
                 return NotFound();
             }
 
-            var customer = await _context.Customers.Include(c => c.Dispositions)
-                                                   .ThenInclude(d => d.Account)
-                                                   .FirstAsync(c => c.CustomerId == id);
-            if (customer != null)
-            {
-                var accountId = customer.Dispositions.First().Account.AccountId;
-                var dispositionId = customer.Dispositions.First().DispositionId;
+            await _personService.DeleteCustomerAsync(id.Value);
 
-                // Remove all related dispositions and their accounts
-                foreach (var disposition in customer.Dispositions.ToList())
-                {
-                    _context.Dispositions.Remove(disposition);
-                    _context.Accounts.Remove(disposition.Account);
-                }
-
-                _context.Customers.Remove(customer);
-                await _context.SaveChangesAsync();
-
-                TempData["Message"] = $"Customer ID {customer.CustomerId} has been permanently deleted along with Account ID {accountId} and Disposition ID {dispositionId} at {DateTime.Now:yyyy-MM-dd}";
-            }
+            TempData["Message"] = $"Customer ID {id} has been permanently deleted at {DateTime.Now:yyyy-MM-dd}";
 
             return RedirectToPage("/CustomersFolder/CustomerAdminInfo");
         }

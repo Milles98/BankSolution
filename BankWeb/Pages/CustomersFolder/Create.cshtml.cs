@@ -8,17 +8,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using DataLibrary.Data;
 using Microsoft.AspNetCore.Authorization;
 using System.ComponentModel.DataAnnotations;
+using DataLibrary.Services.Interfaces;
 
 namespace BankWeb.Pages.CustomerCRUD
 {
     [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
-        private readonly DataLibrary.Data.BankAppDataContext _context;
+        private readonly IPersonService _personService;
 
-        public CreateModel(DataLibrary.Data.BankAppDataContext context)
+        public CreateModel(IPersonService personService)
         {
-            _context = context;
+            _personService = personService;
         }
 
         public IActionResult OnGet()
@@ -138,12 +139,9 @@ namespace BankWeb.Pages.CustomerCRUD
                 Type = DispositionType
             };
 
-            account.Dispositions.Add(disposition);
+            customer = await _personService.CreateCustomerAsync(customer, account, disposition);
 
-            _context.Accounts.Add(account);
-
-            _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
+            TempData["Message"] = $"Customer ID {customer.CustomerId} created along with Account ID {account.AccountId} and DispositionId {disposition.DispositionId} at {DateTime.Now:yyyy-MM-dd}";
 
             return RedirectToPage("/CustomersFolder/CustomerDetails", new { id = customer.CustomerId });
         }
