@@ -63,16 +63,11 @@ https://templatemo.com/tm-545-finance-business
                                     </div>
                                 </li>
                             }
-                        
+
                             @if (User.IsInRole("Admin"))
                             {
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Admin
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
-                                        <a class="dropdown-item" asp-page="/UsersFolder/ManageUsers">Manage Users</a>
-                                    </div>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-page="/UsersFolder/ManageUsers">Manage Users</a>
                                 </li>
                             }
                         </ul>
