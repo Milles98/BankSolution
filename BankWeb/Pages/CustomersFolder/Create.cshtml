@@ -112,7 +112,7 @@
                                 }
                             </select>
                             <span asp-validation-for="BirthdayYear" class="text-danger"></span>
-                            <select asp-for="BirthdayMonth" class="form-control">
+                            <select asp-for="BirthdayMonth" class="form-control mt-1">
                                 <option value="">Month...</option>
                                 @for (int i = 1; i <= 12; i++)
                                 {
@@ -120,7 +120,7 @@
                                 }
                             </select>
                             <span asp-validation-for="BirthdayMonth" class="text-danger"></span>
-                            <select asp-for="BirthdayDay" class="form-control">
+                            <select asp-for="BirthdayDay" class="form-control mt-1">
                                 <option value="">Day...</option>
                                 @for (int i = 1; i <= 31; i++)
                                 {
