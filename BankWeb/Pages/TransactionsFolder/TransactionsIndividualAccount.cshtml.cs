@@ -1,12 +1,14 @@
 using DataLibrary.Data;
 using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankWeb.Pages.TransactionsFolder
 {
+    [Authorize(Roles = "Cashier")]
     public class TransactionsIndividualAccountModel : PageModel
     {
         private readonly ITransactionService _transactionService;

@@ -50,7 +50,7 @@ https://templatemo.com/tm-545-finance-business
                                     <a class="dropdown-item" asp-page="/AboutUs">About Us</a>
                                 </div>
                             </li>
-                            @if (User.IsInRole("Admin") || User.IsInRole("Cashier"))
+                            @if (User.IsInRole("Cashier"))
                             {
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownServices" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

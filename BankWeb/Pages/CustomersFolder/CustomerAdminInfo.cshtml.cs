@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 
 namespace BankWeb.Pages.CustomersFolder
 {
-    [Authorize(Roles = "Admin,Cashier")]
+    [Authorize(Roles = "Cashier")]
     public class CustomerAdminInfoModel : PageModel
     {
         private readonly ICustomerService _customerService;

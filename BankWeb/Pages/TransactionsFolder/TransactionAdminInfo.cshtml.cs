@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 
 namespace BankWeb.Pages.TransactionsFolder
 {
-    [Authorize(Roles = "Admin,Cashier")]
+    [Authorize(Roles = "Cashier")]
     public class TransactionAdminInfoModel : PageModel
     {
         private readonly ITransactionService _transactionService;
