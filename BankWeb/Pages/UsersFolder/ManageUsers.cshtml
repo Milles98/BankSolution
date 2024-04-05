@@ -62,6 +62,7 @@
         <tbody>
             @foreach (var user in Model.Users)
             {
+                var isSelf = user.Id == Model.LoggedInUserId;
                 var isProtectedUser = user.Email == "richard.erdos.chalk@gmail.se" || user.Email == "richard.chalk@systementor.se";
                 <tr>
                     <td>@user.Email</td>
@@ -72,12 +73,16 @@
                         <a id="update-profile-button" class="btn btn-primary" asp-page="EditUser" asp-route-id="@user.Id">
                             <i class="fa-solid fa-pen-to-square mr-2"></i>Edit
                         </a>
-                        <a class="btn btn-danger @(isProtectedUser ? "disabled" : "")" asp-page="DeleteUser" asp-route-id="@user.Id">
-                            <i class="fa-solid fa-trash-can mr-2"></i>Delete
-                        </a>
+                        @if (!isSelf)
+                        {
+                            <a class="btn btn-danger @(isProtectedUser ? "disabled" : "")" asp-page="DeleteUser" asp-route-id="@user.Id">
+                                <i class="fa-solid fa-trash-can mr-2"></i>Delete
+                            </a>
+                        }
                     </td>
                 </tr>
             }
+
         </tbody>
     </table>
 </div>
