@@ -40,6 +40,7 @@ namespace DataLibrary.Services
                 CustomerId = customer.CustomerId,
                 Givenname = customer.Givenname,
                 Surname = customer.Surname,
+                Gender = customer.Gender,
                 Streetaddress = customer.Streetaddress,
                 City = customer.City,
                 Country = customer.Country,

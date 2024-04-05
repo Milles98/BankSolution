@@ -99,13 +99,14 @@ namespace DataLibrary.Services
                     .Where(t => t.Date < lastFetchedDate);
             }
 
-
             var transactions = await transactionsQuery
                 .OrderByDescending(t => t.Date)
                 .Take(20)
                 .Select(t => new TransactionViewModel
                 {
                     TransactionId = t.TransactionId,
+                    AccountId = t.AccountId,
+                    CustomerId = t.AccountNavigation.Dispositions.FirstOrDefault().CustomerId,
                     DateOfTransaction = t.Date,
                     Type = t.Type,
                     Operation = t.Operation,
@@ -113,9 +114,9 @@ namespace DataLibrary.Services
                     Balance = t.Balance
                 }).ToListAsync();
 
-
             return transactions;
         }
+
 
 
 
