@@ -54,10 +54,9 @@
     <table class="table container table-hover">
         <thead>
             <tr>
-                <th>Email</th>
-                <th>Roles</th>
-                <th></th>
-                <th>Actions</th>
+                <th style="width: 40%;">Email</th>
+                <th style="width: 40%;">Roles</th>
+                <th style="width: 20%;">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -69,7 +68,6 @@
                     <td>
                         @string.Join(", ", await Model.GetRoles(user))
                     </td>
-                    <td></td>
                     <td>
                         <a id="update-profile-button" class="btn btn-primary" asp-page="EditUser" asp-route-id="@user.Id">
                             <i class="fa-solid fa-pen-to-square mr-2"></i>Edit

@@ -48,7 +48,7 @@
     <thead>
         <tr>
             <th scope="col">
-                Customer Id
+                Customer ID
                 <a asp-page="/CustomersFolder/CustomerAdminInfo"
                    asp-route-sortColumn="CustomerId"
                    asp-route-sortOrder="asc"
@@ -79,6 +79,24 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </a>
             </th>
+            <th scope="col">
+                National ID
+                <a asp-page="/CustomersFolder/CustomerAdminInfo"
+                    asp-route-sortColumn="NationalId"
+                    asp-route-sortOrder="asc"
+                    asp-route-query="@Model.Search"
+                    style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/CustomersFolder/CustomerAdminInfo"
+                    asp-route-sortColumn="NationalId"
+                    asp-route-sortOrder="desc"
+                    asp-route-query="@Model.Search"
+                    style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+
             <th scope="col">
                 Name
                 <a asp-page="/CustomersFolder/CustomerAdminInfo"
@@ -145,23 +163,6 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </a>
             </th>
-                <th scope="col">
-                    Country
-                    <a asp-page="/CustomersFolder/CustomerAdminInfo"
-                       asp-route-sortColumn="Country"
-                       asp-route-sortOrder="asc"
-                       asp-route-query="@Model.Search"
-                       style="text-decoration: none">
-                        <i class="fa-solid fa-angle-up"></i>
-                    </a>
-                    <a asp-page="/CustomersFolder/CustomerAdminInfo"
-                       asp-route-sortColumn="Country"
-                       asp-route-sortOrder="desc"
-                       asp-route-query="@Model.Search"
-                       style="text-decoration: none">
-                        <i class="fa-solid fa-angle-down"></i>
-                    </a>
-                </th>
         </tr>
     </thead>
 
@@ -174,14 +175,14 @@
                         View ID: @customer.CustomerId
                     </a>
                 </td>
-                    <td>
-                        <a asp-page="/AccountsFolder/Account" asp-route-accountIds="@string.Join(',', customer.Accounts.Select(a => a.AccountId))" class="btn btn-primary" id="update-profile-button">View</a>
-                    </td>
+                <td>
+                    <a asp-page="/AccountsFolder/Account" asp-route-accountIds="@string.Join(',', customer.Accounts.Select(a => a.AccountId))" class="btn btn-primary" id="update-profile-button">View</a>
+                </td>
+                <td>@customer.NationalId</td>
                 <td>@customer.Givenname</td>
                 <td>@customer.Surname</td>
                 <td>@customer.Streetaddress</td>
                 <td>@customer.City</td>
-                <td>@customer.Country</td>
             </tr>
         }
     </tbody>

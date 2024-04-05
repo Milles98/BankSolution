@@ -82,11 +82,11 @@ namespace DataLibrary.Services
             {
                 { "CustomerId", c => c.CustomerId },
                 { "AccountId", c => c.Dispositions.Select(d => d.AccountId).First() },
+                { "NationalId", c => c.NationalId },
                 { "Givenname", c => c.Givenname },
                 { "Surname", c => c.Surname },
                 { "Streetaddress", c => c.Streetaddress },
                 { "City", c => c.City },
-                { "Country", c => c.Country }
 
             };
 
@@ -100,11 +100,11 @@ namespace DataLibrary.Services
                 {
                     CustomerId = c.CustomerId,
                     AccountId = c.Dispositions.Select(d => d.AccountId).First(),
+                    NationalId = c.NationalId,
                     Givenname = c.Givenname,
                     Surname = c.Surname,
                     Streetaddress = c.Streetaddress,
                     City = c.City,
-                    Country = c.Country,
                     Accounts = c.Dispositions.Select(d => d.Account).ToList()
                 }).ToListAsync();
 

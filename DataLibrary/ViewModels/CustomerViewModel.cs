@@ -6,6 +6,7 @@ namespace DataLibrary.ViewModels
     {
         public int CustomerId { get; set; }
         public int AccountId { get; set; }
+        public string NationalId { get; set; } = null!;
         public string Givenname { get; set; } = null!;
         public string Surname { get; set; } = null!;
         public string Streetaddress { get; set; } = null!;

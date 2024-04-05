@@ -21,7 +21,7 @@ namespace BankWeb.Pages.CustomersFolder
 
         public List<CustomerViewModel> Customers { get; set; }
         public int CurrentPage { get; set; } = 1;
-        public int CustomerPerPage { get; set; } = 5;
+        public int CustomerPerPage { get; set; } = 50;
         public int TotalPages => _customerService.GetTotalPages(CustomerPerPage);
         public int PageCount { get; set; }
         public string Search { get; set; }
