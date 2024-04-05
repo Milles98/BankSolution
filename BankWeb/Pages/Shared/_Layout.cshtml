@@ -47,6 +47,7 @@ https://templatemo.com/tm-545-finance-business
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" asp-page="/Privacy">Privacy</a>
+                                    <a class="dropdown-item" asp-page="/AboutUs">About Us</a>
                                 </div>
                             </li>
                             @if (User.IsInRole("Admin") || User.IsInRole("Cashier"))
@@ -70,7 +71,6 @@ https://templatemo.com/tm-545-finance-business
                                         Admin
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
-                                        <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Register Co-Worker</a>
                                         <a class="dropdown-item" asp-page="/UsersFolder/ManageUsers">Manage Users</a>
                                     </div>
                                 </li>

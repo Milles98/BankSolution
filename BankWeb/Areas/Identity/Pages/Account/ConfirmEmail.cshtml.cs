@@ -29,7 +29,7 @@ namespace BankWeb.Areas.Identity.Pages.Account
         /// </summary>
         [TempData]
         public string StatusMessage { get; set; }
-        public async Task<IActionResult> OnGetAsync(string userId, string code)
+        public async Task<IActionResult> OnGetAsync(string userId, string code, string returnUrl = null)
         {
             if (userId == null || code == null)
             {
@@ -44,8 +44,17 @@ namespace BankWeb.Areas.Identity.Pages.Account
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
-            return Page();
+            if (result.Succeeded)
+            {
+                TempData["AccountConfirmedMessage"] = "Account was confirmed.";
+                return RedirectToPage("/UsersFolder/ManageUsers");
+            }
+            else
+            {
+                StatusMessage = "Error confirming your email.";
+                return Page();
+            }
         }
+
     }
 }

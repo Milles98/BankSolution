@@ -69,8 +69,9 @@ namespace BankWeb.Areas.Identity.Pages.Account
                 EmailConfirmationUrl = Url.Page(
                     "/Account/ConfirmEmail",
                     pageHandler: null,
-                    values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                    values: new { area = "Identity", userId = userId, code = code, returnUrl = "/UsersFolder/ManageUsers" },
                     protocol: Request.Scheme);
+
             }
 
             return Page();
