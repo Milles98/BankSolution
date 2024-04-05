@@ -105,10 +105,12 @@
 
 
                     <form class="my-2 my-lg-0 pl-3" method="get" asp-page="/CustomersFolder/CustomerAdminInfo">
-                        <div class="input-group" style="width: 380px; margin-top: 10px;">
+                        <div class="input-group" style="width: 410px; margin-top: 10px;">
                             <input class="form-control" type="search" placeholder="Search Customer ID, Name or City" aria-label="Search" name="query" required style="background-color: transparent; color: white;" value="@Request.Query["query"]">
                             <div class="input-group-append">
-                                <button id="update-profile-button" class="btn btn-primary" type="submit">Search</button>
+                                <button id="update-profile-button" class="btn btn-primary" type="submit">
+                                    <i class="fa-solid fa-magnifying-glass mr-2"></i>Search
+                                </button>
                             </div>
                         </div>
                     </form>

@@ -54,6 +54,7 @@
             <tr>
                 <th>Email</th>
                 <th>Roles</th>
+                <th></th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -66,8 +67,11 @@
                     <td>
                         @string.Join(", ", await Model.GetRoles(user))
                     </td>
+                    <td></td>
                     <td>
-                        <a id="update-profile-button" class="btn btn-primary" asp-page="EditUser" asp-route-id="@user.Id">Edit</a>
+                        <a id="update-profile-button" class="btn btn-primary" asp-page="EditUser" asp-route-id="@user.Id">
+                            <i class="fa-solid fa-pen-to-square mr-2"></i>Edit
+                        </a>
                         <a class="btn btn-danger @(isProtectedUser ? "disabled" : "")" asp-page="DeleteUser" asp-route-id="@user.Id">
                             <i class="fa-solid fa-trash-can mr-2"></i>Delete
                         </a>

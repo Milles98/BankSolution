@@ -45,7 +45,9 @@
             <a asp-page="/AccountsFolder/CreateAccount" asp-route-customerId="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary">
                 <i class="fa-solid fa-plus mr-2"></i>Create New Account
             </a>
-            <a asp-page="/CustomersFolder/Edit" asp-route-id="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary">Edit Customer</a>
+            <a asp-page="/CustomersFolder/Edit" asp-route-id="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary">
+                <i class="fa-solid fa-pen-to-square mr-2"></i>Edit Customer
+            </a>
             <a asp-page="/CustomersFolder/Delete" asp-route-id="@Model.Customer.CustomerId" class="btn btn-danger">
                 <i class="fa-solid fa-trash-can mr-2"></i>Delete Customer
             </a>
