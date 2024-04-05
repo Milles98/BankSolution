@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BankWeb.Pages.TransactionsFolder
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Cashier")]
     public class DepositModel : PageModel
     {
         private readonly IBankService _bankService;

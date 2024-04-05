@@ -11,7 +11,7 @@ using DataLibrary.Services.Interfaces;
 
 namespace BankWeb.Pages.CustomerCRUD
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Cashier")]
     public class DeleteModel : PageModel
     {
         private readonly IPersonService _personService;

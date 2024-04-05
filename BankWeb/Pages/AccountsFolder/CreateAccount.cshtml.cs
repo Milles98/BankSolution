@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BankWeb.Pages.AccountsFolder
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Cashier")]
     public class CreateAccountModel : PageModel
     {
         private readonly IAccountService _accountService;

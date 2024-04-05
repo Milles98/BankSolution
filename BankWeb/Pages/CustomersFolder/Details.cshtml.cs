@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BankWeb.Pages.CustomerCRUD
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Cashier")]
     public class DetailsModel : PageModel
     {
         private readonly DataLibrary.Data.BankAppDataContext _context;

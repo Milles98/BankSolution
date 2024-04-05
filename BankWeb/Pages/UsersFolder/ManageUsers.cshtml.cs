@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -5,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankWeb.Pages.UsersFolder
 {
+    [Authorize(Roles = "Admin")]
     public class ManageUsersModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;

@@ -8,7 +8,7 @@ using Microsoft.Identity.Client;
 
 namespace BankWeb.Pages.TransactionsFolder
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Cashier")]
     public class WithdrawModel : PageModel
     {
         private readonly IBankService _bankService;

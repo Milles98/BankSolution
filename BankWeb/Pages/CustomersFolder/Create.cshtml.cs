@@ -12,7 +12,7 @@ using DataLibrary.Services.Interfaces;
 
 namespace BankWeb.Pages.CustomerCRUD
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Cashier")]
     public class CreateModel : PageModel
     {
         private readonly IPersonService _personService;
