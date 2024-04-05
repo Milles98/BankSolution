@@ -92,6 +92,10 @@ namespace BankWeb.Pages.CustomerCRUD
 
         [BindProperty]
         public string? NationalId { get; set; }
+        [BindProperty]
+        [Range(50, 50000, ErrorMessage = "Initial deposit must be between 50 and 50.000 SEK")]
+        public decimal InitialDeposit { get; set; }
+
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -132,7 +136,7 @@ namespace BankWeb.Pages.CustomerCRUD
             {
                 Frequency = Frequency,
                 Created = DateOnly.FromDateTime(DateTime.Today),
-                Balance = 0,
+                Balance = InitialDeposit
             };
 
             var disposition = new Disposition

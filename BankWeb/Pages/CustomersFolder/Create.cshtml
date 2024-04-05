@@ -59,16 +59,23 @@
                             <span asp-validation-for="Zipcode" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label for="DispositionType" class="control-label">Disposition Type</label>
+                            <label for="DispositionType" class="control-label">Account Type</label>
                             <select asp-for="DispositionType" class="form-control">
+                                <option value="">Select Type...</option>
                                 <option value="OWNER">Owner</option>
                                 <option value="DISPONENT">Disponent</option>
                             </select>
                             <span asp-validation-for="DispositionType" class="text-danger"></span>
                         </div>
                         <div class="form-group">
+                            <label for="InitialDeposit" class="control-label">Initial Deposit</label>
+                            <input asp-for="InitialDeposit" class="form-control" />
+                            <span asp-validation-for="InitialDeposit" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
                             <label for="Frequency" class="control-label">Frequency</label>
                             <select asp-for="Frequency" class="form-control">
+                                <option value="">Select Frequency...</option>
                                 <option value="Monthly">Monthly</option>
                                 <option value="Weekly">Weekly</option>
                                 <option value="AfterTransaction">After Transaction</option>
@@ -105,7 +112,7 @@
                         <div class="form-group">
                             <label class="control-label">Birthday</label>
                             <select asp-for="BirthdayYear" class="form-control">
-                                <option value="">Year...</option>
+                                <option value="">Select Year...</option>
                                 @for (int i = DateTime.Now.Year; i >= 1900; i--)
                                 {
                                     <option value="@i">@i</option>
@@ -113,7 +120,7 @@
                             </select>
                             <span asp-validation-for="BirthdayYear" class="text-danger"></span>
                             <select asp-for="BirthdayMonth" class="form-control mt-1">
-                                <option value="">Month...</option>
+                                <option value="">Select Month...</option>
                                 @for (int i = 1; i <= 12; i++)
                                 {
                                     <option value="@i">@i</option>
@@ -121,7 +128,7 @@
                             </select>
                             <span asp-validation-for="BirthdayMonth" class="text-danger"></span>
                             <select asp-for="BirthdayDay" class="form-control mt-1">
-                                <option value="">Day...</option>
+                                <option value="">Select Day...</option>
                                 @for (int i = 1; i <= 31; i++)
                                 {
                                     <option value="@i">@i</option>
@@ -156,7 +163,7 @@
                     </div>
                 </div>
                 <div class="form-group d-flex justify-content-center">
-                    <input type="submit" value="Create" id="update-profile-button" class="btn btn-primary" />
+                    <input type="submit" value="Create" id="update-profile-button" class="btn btn-primary col-md-3" />
                 </div>
             </form>
         </div>
