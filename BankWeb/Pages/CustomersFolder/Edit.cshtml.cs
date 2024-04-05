@@ -41,27 +41,33 @@ namespace BankWeb.Pages.CustomerCRUD
                 return NotFound();
             }
 
-            if (BirthdayYear > 0 && BirthdayMonth > 0 && BirthdayDay > 0)
-            {
-                Customer.Birthday = new DateOnly(BirthdayYear, BirthdayMonth, BirthdayDay);
-            }
-
-            var customer = await _context.Customers.FirstOrDefaultAsync(m => m.CustomerId == id);
+            var customer = await _context.Customers.FirstAsync(m => m.CustomerId == id);
             if (customer == null)
             {
                 return NotFound();
             }
             Customer = customer;
+
+            if (Customer.Birthday.HasValue)
+            {
+                BirthdayYear = Customer.Birthday.Value.Year;
+                BirthdayMonth = Customer.Birthday.Value.Month;
+                BirthdayDay = Customer.Birthday.Value.Day;
+            }
+
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
+            }
+
+            if (BirthdayYear > 0 && BirthdayMonth > 0 && BirthdayDay > 0)
+            {
+                Customer.Birthday = new DateOnly(BirthdayYear, BirthdayMonth, BirthdayDay);
             }
 
             _context.Attach(Customer).State = EntityState.Modified;
@@ -82,8 +88,12 @@ namespace BankWeb.Pages.CustomerCRUD
                 }
             }
 
-            return RedirectToPage("/CustomersFolder/CustomerDetails");
+            TempData["Message"] = "Customer details have been updated.";
+
+
+            return RedirectToPage("/CustomersFolder/CustomerDetails", new { id = Customer.CustomerId });
         }
+
 
         private bool CustomerExists(int id)
         {
