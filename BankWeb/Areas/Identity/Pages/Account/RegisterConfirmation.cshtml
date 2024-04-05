@@ -4,20 +4,32 @@
     ViewData["Title"] = "Register confirmation";
 }
 
-<h1>@ViewData["Title"]</h1>
-@{
-    if (@Model.DisplayConfirmAccountLink)
-    {
-<p>
-    This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
-    Normally this would be emailed: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to confirm your account</a>
-</p>
+<div class="page-heading header-text">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>@ViewData["Title"]</h1>
+                <button id="update-profile-button" type="button" class="btn btn-primary mt-3" onclick="window.history.back();">Return</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    @{
+        if (@Model.DisplayConfirmAccountLink)
+        {
+    <p>
+        This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
+        Normally this would be emailed: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to confirm your account</a>
+    </p>
+        }
+        else
+        {
+    <p>
+            Please check your email to confirm your account.
+    </p>
+        }
     }
-    else
-    {
-<p>
-        Please check your email to confirm your account.
-</p>
-    }
-}
+</div>
 

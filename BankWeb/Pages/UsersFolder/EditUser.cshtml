@@ -1,0 +1,21 @@
+﻿@page
+@model EditUserModel
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<div class="page-heading header-text">
+    <h1>@ViewData["Title"]</h1>
+    <button id="update-profile-button" type="button" class="btn btn-primary mt-3" onclick="window.history.back();">Return</button>
+</div>
+
+<div class="container">
+    <form method="post">
+        <div>
+            <label for="Email">Email:</label>
+            <input id="Email" name="Email" type="text" value="@Model.Email" />
+            <span asp-validation-for="Email"></span>
+        </div>
+        <button type="submit">Update</button>
+    </form>
+</div>

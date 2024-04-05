@@ -1,0 +1,36 @@
+﻿@page
+@model DeleteUserModel
+@{
+    ViewData["Title"] = "Delete User";
+}
+
+<div class="page-heading header-text">
+    <h1>@ViewData["Title"]</h1>
+    <p>Are you sure you want to delete the following user?</p>
+    <button id="update-profile-button" type="button" class="btn btn-primary mt-3" onclick="window.history.back();">Return</button>
+</div>
+
+<div class="container" style="width: 80%; margin: auto; padding: 20px;">
+    <table class="table container table-hover">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Roles</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Email</td>
+                <td>
+                    @string.Join(", ", await Model.GetRoles())
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="container d-flex justify-content-center">
+    <form method="post">
+        <button class="btn btn-danger mt-3 mb-3" type="submit" style="width: 200px;">Delete</button>
+    </form>
+</div>
