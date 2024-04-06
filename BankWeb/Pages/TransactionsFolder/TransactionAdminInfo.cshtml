@@ -64,7 +64,7 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </a>
             </th>
-            <th scope="col">
+            <th scope="col" class="d-none d-sm-table-cell">
                 Customer ID
                    <a asp-page="/TransactionsFolder/TransactionAdminInfo"
                    asp-route-sortColumn="CustomerId"
@@ -79,7 +79,7 @@
                     <i class="fa-solid fa-angle-down"></i>
                 </a>
             </th>
-            <th scope="col">
+            <th scope="col" class="d-none d-sm-table-cell">
                 Date
                    <a asp-page="/TransactionsFolder/TransactionAdminInfo"
                    asp-route-sortColumn="DateOfTransaction"
@@ -132,7 +132,7 @@
                         @transaction.AccountId
                     </a>
                 </td>
-                <td>
+                    <td class="d-none d-sm-table-cell">
                     <a asp-page="/CustomersFolder/CustomerDetails"
                        asp-route-id="@transaction.CustomerId"
                        id="update-profile-button"
@@ -140,7 +140,7 @@
                         @transaction.CustomerId
                     </a>
                 </td>
-                <td>@transaction.DateOfTransaction</td>
+                <td class="d-none d-sm-table-cell">@transaction.DateOfTransaction</td>
                 <td>SEK: @transaction.Amount.ToString("N2")</td>
             </tr>
         }
@@ -162,12 +162,12 @@
                         <a class="btn btn-primary @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")" id="update-profile-button"
                            href='@(Model.CurrentPage < Model.TotalPages ? "?page=" + (Model.CurrentPage + 1) + "&sortColumn=" + Request.Query["sortColumn"] + "&sortOrder=" + Request.Query["sortOrder"] : "#")'>Next</a>
 
-                        <p>Page @Model.CurrentPage of @Model.TotalPages</p>
+                        <p class="d-none d-sm-table-cell">Page @Model.CurrentPage of @Model.TotalPages</p>
 
-                        <a class="btn btn-primary" id="update-profile-button"
+                        <a class="btn btn-primary d-none d-sm-table-cell" id="update-profile-button"
                            href='?page=1&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'>First</a>
 
-                        <a class="btn btn-primary" id="update-profile-button"
+                        <a class="btn btn-primary d-none d-sm-table-cell" id="update-profile-button"
                            href='?page=@Model.TotalPages&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'>Last</a>
                     </div>
                 </td>

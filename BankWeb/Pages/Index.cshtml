@@ -77,12 +77,13 @@
                 <div class="text-content">
                     <h6 class="pl-4">Welcome to the Modern Bank</h6>
                     <h4 class="pl-4">Financial &amp; Banking Statistics</h4>
+                    <div class="table-responsive">
                     <table class="table-borderless spaced-table">
                         <thead>
                             <tr>
                                 <th class="text-white custom-width pl-4">Country</th>
-                                <th class="text-white custom-width">Customers</th>
-                                <th class="text-white custom-width">Accounts</th>
+                                    <th class="text-white custom-width d-none d-sm-table-cell">Customers</th>
+                                    <th class="text-white custom-width d-none d-sm-table-cell">Accounts</th>
                                 <th class="text-white custom-width">Combined Balance</th>
                             </tr>
                         </thead>
@@ -93,16 +94,17 @@
                                     <td class="text-white custom-width">
                                         <a class="country-styling" asp-page="/CountryDetails" asp-route-country="@entry.Key">@entry.Key</a>
                                     </td>
-                                    <td class="text-white custom-width pl-4">@entry.Value.customers</td>
-                                    <td class="text-white custom-width pl-4">@entry.Value.accounts</td>
+                                        <td class="text-white custom-width pl-4 d-none d-sm-table-cell">@entry.Value.customers</td>
+                                        <td class="text-white custom-width pl-4 d-none d-sm-table-cell">@entry.Value.accounts</td>
                                     <td class="text-white custom-width pl-5">SEK: @FormatNumber(entry.Value.totalBalance)</td>
                                 </tr>
                             }
                         </tbody>
                     </table>
+                    </div>
 
 
-                    <form class="my-2 my-lg-0 pl-3" method="get" asp-page="/CustomersFolder/CustomerAdminInfo">
+                    <form class="my-2 my-lg-0 pl-3 d-none d-sm-block" method="get" asp-page="/CustomersFolder/CustomerAdminInfo">
                         <div class="input-group" style="width: 410px; margin-top: 10px;">
                             <input class="form-control" type="search" placeholder="Search Customer ID, Name or City" aria-label="Search" name="query" required style="background-color: transparent; color: white;" value="@Request.Query["query"]">
                             <div class="input-group-append">

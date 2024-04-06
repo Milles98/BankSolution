@@ -22,10 +22,10 @@
     <thead>
         <tr>
             <th scope="col">Position</th>
-            <th scope="col">Customer ID</th>
-            <th scope="col">Full Name</th>
+            <th class="d-none d-sm-table-cell" scope="col">Customer ID</th>
+            <th class="d-none d-sm-table-cell" scope="col">Full Name</th>
             <th scope="col">Balance</th>
-            <th scope="col">Loyalty Program</th>
+            <th class="d-none d-sm-table-cell" scope="col">Loyalty Program</th>
             <th scope="col">See Customer Details</th>
         </tr>
     </thead>
@@ -35,10 +35,10 @@
             var customer = Model.TopCustomers[i];
             <tr>
                 <th scope="row">@((i + 1).ToString())</th>
-                <td>@customer.CustomerId</td>
-                <td>@customer.Givenname @customer.Surname</td>
+                <td class="d-none d-sm-table-cell">@customer.CustomerId</td>
+                <td class="d-none d-sm-table-cell">@customer.Givenname @customer.Surname</td>
                 <td>SEK: @customer.TotalBalance.ToString("N2")</td>
-                <td><a asp-page="/GiftPage" asp-route-id="@customer.CustomerId" id="update-profile-button" class="btn btn-primary">Send Gift</a></td>
+                <td class="d-none d-sm-table-cell"><a asp-page="/GiftPage" asp-route-id="@customer.CustomerId" id="update-profile-button" class="btn btn-primary">Send Gift</a></td>
                 <td><a asp-page="/CustomersFolder/CustomerDetails" asp-route-id="@customer.CustomerId" id="update-profile-button" class="btn btn-primary">View Details</a></td>
             </tr>
         }
