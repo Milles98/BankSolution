@@ -18,7 +18,7 @@ namespace BankWeb.Pages.AccountsFolder
 
         public List<AccountViewModel> Accounts { get; set; }
         public int CurrentPage { get; set; } = 1;
-        public int AccountPerPage { get; set; } = 5;
+        public int AccountPerPage { get; set; } = 50;
         public int TotalPages => _accountService.GetTotalPages(AccountPerPage);
         public int PageCount { get; set; }
         public string Search { get; set; }

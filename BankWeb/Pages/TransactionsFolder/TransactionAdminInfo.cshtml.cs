@@ -21,7 +21,7 @@ namespace BankWeb.Pages.TransactionsFolder
         public List<TransactionViewModel> Transactions { get; set; }
 
         public int CurrentPage { get; set; } = 1;
-        public int TransactionsPerPage { get; set; } = 7;
+        public int TransactionsPerPage { get; set; } = 50;
         public int TotalPages => _transactionService.GetTotalPages(TransactionsPerPage);
         public async Task OnGet(string sortColumn, string sortOrder, string search)
         {

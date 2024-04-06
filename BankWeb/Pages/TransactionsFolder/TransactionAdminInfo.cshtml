@@ -1,6 +1,8 @@
 ﻿@page
 @model TransactionAdminInfoModel
 @{
+    int startPage = Model.CurrentPage - 1 <= 0 ? 1 : Model.CurrentPage - 1;
+    int endPage = startPage + 2 > Model.TotalPages ? Model.TotalPages : startPage + 2;
 }
 
 @* <style>
@@ -144,15 +146,33 @@
         }
     </tbody>
 
-    <tfoot>
-        <tr>
-            <td colspan="2" style="display: flex; gap: 6px;">
-                <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=@(Model.CurrentPage - 1)&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'" @(Model.CurrentPage == 1 ? "disabled" : "")>Previous</button>
-                <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=@(Model.CurrentPage + 1)&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">Next</button>
-                <p>Page @Model.CurrentPage of @Model.TotalPages</p>
-                <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=1&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">First</button>
-                <button id="update-profile-button" class="btn btn-primary" onclick="location.href='?page=@Model.TotalPages&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'">Last</button>
-    </tfoot>
+        <tfoot>
+            <tr>
+                <td colspan="6">
+                    <div style="display: flex; flex-direction: row; justify-content: flex-start; gap: 6px;">
+                        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : "")" id="update-profile-button"
+                           href='@(Model.CurrentPage > 1 ? "?page=" + (Model.CurrentPage - 1) + "&sortColumn=" + Request.Query["sortColumn"] + "&sortOrder=" + Request.Query["sortOrder"] : "#")'>Previous</a>
+
+                        @for (int i = startPage; i <= endPage; i++)
+                        {
+                            <a class="btn @(Model.CurrentPage == i ? "btn-primary" : "btn-secondary")" id="@(Model.CurrentPage == i ? "update-profile-button" : "")"
+                               href='?page=@i&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'>@i</a>
+                        }
+
+                        <a class="btn btn-primary @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")" id="update-profile-button"
+                           href='@(Model.CurrentPage < Model.TotalPages ? "?page=" + (Model.CurrentPage + 1) + "&sortColumn=" + Request.Query["sortColumn"] + "&sortOrder=" + Request.Query["sortOrder"] : "#")'>Next</a>
+
+                        <p>Page @Model.CurrentPage of @Model.TotalPages</p>
+
+                        <a class="btn btn-primary" id="update-profile-button"
+                           href='?page=1&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'>First</a>
+
+                        <a class="btn btn-primary" id="update-profile-button"
+                           href='?page=@Model.TotalPages&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'>Last</a>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
 </table>
 </div>
 
