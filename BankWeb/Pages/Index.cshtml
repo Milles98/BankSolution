@@ -84,7 +84,7 @@
                                 <th class="text-white custom-width pl-4">Country</th>
                                     <th class="text-white custom-width d-none d-sm-table-cell">Customers</th>
                                     <th class="text-white custom-width d-none d-sm-table-cell">Accounts</th>
-                                <th class="text-white custom-width">Combined Balance</th>
+                                <th class="text-white custom-width">Balance</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -96,7 +96,7 @@
                                     </td>
                                         <td class="text-white custom-width pl-4 d-none d-sm-table-cell">@entry.Value.customers</td>
                                         <td class="text-white custom-width pl-4 d-none d-sm-table-cell">@entry.Value.accounts</td>
-                                    <td class="text-white custom-width pl-5">SEK: @FormatNumber(entry.Value.totalBalance)</td>
+                                    <td class="text-white custom-width pl-2">SEK: @FormatNumber(entry.Value.totalBalance)</td>
                                 </tr>
                             }
                         </tbody>

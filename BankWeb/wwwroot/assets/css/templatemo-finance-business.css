@@ -6,6 +6,17 @@ https://templatemo.com/tm-545-finance-business
 
 */
 
+@media (max-width: 576px) {
+    #account {
+        width: 300px !important;
+        padding-left: 50px;
+    }
+}
+
+#account {
+    width: 500px !important;
+}
+
 .custom-width {
     /*width: 29%;*/
 }
