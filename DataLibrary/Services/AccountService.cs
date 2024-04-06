@@ -1,4 +1,5 @@
-﻿using DataLibrary.Data;
+﻿using AutoMapper;
+using DataLibrary.Data;
 using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +14,14 @@ namespace DataLibrary.Services
         private readonly BankAppDataContext _context;
         private readonly IPaginationService<Account> _paginationService;
         private readonly ISortingService<Account> _sortingService;
+        private readonly IMapper _mapper;
 
-        public AccountService(BankAppDataContext context, IPaginationService<Account> paginationService, ISortingService<Account> sortingService)
+        public AccountService(BankAppDataContext context, IPaginationService<Account> paginationService, ISortingService<Account> sortingService, IMapper mapper)
         {
             _context = context;
             _paginationService = paginationService;
             _sortingService = sortingService;
+            _mapper = mapper;
         }
 
         public Dictionary<string, (int customers, int accounts, decimal totalBalance)> GetDataPerCountry()
@@ -40,24 +43,15 @@ namespace DataLibrary.Services
 
         public List<AccountViewModel> GetAccountDetails(List<int> accountIds)
         {
-            return _context.Accounts
+            var accounts = _context.Accounts
                 .Where(a => accountIds.Contains(a.AccountId))
                 .Include(a => a.Dispositions)
                 .ThenInclude(d => d.Customer)
-                .Select(a => new AccountViewModel
-                {
-                    AccountId = a.AccountId.ToString(),
-                    Frequency = a.Frequency,
-                    Created = a.Created.ToString("yyyy-MM-dd"),
-                    Balance = a.Balance,
-                    Type = a.GetType().Name,
-                    Customers = a.Dispositions.Select(d => new CustomerDispositionViewModel
-                    {
-                        Customer = d.Customer,
-                        DispositionType = d.Type
-                    }).ToList()
-                })
                 .ToList();
+
+            var accountViewModels = _mapper.Map<List<AccountViewModel>>(accounts);
+
+            return accountViewModels;
         }
 
         public async Task CreateAccount(AccountViewModel accountViewModel, int customerId)
@@ -116,23 +110,14 @@ namespace DataLibrary.Services
             query = _sortingService.Sort(query, sortColumn, sortOrder, sortExpressions);
 
             var accounts = await _paginationService
-                .GetPage(query
-                .Include(a => a.Dispositions)
-                .ThenInclude(d => d.Customer), currentPage, accountsPerPage)
-                .Select(a => new AccountViewModel
-                {
-                    AccountId = a.AccountId.ToString(),
-                    Frequency = a.Frequency,
-                    Created = a.Created.ToString("yyyy-MM-dd"),
-                    Balance = a.Balance,
-                    Customers = a.Dispositions.Select(d => new CustomerDispositionViewModel
-                    {
-                        Customer = d.Customer,
-                        DispositionType = d.Type
-                    }).ToList()
-                }).ToListAsync();
+            .GetPage(query
+            .Include(a => a.Dispositions)
+            .ThenInclude(d => d.Customer), currentPage, accountsPerPage)
+            .ToListAsync();
 
-            return (accounts, totalAccounts);
+            var accountViewModels = _mapper.Map<List<AccountViewModel>>(accounts);
+
+            return (accountViewModels, totalAccounts);
         }
 
         public int GetTotalPages(int accountsPerPage)

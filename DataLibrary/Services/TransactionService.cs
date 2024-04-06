@@ -1,4 +1,5 @@
-﻿using DataLibrary.Data;
+﻿using AutoMapper;
+using DataLibrary.Data;
 using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -16,17 +17,22 @@ namespace DataLibrary.Services
         private readonly BankAppDataContext _context;
         private readonly IPaginationService<Transaction> _paginationService;
         private readonly ISortingService<Transaction> _sortingService;
+        private readonly IMapper _mapper;
 
-        public TransactionService(BankAppDataContext context, IPaginationService<Transaction> paginationService, ISortingService<Transaction> sortingService)
+        public TransactionService(BankAppDataContext context, IPaginationService<Transaction> paginationService, ISortingService<Transaction> sortingService, IMapper mapper)
         {
             _context = context;
             _paginationService = paginationService;
             _sortingService = sortingService;
+            _mapper = mapper;
         }
 
         public async Task<List<TransactionViewModel>> GetTransactions(int currentPage, int transactionsPerPage, string sortColumn, string sortOrder, string search)
         {
-            var query = _context.Transactions.AsQueryable();
+            var query = _context.Transactions
+            .Include(t => t.AccountNavigation)
+            .ThenInclude(a => a.Dispositions)
+            .AsQueryable();
 
             if (!string.IsNullOrEmpty(search) && int.TryParse(search, out int transactionId))
             {
@@ -47,19 +53,11 @@ namespace DataLibrary.Services
             query = _sortingService.Sort(query, sortColumn, sortOrder, sortExpressions);
 
             var transactions = await _paginationService.GetPage(query, currentPage, transactionsPerPage)
-                .Select(t => new TransactionViewModel
-                {
-                    TransactionId = t.TransactionId,
-                    AccountId = t.AccountId,
-                    CustomerId = t.AccountNavigation.Dispositions.FirstOrDefault().CustomerId,
-                    DateOfTransaction = t.Date,
-                    Operation = t.Operation,
-                    Amount = t.Amount,
-                    Balance = t.Balance
-                })
-                .ToListAsync();
+            .ToListAsync();
 
-            return transactions;
+            var transactionViewModels = _mapper.Map<List<TransactionViewModel>>(transactions);
+
+            return transactionViewModels;
         }
 
         public int GetTotalPages(int transactionsPerPage)
@@ -73,15 +71,7 @@ namespace DataLibrary.Services
             var transaction = await _context.Transactions.FirstAsync(t => t.TransactionId == transactionId);
             if (transaction != null)
             {
-                return new TransactionViewModel
-                {
-                    TransactionId = transaction.TransactionId,
-                    AccountId = transaction.AccountId,
-                    Amount = transaction.Amount,
-                    Balance = transaction.Balance,
-                    DateOfTransaction = transaction.Date,
-                    Operation = transaction.Operation
-                };
+                return _mapper.Map<TransactionViewModel>(transaction);
             }
 
             return null;
@@ -90,7 +80,10 @@ namespace DataLibrary.Services
         public async Task<List<TransactionViewModel>> GetTransactionsForAccount(int accountId, DateTime? lastFetchedTransactionTimestamp)
         {
             var transactionsQuery = _context.Transactions
-                .Where(t => t.AccountId == accountId);
+                .Where(t => t.AccountId == accountId)
+                .Include(t => t.AccountNavigation)
+                .ThenInclude(a => a.Dispositions)
+                .AsQueryable();
 
             if (lastFetchedTransactionTimestamp.HasValue)
             {
@@ -100,33 +93,19 @@ namespace DataLibrary.Services
             }
 
             var transactions = await transactionsQuery
-                .OrderByDescending(t => t.Date)
-                .Take(20)
-                .Select(t => new TransactionViewModel
-                {
-                    TransactionId = t.TransactionId,
-                    AccountId = t.AccountId,
-                    CustomerId = t.AccountNavigation.Dispositions.FirstOrDefault().CustomerId,
-                    DateOfTransaction = t.Date,
-                    Type = t.Type,
-                    Operation = t.Operation,
-                    Amount = t.Amount,
-                    Balance = t.Balance
-                }).ToListAsync();
+            .OrderByDescending(t => t.Date)
+            .Take(20)
+            .ToListAsync();
 
-            return transactions;
+            var transactionViewModels = _mapper.Map<List<TransactionViewModel>>(transactions);
+
+            return transactionViewModels;
         }
-
-
-
 
         public async Task<decimal> GetAccountBalance(int accountId)
         {
             var account = await _context.Accounts.FirstAsync(a => a.AccountId == accountId);
             return account.Balance;
         }
-
-
-
     }
 }

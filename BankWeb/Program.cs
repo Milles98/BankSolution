@@ -35,6 +35,9 @@ builder.Services.AddTransient<ITransactionService, TransactionService>();
 builder.Services.AddTransient<ICountryService, CountryService>();
 builder.Services.AddTransient<IPersonService, PersonService>();
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

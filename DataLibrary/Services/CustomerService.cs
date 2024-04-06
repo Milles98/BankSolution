@@ -1,4 +1,5 @@
-﻿using DataLibrary.Data;
+﻿using AutoMapper;
+using DataLibrary.Data;
 using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -11,12 +12,14 @@ namespace DataLibrary.Services
         private readonly BankAppDataContext _context;
         private readonly IPaginationService<Customer> _paginationService;
         private readonly ISortingService<Customer> _sortingService;
+        private readonly IMapper _mapper;
 
-        public CustomerService(BankAppDataContext context, IPaginationService<Customer> paginationService, ISortingService<Customer> sortingService)
+        public CustomerService(BankAppDataContext context, IPaginationService<Customer> paginationService, ISortingService<Customer> sortingService, IMapper mapper)
         {
             _context = context;
             _paginationService = paginationService;
             _sortingService = sortingService;
+            _mapper = mapper;
         }
 
         public int GetTotalCustomers()
@@ -35,25 +38,7 @@ namespace DataLibrary.Services
                 return null;
             }
 
-            var customerDetails = new CustomerAccountViewModel
-            {
-                CustomerId = customer.CustomerId,
-                Givenname = customer.Givenname,
-                Surname = customer.Surname,
-                Gender = customer.Gender,
-                Streetaddress = customer.Streetaddress,
-                City = customer.City,
-                Country = customer.Country,
-                Accounts = customer.Dispositions.Select(d => new AccountViewModel
-                {
-                    AccountId = d.Account.AccountId.ToString(),
-                    Frequency = d.Account.Frequency,
-                    Created = d.Account.Created.ToString("yyyy-MM-dd"),
-                    Balance = d.Account.Balance,
-                    Type = d.Type
-                }).ToList(),
-                TotalBalance = customer.Dispositions.Sum(d => d.Account.Balance)
-            };
+            var customerDetails = _mapper.Map<CustomerAccountViewModel>(customer);
 
             return customerDetails;
         }
@@ -97,19 +82,11 @@ namespace DataLibrary.Services
                 .GetPage(query
                 .Include(c => c.Dispositions)
                 .ThenInclude(d => d.Account), currentPage, customersPerPage)
-                .Select(c => new CustomerViewModel
-                {
-                    CustomerId = c.CustomerId,
-                    AccountId = c.Dispositions.Select(d => d.AccountId).First(),
-                    NationalId = c.NationalId,
-                    Givenname = c.Givenname,
-                    Surname = c.Surname,
-                    Streetaddress = c.Streetaddress,
-                    City = c.City,
-                    Accounts = c.Dispositions.Select(d => d.Account).ToList()
-                }).ToListAsync();
+                .ToListAsync();
 
-            return (customers, totalCustomers);
+            var customerViewModels = _mapper.Map<List<CustomerViewModel>>(customers);
+
+            return (customerViewModels, totalCustomers);
         }
 
 
