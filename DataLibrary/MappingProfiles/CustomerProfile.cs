@@ -16,7 +16,9 @@ public class CustomerProfile : Profile
                 Balance = d.Account.Balance,
                 Type = d.Type
             })))
-            .ForMember(dest => dest.TotalBalance, opt => opt.MapFrom(src => src.Dispositions.Sum(d => d.Account.Balance)));
+            .ForMember(dest => dest.TotalBalance, opt => opt.MapFrom(src => src.Dispositions.Sum(d => d.Account.Balance)))
+            .ForMember(dest => dest.NationalId, opt => opt.MapFrom(src => src.NationalId));
+
 
         CreateMap<Customer, CustomerViewModel>()
             .ForMember(dest => dest.AccountId, opt => opt.MapFrom(src => src.Dispositions.Select(d => d.AccountId).First()))
