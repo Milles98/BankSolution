@@ -1,17 +1,20 @@
 ﻿using DataLibrary.Data;
 using Microsoft.EntityFrameworkCore;
 using MoneyLaunderingSafetyMeasure;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
+        var optionsBuilder = new DbContextOptionsBuilder<BankAppDataContext>();
+        optionsBuilder.UseSqlServer("Server=localhost;Database=BankAppData;Trusted_Connection=True;TrustServerCertificate=true;MultipleActiveResultSets=true");
+
         try
         {
-            var optionsBuilder = new DbContextOptionsBuilder<BankAppDataContext>();
-            optionsBuilder.UseSqlServer("Server=localhost;Database=BankAppData;Trusted_Connection=True;TrustServerCertificate=true;MultipleActiveResultSets=true");
-
             using var dbContext = new BankAppDataContext(optionsBuilder.Options);
             var detector = new SuspiciousActivityDetector();
 
@@ -19,21 +22,26 @@ class Program
 
             var currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var lastRunTimeFilePath = Path.Combine(currentDirectory, "..", "..", "..", "SuspicionReport", "lastRunTime.txt");
+            DateOnly globalLastRunTime = detector.GetLastRunTime(lastRunTimeFilePath);  // Hämta den gemensamma senaste körtiden
+
+            DateOnly latestTransactionDateAcrossCountries = globalLastRunTime;
 
             foreach (var country in countries)
             {
-                var lastRunTime = detector.GetLastRunTime(lastRunTimeFilePath);
+                Console.WriteLine($"Starting detection for {country}. Last run time: {globalLastRunTime}");
 
-                var dispositions = detector.GetDispositions(dbContext, country);
-                var (suspiciousUsers, latestTransactionTime) = detector.DetectSuspiciousActivity(dispositions, lastRunTime);
+                var dispositions = await detector.GetDispositionsAsync(dbContext, country);
+                var (suspiciousUsers, latestTransactionDate) = detector.DetectSuspiciousActivity(dispositions, globalLastRunTime);
 
                 var reportFilePath = Path.Combine(currentDirectory, "..", "..", "..", "SuspicionReport", $"report_{country}.txt");
                 detector.GenerateReport(suspiciousUsers, reportFilePath, country);
 
-                detector.SaveLastRunTime(latestTransactionTime, lastRunTimeFilePath);
+                Console.WriteLine($"Detected {suspiciousUsers.Count} suspicious users for {country}.\n");
+                latestTransactionDateAcrossCountries = latestTransactionDate > latestTransactionDateAcrossCountries ? latestTransactionDate : latestTransactionDateAcrossCountries;
             }
 
-
+            // Uppdatera den globala senaste körtiden efter att alla länder har behandlats
+            detector.SaveLastRunTime(latestTransactionDateAcrossCountries, lastRunTimeFilePath);
             Console.WriteLine("Suspicious activity detection completed.");
         }
         catch (Exception ex)

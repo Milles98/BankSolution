@@ -1,9 +1,10 @@
-﻿using System;
+﻿using DataLibrary.Data;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using DataLibrary.Data;
-using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace MoneyLaunderingSafetyMeasure
 {
@@ -11,131 +12,111 @@ namespace MoneyLaunderingSafetyMeasure
     {
         private const decimal SingleTransactionLimit = 15000m;
         private const decimal TotalTransactionLimit = 23000m;
-        private const int TransactionPeriodInHours = 72;
+        private const int DaysToCheck = 3;
 
-        public List<Disposition> GetDispositions(BankAppDataContext dbContext, string country)
+        public async Task<List<Disposition>> GetDispositionsAsync(BankAppDataContext dbContext, string country)
         {
-            return dbContext.Dispositions
+            return await dbContext.Dispositions
                 .Include(d => d.Account)
                 .ThenInclude(a => a.Transactions)
                 .Include(d => d.Customer)
                 .Where(d => d.Customer.Country == country)
-                .ToList();
+                .ToListAsync();
         }
 
-
-        public (List<string>, DateTime) DetectSuspiciousActivity(List<Disposition> dispositions, DateTime lastRunTime)
+        public (List<string>, DateOnly) DetectSuspiciousActivity(List<Disposition> dispositions, DateOnly lastRunDate)
         {
             var suspiciousUsers = new List<string>();
-            var latestTransactionTime = lastRunTime;
+            DateOnly today = DateOnly.FromDateTime(DateTime.UtcNow);
+            DateOnly threeDaysAgo = today.AddDays(-DaysToCheck);
+
+            int totalDispositions = dispositions.Count;
+            int currentDisposition = 0;
 
             foreach (var disposition in dispositions)
             {
+                currentDisposition++;
+                Console.Write($"\rChecking customer {currentDisposition} of {totalDispositions} for suspicious activity...");
+
                 var account = disposition.Account;
+                var transactions = account.Transactions.Where(t => t.Date > lastRunDate && t.Date <= today);
 
-                var lastRunDate = DateOnly.FromDateTime(lastRunTime);
-                var currentDate = DateOnly.FromDateTime(DateTime.Now);
-
-                var newTransactions = account.Transactions
-                    .Where(t => t.Date >= lastRunDate);
-
-                if (account.Transactions.Any())
+                foreach (var transaction in transactions)
                 {
-                    var latestTransactionDate = account.Transactions.Max(t => t.Date);
-                    latestTransactionTime = new DateTime(latestTransactionDate.Year, latestTransactionDate.Month, latestTransactionDate.Day, latestTransactionTime.Hour, latestTransactionTime.Minute, latestTransactionTime.Second);
-
-                    if (newTransactions.Any())
+                    if (Math.Abs(transaction.Amount) > SingleTransactionLimit)
                     {
-                        var totalAmountLastThreeDays = newTransactions
-                            .Where(t => t.Date >= currentDate.AddDays(-3))
-                            .Sum(t => Math.Abs(t.Amount));
-
-                        var suspiciousTransactions = newTransactions
-                            .Where(t => Math.Abs(t.Amount) > SingleTransactionLimit || totalAmountLastThreeDays > TotalTransactionLimit);
-
-                        foreach (var transaction in suspiciousTransactions)
-                        {
-                            suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, {account.AccountId}, {transaction.Date}, {transaction.Amount}, {transaction.Type}");
-                        }
+                        suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, Account ID: {account.AccountId}, Transaction ID: {transaction.TransactionId}, 'Single transaction exceeds limit'");
                     }
                 }
-                else
+
+                var recentTransactions = account.Transactions.Where(t => t.Date >= threeDaysAgo && t.Date <= today);
+                var totalAmountLastThreeDays = recentTransactions.Sum(t => t.Amount);
+
+                if (Math.Abs(totalAmountLastThreeDays) > TotalTransactionLimit)
                 {
-                    // Handle the case when there are no transactions.
-                    Console.WriteLine($"No transactions found for account {account.AccountId}.");
+                    suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, Account ID: {account.AccountId}, 'Total transactions in last three days exceed limit'");
+                }
+
+                if (transactions.Any())
+                {
+                    var maxTransactionDate = transactions.Max(t => t.Date);
+                    lastRunDate = maxTransactionDate > lastRunDate ? maxTransactionDate : lastRunDate;
                 }
             }
 
-            return (suspiciousUsers, latestTransactionTime);
+            Console.WriteLine($"\nCompleted checking all customers for suspicious activity.");
+            return (suspiciousUsers, lastRunDate);
         }
-
-
-
 
         public void GenerateReport(List<string> suspiciousUsers, string filePath, string country)
         {
-            try
+            var directoryPath = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(directoryPath))
             {
-                if (!File.Exists(filePath))
-                {
-                    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-                }
-                else
-                {
-                    File.AppendAllText(filePath, "\n---\n");
-                }
+                Directory.CreateDirectory(directoryPath);
+            }
 
-                File.AppendAllLines(filePath, suspiciousUsers);
-                Console.WriteLine($"Report for {country} generated with {suspiciousUsers.Count} suspicious users.");
-            }
-            catch (Exception ex)
+            HashSet<string> existingEntries = new HashSet<string>();
+            if (File.Exists(filePath))
             {
-                Console.WriteLine($"An error occurred while generating the report: {ex.Message}");
+                // Read all existing entries to avoid duplicating them
+                existingEntries = new HashSet<string>(File.ReadAllLines(filePath));
+                File.AppendAllText(filePath, "\n---\n");
             }
+
+            List<string> newEntries = new List<string>();
+            foreach (var user in suspiciousUsers)
+            {
+                if (!existingEntries.Contains(user))
+                {
+                    newEntries.Add(user);
+                }
+            }
+
+            // Append only new, unique suspicious user entries
+            File.AppendAllLines(filePath, newEntries);
+            Console.WriteLine($"\nReport for {country} generated with {newEntries.Count} new suspicious users.");
         }
 
 
-
-
-        public void SaveLastRunTime(DateTime lastRunTime, string filePath)
+        public void SaveLastRunTime(DateOnly lastRunDate, string filePath)
         {
-            try
-            {
-                if (!File.Exists(filePath))
-                {
-                    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-                }
-
-                File.WriteAllText(filePath, lastRunTime.ToString());
-                /*Console.WriteLine($"Last run time saved at {filePath}.");*/
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred while saving the last run time: {ex.Message}");
-            }
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+            File.WriteAllText(filePath, lastRunDate.ToString() + Environment.NewLine);
         }
 
-
-        public DateTime GetLastRunTime(string filePath)
+        public DateOnly GetLastRunTime(string filePath)
         {
-            try
+            if (!File.Exists(filePath) || new FileInfo(filePath).Length == 0)
             {
-                if (!File.Exists(filePath) || new FileInfo(filePath).Length == 0)
-                {
-                    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-                    File.WriteAllText(filePath, DateTime.MinValue.ToString());
-                    return DateTime.MinValue;
-                }
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+                File.WriteAllText(filePath, DateOnly.MinValue.ToString() + Environment.NewLine);
+                return DateOnly.MinValue;
+            }
 
-                var lastRunTimeStr = File.ReadAllText(filePath);
-                return DateTime.Parse(lastRunTimeStr);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred while getting the last run time: {ex.Message}");
-                return DateTime.MinValue;
-            }
+            var allRunTimes = File.ReadAllLines(filePath);
+            var lastRunTimeStr = allRunTimes.Last();
+            return DateOnly.Parse(lastRunTimeStr);
         }
-
     }
 }
