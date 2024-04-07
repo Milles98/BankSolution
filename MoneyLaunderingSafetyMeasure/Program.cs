@@ -37,6 +37,7 @@ class Program
                 detector.GenerateReport(suspiciousUsers, reportFilePath, country);
 
                 Console.WriteLine($"Detected {suspiciousUsers.Count} suspicious users for {country}.\n");
+                Console.WriteLine("--------------------------------------------\n");
                 latestTransactionDateAcrossCountries = latestTransactionDate > latestTransactionDateAcrossCountries ? latestTransactionDate : latestTransactionDateAcrossCountries;
             }
 
