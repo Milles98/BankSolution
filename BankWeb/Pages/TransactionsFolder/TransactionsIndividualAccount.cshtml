@@ -30,7 +30,9 @@
         {
             <tr>
                 <td>
-                    <a asp-page="/TransactionsFolder/TransactionDetails" asp-route-transactionId="@transaction.TransactionId" id="update-profile-button" class="btn btn-primary">@transaction.TransactionId</a>
+                    <a asp-page="/TransactionsFolder/TransactionDetails" asp-route-transactionId="@transaction.TransactionId" id="update-profile-button" class="btn btn-primary">
+                        <i class="fa-solid fa-eye mr-2"></i>@transaction.TransactionId
+                    </a>
                 </td>
                 <td class="d-none d-sm-table-cell">@transaction.DateOfTransaction</td>
                 <td class="d-none d-sm-table-cell">@transaction.Type</td>
@@ -43,7 +45,9 @@
 </table>
 
 <div style="text-align: center">
-    <button id="loadMoreButton" class="btn btn-primary update-profile-button mb-3">Load More</button>
+    <button id="loadMoreButton" class="btn btn-primary update-profile-button mb-3">
+        <i class="fa-solid fa-arrows-rotate mr-2"></i>Load More
+    </button>
 </div>
 
 @section Scripts {
@@ -75,7 +79,14 @@
                         var cell = row.insertCell(0);
                         var link = document.createElement('a');
                         link.href = '/TransactionsFolder/TransactionDetails?transactionId=' + transaction.transactionId;
-                        link.innerText = transaction.transactionId;
+
+                        var icon = document.createElement('i');
+                        icon.className = 'fa-solid fa-eye mr-2';
+                        link.appendChild(icon);
+
+                        var textNode = document.createTextNode(transaction.transactionId);
+                        link.appendChild(textNode);
+
                         link.id = 'update-profile-button';
                         link.className = 'btn btn-primary';
                         cell.appendChild(link);
@@ -91,6 +102,7 @@
                         row.insertCell(4).innerText = 'SEK: ' + transaction.amount;
                         row.insertCell(5).innerText = 'SEK: ' + transaction.balance;
                     });
+
 
                     if (!data.hasMore) {
                         loadMoreButton.disabled = true;

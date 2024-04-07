@@ -104,7 +104,9 @@
             {
                 <tr>
                     <td>
-                        <a class="btn btn-primary" id="update-profile-button" asp-page="/AccountsFolder/Account" asp-route-accountIds="@account.AccountId">@account.AccountId</a>
+                        <a class="btn btn-primary" id="update-profile-button" asp-page="/AccountsFolder/Account" asp-route-accountIds="@account.AccountId">
+                            <i class="fa-solid fa-eye mr-2"></i>@account.AccountId
+                        </a>
                     </td>
                     <td class="d-none d-sm-table-cell">@account.Frequency</td>
                     <td class="d-none d-sm-table-cell">@account.Created</td>

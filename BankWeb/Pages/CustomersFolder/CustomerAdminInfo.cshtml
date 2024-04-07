@@ -172,11 +172,13 @@
             <tr>
                 <td>
                     <a asp-page="/CustomersFolder/CustomerDetails" asp-route-id="@customer.CustomerId" id="update-profile-button" class="btn btn-primary">
-                        View ID: @customer.CustomerId
+                            <i class="fa-solid fa-eye mr-2"></i>@customer.CustomerId
                     </a>
                 </td>
                 <td class="d-none d-sm-table-cell">
-                    <a asp-page="/AccountsFolder/Account" asp-route-accountIds="@string.Join(',', customer.Accounts.Select(a => a.AccountId))" class="btn btn-primary" id="update-profile-button">View</a>
+                    <a asp-page="/AccountsFolder/Account" asp-route-accountIds="@string.Join(',', customer.Accounts.Select(a => a.AccountId))" class="btn btn-primary" id="update-profile-button">
+                            <i class="fa-solid fa-eye mr-2"></i>View
+                        </a>
                 </td>
                 <td class="d-none d-sm-table-cell">@customer.NationalId</td>
                 <td>@customer.Givenname</td>

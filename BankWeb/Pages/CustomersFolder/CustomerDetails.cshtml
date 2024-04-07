@@ -71,14 +71,18 @@
             {
                 <tr>
                     <td>
-                        <a asp-page="/AccountsFolder/Account" asp-route-accountIds="@account.AccountId" id="update-profile-button" class="btn btn-primary">@account.AccountId</a>
+                        <a asp-page="/AccountsFolder/Account" asp-route-accountIds="@account.AccountId" id="update-profile-button" class="btn btn-primary">
+                            <i class="fa-solid fa-eye mr-2"></i>@account.AccountId
+                        </a>
                     </td>
                     <td class="d-none d-sm-table-cell">@account.Frequency</td>
                     <td class="d-none d-sm-table-cell">@account.Created</td>
                     <td class="d-none d-sm-table-cell">SEK: @account.Balance</td>
                     <td class="d-none d-sm-table-cell">@account.Type</td>
                     <td>
-                        <a asp-page="/TransactionsFolder/TransactionsIndividualAccount" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">View</a>
+                        <a asp-page="/TransactionsFolder/TransactionsIndividualAccount" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">
+                            <i class="fa-solid fa-eye mr-2"></i>View
+                        </a>
                     </td>
                     <td>
                         <a asp-page="/TransactionsFolder/Deposit" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary" title="Deposit">
