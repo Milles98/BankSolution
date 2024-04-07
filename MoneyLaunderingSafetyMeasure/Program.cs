@@ -10,7 +10,7 @@ class Program
         try
         {
             var optionsBuilder = new DbContextOptionsBuilder<BankAppDataContext>();
-            optionsBuilder.UseSqlServer("DefaultConnection");
+            optionsBuilder.UseSqlServer("Server=localhost;Database=BankAppData;Trusted_Connection=True;TrustServerCertificate=true;MultipleActiveResultSets=true");
 
             using var dbContext = new BankAppDataContext(optionsBuilder.Options);
             var detector = new SuspiciousActivityDetector();
