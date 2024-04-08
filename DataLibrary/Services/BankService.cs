@@ -45,8 +45,8 @@ namespace DataLibrary.Services
             if (amount <= 0)
                 throw new Exception("Withdraw amount must be greater than 0!");
 
-            if (amount >= 50000)
-                throw new Exception("Withdraw amount must be less than 50,000 SEK at a time!");
+            if (amount > 50000)
+                throw new Exception("Withdraw amount must be less than or equal to 50,000 SEK at a time!");
 
             var account = _context.Accounts.Find(accountId);
             if (account == null)
@@ -144,6 +144,10 @@ namespace DataLibrary.Services
             {
                 throw new Exception("Transfer amount cannot be less than 50 SEK");
             }
+            else if (amount > 50000)
+            {
+                throw new Exception("Transfer amount must be less than or equal to 50,000 SEK at a time!");
+            }
             else if (amount > fromAccount.Balance)
             {
                 throw new Exception("Amount exceeds account balance!");
@@ -196,8 +200,8 @@ namespace DataLibrary.Services
             if (amount < 50)
                 throw new Exception("Deposit amount cannot be less than 50 SEK");
 
-            if (amount >= 50000)
-                throw new Exception("Deposit amount must be less than 50,000 SEK at a time!");
+            if (amount > 50000)
+                throw new Exception("Deposit amount must be less than or equal to 50,000 SEK at a time!");
 
             return Deposit(accountId, amount);
         }
