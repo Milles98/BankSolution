@@ -111,6 +111,13 @@ namespace BankWeb.Pages.CustomerCRUD
                 return Page();
             }
 
+            var isUnique = await _personService.IsUniqueCombination(Givenname, Surname, Streetaddress);
+            if (!isUnique)
+            {
+                ModelState.AddModelError(string.Empty, "A customer with this name and address combination already exists.");
+                return Page();
+            }
+
             var customer = new Customer
             {
                 Gender = Gender,
@@ -129,7 +136,15 @@ namespace BankWeb.Pages.CustomerCRUD
 
             if (BirthdayYear > 0 && BirthdayMonth > 0 && BirthdayDay > 0)
             {
-                customer.Birthday = new DateOnly(BirthdayYear, BirthdayMonth, BirthdayDay);
+                try
+                {
+                    customer.Birthday = new DateOnly(BirthdayYear, BirthdayMonth, BirthdayDay);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    ModelState.AddModelError("string.Empty", "Invalid date of birth");
+                    return Page();
+                }
             }
 
             var account = new Account

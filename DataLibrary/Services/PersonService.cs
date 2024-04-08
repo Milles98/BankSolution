@@ -58,5 +58,12 @@ namespace DataLibrary.Services
             return await _context.Customers.FirstOrDefaultAsync(c => c.Emailaddress == email);
         }
 
+        public async Task<bool> IsUniqueCombination(string givenName, string surname, string streetAddress)
+        {
+            return !await _context.Customers.AnyAsync(c => c.Givenname == givenName &&
+                                                          c.Surname == surname &&
+                                                          c.Streetaddress == streetAddress);
+        }
+
     }
 }

@@ -13,5 +13,6 @@ namespace DataLibrary.Services.Interfaces
         Task DeleteCustomerAsync(int id);
         Task<Customer> GetCustomerAsync(int id);
         Task<Customer?> GetCustomerByEmailAsync(string email);
+        Task<bool> IsUniqueCombination(string givenName, string surname, string streetAddress);
     }
 }
