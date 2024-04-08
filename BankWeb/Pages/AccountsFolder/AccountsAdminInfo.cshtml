@@ -16,13 +16,16 @@
 <div class="container" style="width: 80%; margin: auto; padding: 20px;">
 
     <form method="get" class="text-left d-none d-sm-table-cell" asp-page="/AccountsFolder/AccountsAdminInfo">
-        <div class="form-group d-inline-block" style="width: 300px; margin-top: 10px;">
+        <div class="input-group mb-3" style="width: 300px; margin-top: 10px;">
             <input type="text" class="form-control" name="query" placeholder="Search Account ID" value="@Request.Query["query"]">
+            <div class="input-group-append">
+                <button id="update-profile-button" type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-magnifying-glass mr-2"></i>Search
+                </button>
+            </div>
         </div>
-        <button id="update-profile-button" type="submit" class="btn btn-primary">
-            <i class="fa-solid fa-magnifying-glass mr-2"></i>Search
-        </button>
     </form>
+
 
     <table class="table table-hover">
         <thead>
@@ -116,7 +119,7 @@
                         {
                             <p>
                                 <a asp-page="/CustomersFolder/CustomerDetails" asp-route-id="@customerDisposition.Customer.CustomerId">
-                                    @customerDisposition.Customer.Givenname @customerDisposition.Customer.Surname (@customerDisposition.DispositionType)
+                                    <i class="fa-solid fa-eye mr-2"></i>@customerDisposition.Customer.Givenname @customerDisposition.Customer.Surname (@customerDisposition.DispositionType)
                                 </a>
                             </p>
                         }

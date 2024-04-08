@@ -35,7 +35,7 @@
                 {
                     <p>
                         <a asp-page="/CustomersFolder/CustomerDetails" asp-route-id="@customerDisposition.Customer.CustomerId">
-                            @customerDisposition.Customer.Givenname @customerDisposition.Customer.Surname (@customerDisposition.DispositionType)
+                            <i class="fa-solid fa-eye mr-2"></i>@customerDisposition.Customer.Givenname @customerDisposition.Customer.Surname (@customerDisposition.DispositionType)
                         </a>
                     </p>
                 }
