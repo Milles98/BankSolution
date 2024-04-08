@@ -1,12 +1,14 @@
 using DataLibrary.Data;
 using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankWeb.Pages
 {
+    [Authorize(Roles = "Cashier")]
     [ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "country" })]
     public class CountryDetailsModel : PageModel
     {

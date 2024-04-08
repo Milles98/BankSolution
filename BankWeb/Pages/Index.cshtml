@@ -89,33 +89,41 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var entry in Model.DataPerCountry)
-                            {
-                                <tr>
-                                    <td class="text-white custom-width">
-                                        <a class="country-styling" asp-page="/CountryDetails" asp-route-country="@entry.Key">@entry.Key</a>
-                                    </td>
+                                @foreach (var entry in Model.DataPerCountry)
+                                {
+                                    <tr>
+                                        <td class="text-white custom-width">
+                                            @if (User.IsInRole("Cashier"))
+                                            {
+                                                <a class="country-styling" asp-page="/CountryDetails" asp-route-country="@entry.Key">@entry.Key</a>
+                                            }
+                                            else
+                                            {
+                                                <span>@entry.Key</span>
+                                            }
+                                        </td>
                                         <td class="text-white custom-width pl-4 d-none d-sm-table-cell">@entry.Value.customers</td>
                                         <td class="text-white custom-width pl-4 d-none d-sm-table-cell">@entry.Value.accounts</td>
-                                    <td class="text-white custom-width pl-2">SEK: @FormatNumber(entry.Value.totalBalance)</td>
-                                </tr>
-                            }
+                                        <td class="text-white custom-width pl-2">SEK: @FormatNumber(entry.Value.totalBalance)</td>
+                                    </tr>
+                                }
                         </tbody>
                     </table>
                     </div>
 
-
-                    <form class="my-2 my-lg-0 pl-3 d-none d-sm-block" method="get" asp-page="/CustomersFolder/CustomerAdminInfo">
-                        <div class="input-group" style="width: 410px; margin-top: 10px;">
-                            <input class="form-control" type="search" placeholder="Search Customer ID, Name or City" aria-label="Search" name="query" required style="background-color: transparent; color: white;" value="@Request.Query["query"]">
-                            <div class="input-group-append">
-                                <button id="update-profile-button" class="btn btn-primary" type="submit">
-                                    <i class="fa-solid fa-magnifying-glass mr-2"></i>Search
-                                </button>
+                    @if (User.IsInRole("Cashier"))
+                    {
+                        <form class="my-2 my-lg-0 pl-3 d-none d-sm-block" method="get" asp-page="/CustomersFolder/CustomerAdminInfo">
+                            <div class="input-group" style="width: 410px; margin-top: 10px;">
+                                <input class="form-control" type="search" placeholder="Search Customer ID, Name or City" aria-label="Search" name="query" required style="background-color: transparent; color: white;" value="@Request.Query["query"]">
+                                <div class="input-group-append">
+                                    <button id="update-profile-button" class="btn btn-primary" type="submit">
+                                        <i class="fa-solid fa-magnifying-glass mr-2"></i>Search
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-
+                        </form>
+                    }
                 </div>
             </div>
           </div>
