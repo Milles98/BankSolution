@@ -1,103 +1,144 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DataLibrary.Data;
-using Microsoft.AspNetCore.Authorization;
 
 namespace BankWeb.Pages.CustomerCRUD
 {
-    [Authorize(Roles = "Cashier")]
+    [BindProperties]
     public class EditModel : PageModel
     {
-        private readonly DataLibrary.Data.BankAppDataContext _context;
+        private readonly BankAppDataContext _context;
 
-        public EditModel(DataLibrary.Data.BankAppDataContext context)
+        public EditModel(BankAppDataContext context)
         {
             _context = context;
         }
 
-        [BindProperty]
-        public Customer Customer { get; set; } = default!;
-        [BindProperty]
+        [Required] public string Gender { get; set; }
+        [StringLength(15, MinimumLength = 2)] public string Givenname { get; set; }
+        [StringLength(15, MinimumLength = 2)] public string Surname { get; set; }
+        [StringLength(30, MinimumLength = 2)] public string Streetaddress { get; set; }
+        [StringLength(15, MinimumLength = 2)] public string City { get; set; }
+        [RegularExpression(@"^(?=.*\d)([\d\s]*\d[\d\s]*){3,5}$", ErrorMessage = "Invalid Zipcode")]
+        [StringLength(8, ErrorMessage = "Zipcode cannot be longer than 8 characters.")]
+        public string Zipcode { get; set; }
+
+        [RegularExpression("^(Sweden|Norway|Denmark|Finland)$")] public string Country { get; set; }
+        public string CountryCode { get; set; }
         public int BirthdayYear { get; set; }
-        [BindProperty]
         public int BirthdayMonth { get; set; }
-
-        [BindProperty]
         public int BirthdayDay { get; set; }
-        public string DispositionType { get; set; } = "OWNER";
-        [BindProperty]
-        public string Frequency { get; set; } = "Monthly";
+        public string? NationalId { get; set; }
+        public string Telephonecountrycode { get; set; }
+        public string Telephonenumber { get; set; }
+        [RegularExpression(@"^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$")] public string Emailaddress { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public IActionResult OnGet(int id)
         {
-            if (id == null)
+            var customerDb = _context.Customers.FirstOrDefault(m => m.CustomerId == id);
+
+            if (customerDb == null)
             {
-                return NotFound();
+                return NotFound($"No customer found with ID {id}.");
             }
 
-            var customer = await _context.Customers.FirstAsync(m => m.CustomerId == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-            Customer = customer;
+            Gender = customerDb.Gender;
+            Givenname = customerDb.Givenname;
+            Surname = customerDb.Surname;
+            Streetaddress = customerDb.Streetaddress;
+            City = customerDb.City;
+            Zipcode = customerDb.Zipcode;
+            Country = customerDb.Country;
+            CountryCode = customerDb.CountryCode;
+            Telephonecountrycode = customerDb.Telephonecountrycode;
+            Telephonenumber = customerDb.Telephonenumber;
+            Emailaddress = customerDb.Emailaddress;
+            NationalId = customerDb.NationalId;
 
-            if (Customer.Birthday.HasValue)
+            if (customerDb.Birthday.HasValue)
             {
-                BirthdayYear = Customer.Birthday.Value.Year;
-                BirthdayMonth = Customer.Birthday.Value.Month;
-                BirthdayDay = Customer.Birthday.Value.Day;
+                BirthdayYear = customerDb.Birthday.Value.Year;
+                BirthdayMonth = customerDb.Birthday.Value.Month;
+                BirthdayDay = customerDb.Birthday.Value.Day;
             }
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+
+        public IActionResult OnPost(int id)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return Page();
-            }
+                var customerDb = _context.Customers.First(m => m.CustomerId == id);
 
-            if (BirthdayYear > 0 && BirthdayMonth > 0 && BirthdayDay > 0)
-            {
-                Customer.Birthday = new DateOnly(BirthdayYear, BirthdayMonth, BirthdayDay);
-            }
-
-            _context.Attach(Customer).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CustomerExists(Customer.CustomerId))
+                var oldValues = new
                 {
-                    return NotFound();
+                    customerDb.Gender,
+                    customerDb.Givenname,
+                    customerDb.Surname,
+                    customerDb.Streetaddress,
+                    customerDb.City,
+                    customerDb.Zipcode,
+                    customerDb.Country,
+                    customerDb.CountryCode,
+                    customerDb.Telephonecountrycode,
+                    customerDb.Telephonenumber,
+                    customerDb.Emailaddress,
+                    customerDb.NationalId,
+                    customerDb.Birthday
+                };
+
+                customerDb.Gender = Gender;
+                customerDb.Givenname = Givenname;
+                customerDb.Surname = Surname;
+                customerDb.Streetaddress = Streetaddress;
+                customerDb.City = City;
+                customerDb.Zipcode = Zipcode;
+                customerDb.Country = Country;
+                customerDb.CountryCode = CountryCode;
+                customerDb.Telephonecountrycode = Telephonecountrycode;
+                customerDb.Telephonenumber = Telephonenumber;
+                customerDb.Emailaddress = Emailaddress;
+                customerDb.NationalId = NationalId;
+
+                if (BirthdayYear > 0 && BirthdayMonth > 0 && BirthdayDay > 0)
+                {
+                    customerDb.Birthday = new DateOnly(BirthdayYear, BirthdayMonth, BirthdayDay);
+                }
+
+                var changes = new List<string>();
+                if (oldValues.Gender != Gender) changes.Add($"Gender: {oldValues.Gender} -> {Gender}");
+                if (oldValues.Givenname != Givenname) changes.Add($"Givenname: {oldValues.Givenname} -> {Givenname}");
+                if (oldValues.Surname != Surname) changes.Add($"Surname: {oldValues.Surname} -> {Surname}");
+                if (oldValues.Streetaddress != Streetaddress) changes.Add($"Streetaddress: {oldValues.Streetaddress} -> {Streetaddress}");
+                if (oldValues.City != City) changes.Add($"City: {oldValues.City} -> {City}");
+                if (oldValues.Zipcode != Zipcode) changes.Add($"Zipcode: {oldValues.Zipcode} -> {Zipcode}");
+                if (oldValues.Country != Country) changes.Add($"Country: {oldValues.Country} -> {Country}");
+                if (oldValues.CountryCode != CountryCode) changes.Add($"CountryCode: {oldValues.CountryCode} -> {CountryCode}");
+                if (oldValues.Telephonecountrycode != Telephonecountrycode) changes.Add($"Telephonecountrycode: {oldValues.Telephonecountrycode} -> {Telephonecountrycode}");
+                if (oldValues.Telephonenumber != Telephonenumber) changes.Add($"Telephonenumber: {oldValues.Telephonenumber} -> {Telephonenumber}");
+                if (oldValues.Emailaddress != Emailaddress) changes.Add($"Emailaddress: {oldValues.Emailaddress} -> {Emailaddress}");
+                if (oldValues.NationalId != NationalId) changes.Add($"NationalId: {oldValues.NationalId} -> {NationalId}");
+                if (oldValues.Birthday != customerDb.Birthday) changes.Add($"Birthday: {oldValues.Birthday} -> {customerDb.Birthday}");
+
+                if (changes.Count > 0)
+                {
+                    _context.Attach(customerDb).State = EntityState.Modified;
+                    _context.SaveChanges();
+
+                    TempData["Message"] = $"Customer ID {customerDb.CustomerId} ({customerDb.Givenname} {customerDb.Surname}) successfully updated. Changes: {string.Join(", ", changes)}";
                 }
                 else
                 {
-                    throw;
+                    TempData["ErrorMessage"] = "Nothing has been changed.";
                 }
+
+                return RedirectToPage("/CustomersFolder/CustomerDetails", new { id = customerDb.CustomerId });
             }
-
-            TempData["Message"] = "Customer details have been updated.";
-
-
-            return RedirectToPage("/CustomersFolder/CustomerDetails", new { id = Customer.CustomerId });
-        }
-
-
-        private bool CustomerExists(int id)
-        {
-            return _context.Customers.Any(e => e.CustomerId == id);
+            return Page();
         }
     }
 }

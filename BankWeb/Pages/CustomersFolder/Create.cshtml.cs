@@ -44,7 +44,7 @@ namespace BankWeb.Pages.CustomerCRUD
         public string Surname { get; set; }
         [BindProperty]
         [Required]
-        [StringLength(15, MinimumLength = 2, ErrorMessage = "Streetaddress must be between 2 and 30 characters long")]
+        [StringLength(15, MinimumLength = 2, ErrorMessage = "Streetaddress must be between 2 and 15 characters long")]
         public string Streetaddress { get; set; }
         [BindProperty]
         [Required]
@@ -52,7 +52,8 @@ namespace BankWeb.Pages.CustomerCRUD
         public string City { get; set; }
         [BindProperty]
         [Required]
-        [RegularExpression(@"^\d{1,5}(?:\s*\d{1,5})*$", ErrorMessage = "Zipcode must be exactly 5 digits long")]
+        [RegularExpression(@"^(?=.*\d)([\d\s]*\d[\d\s]*){3,5}$", ErrorMessage = "Invalid Zipcode")]
+        [StringLength(8, ErrorMessage = "Zipcode cannot be longer than 8 characters.")]
         public string Zipcode { get; set; }
 
         [BindProperty]
