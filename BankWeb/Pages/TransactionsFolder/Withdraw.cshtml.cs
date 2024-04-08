@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Identity.Client;
+using System.ComponentModel.DataAnnotations;
 
 namespace BankWeb.Pages.TransactionsFolder
 {
@@ -17,6 +18,7 @@ namespace BankWeb.Pages.TransactionsFolder
         public int AccountId { get; set; }
 
         [BindProperty]
+        [Range(1, 50000)]
         public decimal Amount { get; set; }
         public AccountViewModel Account { get; set; }
 

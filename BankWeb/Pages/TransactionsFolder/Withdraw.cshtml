@@ -21,13 +21,13 @@
     <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
         <label for="accountId">Account ID:</label>
         <input id="accountId" name="accountId" type="number" class="form-control" value="@Model.AccountId" required readonly>
-        <span class="field-validation-error" asp-validation-for="AccountId"></span>
+        <span class="personal-field-validation-error" asp-validation-for="AccountId"></span>
     </div>
 
     <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
         <label for="amount">Amount SEK:</label>
         <input id="amount" name="amount" type="number" step="0.01" class="form-control" required>
-        <span class="field-validation-error" asp-validation-for="Amount"></span>
+        <span class="personal-field-validation-error" asp-validation-for="Amount"></span>
     </div>
 
     <button type="submit" id="update-profile-button" class="btn btn-primary mb-3" style="margin-top: 10px;">
@@ -35,7 +35,7 @@
     </button>
 </form>
 
-<table class="table table-striped container table-hover">
+<table class="table table-striped container table-hover mt-5">
     <tr>
         <th scope="col">Account ID</th>
         <th scope="col">Frequency</th>

@@ -17,6 +17,18 @@ https://templatemo.com/tm-545-finance-business
     width: 500px !important;
 }
 
+.form-group {
+    position: relative;
+}
+
+.personal-field-validation-error {
+    position: absolute;
+    bottom: -68px;
+    left: 0;
+    width: 100%;
+    color: red;
+}
+
 .custom-width {
     /*width: 29%;*/
 }
