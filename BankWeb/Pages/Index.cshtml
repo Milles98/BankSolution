@@ -95,11 +95,13 @@
                                         <td class="text-white custom-width">
                                             @if (User.IsInRole("Cashier"))
                                             {
-                                                <a class="country-styling" asp-page="/CountryDetails" asp-route-country="@entry.Key">@entry.Key</a>
+                                                <a class="country-styling" asp-page="/CountryDetails" asp-route-country="@entry.Key">
+                                                    <i class="fa-solid fa-eye mr-2"></i>@entry.Key
+                                                </a>
                                             }
                                             else
                                             {
-                                                <span>@entry.Key</span>
+                                                <span class="ml-2">@entry.Key</span>
                                             }
                                         </td>
                                         <td class="text-white custom-width pl-4 d-none d-sm-table-cell">@entry.Value.customers</td>
