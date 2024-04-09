@@ -21,10 +21,6 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="row">
                     <div class="col-md-6">
-                        <!-- Place half of the form fields here -->
-
-
-                        <!-- Gender dropdown -->
                         <div class="form-group">
                             <label asp-for="Gender" class="control-label"></label>
                             <select asp-for="Gender" class="form-control">
@@ -88,9 +84,6 @@
                         
                     </div>
                     <div class="col-md-6">
-                        <!-- Place the other half of the form fields here -->
-
-                        <!-- Country dropdown -->
                         <div class="form-group">
                             <label asp-for="Country" class="control-label"></label>
                             <select asp-for="Country" class="form-control" id="countryDropdown">
@@ -102,15 +95,11 @@
                             </select>
                             <span asp-validation-for="Country" class="text-danger"></span>
                         </div>
-
-                        <!-- CountryCode dropdown -->
                         <div class="form-group">
                             <label asp-for="CountryCode" class="control-label"></label>
                             <input asp-for="CountryCode" class="form-control" readonly id="countryCode" />
                             <span asp-validation-for="CountryCode" class="text-danger"></span>
                         </div>
-
-                        <!-- Birthday input -->
                         <div class="form-group">
                             <label class="control-label">Birthday</label>
                             <select asp-for="BirthdayYear" class="form-control">
@@ -138,15 +127,10 @@
                             </select>
                             <span asp-validation-for="BirthdayDay" class="text-danger"></span>
                         </div>
-
-
-                        <!-- NationalId input -->
                         <div class="form-group">
                             <label asp-for="NationalId" class="control-label"></label>
                             <input asp-for="NationalId" class="form-control" placeholder="Optional" />
                         </div>
-
-                        <!-- Telephonecountrycode input -->
                         <div class="form-group">
                             <label asp-for="Telephonecountrycode" class="control-label"></label>
                             <input asp-for="Telephonecountrycode" class="form-control" readonly id="telephoneCountryCode" />
