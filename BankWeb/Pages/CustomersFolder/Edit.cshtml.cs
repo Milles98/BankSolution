@@ -129,7 +129,8 @@ namespace BankWeb.Pages.CustomerCRUD
                     _context.Attach(customerFromDb).State = EntityState.Modified;
                     _context.SaveChanges();
 
-                    TempData["Message"] = $"Customer ID {customerFromDb.CustomerId} ({customerFromDb.Givenname} {customerFromDb.Surname}) successfully updated. Changes: {string.Join(", ", changes)}";
+                    TempData["EditMessage"] = $"Customer ID {customerFromDb.CustomerId} ({customerFromDb.Givenname} {customerFromDb.Surname}) successfully updated.<br>{string.Join("<br>", changes)}";
+
                 }
                 else
                 {
