@@ -1,44 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using DataLibrary.Data;
-using Microsoft.AspNetCore.Authorization;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Threading.Tasks;
+//using Microsoft.AspNetCore.Mvc;
+//using Microsoft.AspNetCore.Mvc.RazorPages;
+//using Microsoft.EntityFrameworkCore;
+//using DataLibrary.Data;
+//using Microsoft.AspNetCore.Authorization;
 
-namespace BankWeb.Pages.CustomerCRUD
-{
-    [Authorize(Roles = "Cashier")]
-    public class DetailsModel : PageModel
-    {
-        private readonly DataLibrary.Data.BankAppDataContext _context;
+//namespace BankWeb.Pages.CustomerCRUD
+//{
+//    [Authorize(Roles = "Cashier")]
+//    public class DetailsModel : PageModel
+//    {
+//        private readonly DataLibrary.Data.BankAppDataContext _context;
 
-        public DetailsModel(DataLibrary.Data.BankAppDataContext context)
-        {
-            _context = context;
-        }
+//        public DetailsModel(DataLibrary.Data.BankAppDataContext context)
+//        {
+//            _context = context;
+//        }
 
-        public Customer Customer { get; set; } = default!;
+//        public Customer Customer { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+//        public async Task<IActionResult> OnGetAsync(int? id)
+//        {
+//            if (id == null)
+//            {
+//                return NotFound();
+//            }
 
-            var customer = await _context.Customers.FirstOrDefaultAsync(m => m.CustomerId == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                Customer = customer;
-            }
-            return Page();
-        }
-    }
-}
+//            var customer = await _context.Customers.FirstOrDefaultAsync(m => m.CustomerId == id);
+//            if (customer == null)
+//            {
+//                return NotFound();
+//            }
+//            else
+//            {
+//                Customer = customer;
+//            }
+//            return Page();
+//        }
+//    }
+//}

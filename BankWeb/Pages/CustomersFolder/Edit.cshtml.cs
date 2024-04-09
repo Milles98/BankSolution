@@ -37,31 +37,31 @@ namespace BankWeb.Pages.CustomerCRUD
 
         public IActionResult OnGet(int id)
         {
-            var customerDb = _context.Customers.FirstOrDefault(m => m.CustomerId == id);
+            var customerFromDb = _context.Customers.First(m => m.CustomerId == id);
 
-            if (customerDb == null)
+            if (customerFromDb == null)
             {
                 return NotFound($"No customer found with ID {id}.");
             }
 
-            Gender = customerDb.Gender;
-            Givenname = customerDb.Givenname;
-            Surname = customerDb.Surname;
-            Streetaddress = customerDb.Streetaddress;
-            City = customerDb.City;
-            Zipcode = customerDb.Zipcode;
-            Country = customerDb.Country;
-            CountryCode = customerDb.CountryCode;
-            Telephonecountrycode = customerDb.Telephonecountrycode;
-            Telephonenumber = customerDb.Telephonenumber;
-            Emailaddress = customerDb.Emailaddress;
-            NationalId = customerDb.NationalId;
+            Gender = customerFromDb.Gender;
+            Givenname = customerFromDb.Givenname;
+            Surname = customerFromDb.Surname;
+            Streetaddress = customerFromDb.Streetaddress;
+            City = customerFromDb.City;
+            Zipcode = customerFromDb.Zipcode;
+            Country = customerFromDb.Country;
+            CountryCode = customerFromDb.CountryCode;
+            Telephonecountrycode = customerFromDb.Telephonecountrycode;
+            Telephonenumber = customerFromDb.Telephonenumber;
+            Emailaddress = customerFromDb.Emailaddress;
+            NationalId = customerFromDb.NationalId;
 
-            if (customerDb.Birthday.HasValue)
+            if (customerFromDb.Birthday.HasValue)
             {
-                BirthdayYear = customerDb.Birthday.Value.Year;
-                BirthdayMonth = customerDb.Birthday.Value.Month;
-                BirthdayDay = customerDb.Birthday.Value.Day;
+                BirthdayYear = customerFromDb.Birthday.Value.Year;
+                BirthdayMonth = customerFromDb.Birthday.Value.Month;
+                BirthdayDay = customerFromDb.Birthday.Value.Day;
             }
 
             return Page();
@@ -72,41 +72,41 @@ namespace BankWeb.Pages.CustomerCRUD
         {
             if (ModelState.IsValid)
             {
-                var customerDb = _context.Customers.First(m => m.CustomerId == id);
+                var customerFromDb = _context.Customers.First(m => m.CustomerId == id);
 
                 var oldValues = new
                 {
-                    customerDb.Gender,
-                    customerDb.Givenname,
-                    customerDb.Surname,
-                    customerDb.Streetaddress,
-                    customerDb.City,
-                    customerDb.Zipcode,
-                    customerDb.Country,
-                    customerDb.CountryCode,
-                    customerDb.Telephonecountrycode,
-                    customerDb.Telephonenumber,
-                    customerDb.Emailaddress,
-                    customerDb.NationalId,
-                    customerDb.Birthday
+                    customerFromDb.Gender,
+                    customerFromDb.Givenname,
+                    customerFromDb.Surname,
+                    customerFromDb.Streetaddress,
+                    customerFromDb.City,
+                    customerFromDb.Zipcode,
+                    customerFromDb.Country,
+                    customerFromDb.CountryCode,
+                    customerFromDb.Telephonecountrycode,
+                    customerFromDb.Telephonenumber,
+                    customerFromDb.Emailaddress,
+                    customerFromDb.NationalId,
+                    customerFromDb.Birthday
                 };
 
-                customerDb.Gender = Gender;
-                customerDb.Givenname = Givenname;
-                customerDb.Surname = Surname;
-                customerDb.Streetaddress = Streetaddress;
-                customerDb.City = City;
-                customerDb.Zipcode = Zipcode;
-                customerDb.Country = Country;
-                customerDb.CountryCode = CountryCode;
-                customerDb.Telephonecountrycode = Telephonecountrycode;
-                customerDb.Telephonenumber = Telephonenumber;
-                customerDb.Emailaddress = Emailaddress;
-                customerDb.NationalId = NationalId;
+                customerFromDb.Gender = Gender;
+                customerFromDb.Givenname = Givenname;
+                customerFromDb.Surname = Surname;
+                customerFromDb.Streetaddress = Streetaddress;
+                customerFromDb.City = City;
+                customerFromDb.Zipcode = Zipcode;
+                customerFromDb.Country = Country;
+                customerFromDb.CountryCode = CountryCode;
+                customerFromDb.Telephonecountrycode = Telephonecountrycode;
+                customerFromDb.Telephonenumber = Telephonenumber;
+                customerFromDb.Emailaddress = Emailaddress;
+                customerFromDb.NationalId = NationalId;
 
                 if (BirthdayYear > 0 && BirthdayMonth > 0 && BirthdayDay > 0)
                 {
-                    customerDb.Birthday = new DateOnly(BirthdayYear, BirthdayMonth, BirthdayDay);
+                    customerFromDb.Birthday = new DateOnly(BirthdayYear, BirthdayMonth, BirthdayDay);
                 }
 
                 var changes = new List<string>();
@@ -122,21 +122,21 @@ namespace BankWeb.Pages.CustomerCRUD
                 if (oldValues.Telephonenumber != Telephonenumber) changes.Add($"Telephonenumber: {oldValues.Telephonenumber} -> {Telephonenumber}");
                 if (oldValues.Emailaddress != Emailaddress) changes.Add($"Emailaddress: {oldValues.Emailaddress} -> {Emailaddress}");
                 if (oldValues.NationalId != NationalId) changes.Add($"NationalId: {oldValues.NationalId} -> {NationalId}");
-                if (oldValues.Birthday != customerDb.Birthday) changes.Add($"Birthday: {oldValues.Birthday} -> {customerDb.Birthday}");
+                if (oldValues.Birthday != customerFromDb.Birthday) changes.Add($"Birthday: {oldValues.Birthday} -> {customerFromDb.Birthday}");
 
                 if (changes.Count > 0)
                 {
-                    _context.Attach(customerDb).State = EntityState.Modified;
+                    _context.Attach(customerFromDb).State = EntityState.Modified;
                     _context.SaveChanges();
 
-                    TempData["Message"] = $"Customer ID {customerDb.CustomerId} ({customerDb.Givenname} {customerDb.Surname}) successfully updated. Changes: {string.Join(", ", changes)}";
+                    TempData["Message"] = $"Customer ID {customerFromDb.CustomerId} ({customerFromDb.Givenname} {customerFromDb.Surname}) successfully updated. Changes: {string.Join(", ", changes)}";
                 }
                 else
                 {
                     TempData["ErrorMessage"] = "Nothing has been changed.";
                 }
 
-                return RedirectToPage("/CustomersFolder/CustomerDetails", new { id = customerDb.CustomerId });
+                return RedirectToPage("/CustomersFolder/CustomerDetails", new { id = customerFromDb.CustomerId });
             }
             return Page();
         }

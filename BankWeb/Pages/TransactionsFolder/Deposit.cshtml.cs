@@ -26,7 +26,7 @@ namespace BankWeb.Pages.TransactionsFolder
             _bankService = bankService;
         }
 
-        public void OnGet(int accountId = 0)
+        public void OnGet(int accountId)
         {
             AccountId = accountId;
             Account = _bankService.GetAccountDetailsForDisplay(accountId);
