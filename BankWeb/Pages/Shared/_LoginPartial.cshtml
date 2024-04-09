@@ -23,7 +23,8 @@
         var firstName = nameParts?.Length > 0 ? nameParts[0] : string.Empty;
 
         <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@greeting @firstName!</a>
+            @* asp-area="Identity" asp-page="/Account/Manage/Index" *@
+            <a class="nav-link" title="Manage">@greeting @firstName!</a>
         </li>
         <li class="nav-item d-sm-none">
             <a class="nav-link" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">Logout</a>
@@ -37,8 +38,8 @@
     else
     {
         @* <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
-        </li> *@
+    <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li> *@
         <li class="nav-item">
             <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
         </li>
