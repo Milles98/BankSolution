@@ -22,7 +22,7 @@ class Program
 
             var currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var lastRunTimeFilePath = Path.Combine(currentDirectory, "..", "..", "..", "SuspicionReport", "lastRunTime.txt");
-            DateOnly globalLastRunTime = detector.GetLastRunTime(lastRunTimeFilePath);  // Hämta den gemensamma senaste körtiden
+            DateOnly globalLastRunTime = detector.GetLastRunTime(lastRunTimeFilePath);
 
             DateOnly latestTransactionDateAcrossCountries = globalLastRunTime;
 
@@ -41,7 +41,6 @@ class Program
                 latestTransactionDateAcrossCountries = latestTransactionDate > latestTransactionDateAcrossCountries ? latestTransactionDate : latestTransactionDateAcrossCountries;
             }
 
-            // Uppdatera den globala senaste körtiden efter att alla länder har behandlats
             detector.SaveLastRunTime(latestTransactionDateAcrossCountries, lastRunTimeFilePath);
             Console.WriteLine("Suspicious activity detection completed.");
         }

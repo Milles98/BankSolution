@@ -79,7 +79,6 @@ namespace MoneyLaunderingSafetyMeasure
             HashSet<string> existingEntries = new HashSet<string>();
             if (File.Exists(filePath))
             {
-                // Read all existing entries to avoid duplicating them
                 existingEntries = new HashSet<string>(File.ReadAllLines(filePath));
                 File.AppendAllText(filePath, "\n---\n");
             }
@@ -93,7 +92,6 @@ namespace MoneyLaunderingSafetyMeasure
                 }
             }
 
-            // Append only new, unique suspicious user entries
             File.AppendAllLines(filePath, newEntries);
             Console.WriteLine($"\nReport for {country} generated with {newEntries.Count} new suspicious users.");
         }
