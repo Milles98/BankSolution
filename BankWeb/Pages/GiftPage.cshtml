@@ -1,12 +1,38 @@
 ﻿@page
 @model BankWeb.Pages.GiftPageModel
-@{
-}
 
 <div class="page-heading header-text">
-    <h1>Why would you send this person a gift?</h1>
-    <h6>Shame on you!</h6>
-    <button id="update-profile-button" type="button" class="btn btn-primary mt-3" onclick="window.history.back();">
+    <h1>Gift Customer?</h1>
+    <h6 id="giftDisplay">Press the button to reveal the gift!</h6>
+    <button id="spinButton" type="button" class="btn btn-success mt-3">Reveal Gift</button>
+    <button type="button" id="update-profile-button" class="btn btn-secondary mt-3" onclick="window.history.back();">
         <i class="fa-solid fa-arrow-left mr-2"></i>Return
     </button>
 </div>
+
+<style>
+    .btn {
+        cursor: pointer;
+        margin: 10px;
+    }
+</style>
+
+<script>
+    document.getElementById('spinButton').addEventListener('click', function () {
+        var gifts = @Html.Raw(Model.GiftsJson);
+        var giftDisplay = document.getElementById('giftDisplay');
+        var index = 0;
+        var interval = setInterval(function () {
+            giftDisplay.textContent = gifts[index];
+            index++;
+            if (index >= gifts.length) index = 0;
+        }, 75); 
+
+        setTimeout(function () {
+            clearInterval(interval);
+            var randomIndex = Math.floor(Math.random() * gifts.length);
+            giftDisplay.textContent = gifts[randomIndex];
+        }, 3000); 
+    });
+</script>
+
