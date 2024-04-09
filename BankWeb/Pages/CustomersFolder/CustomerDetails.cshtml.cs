@@ -30,8 +30,8 @@ namespace BankWeb.Pages.CustomersFolder
                 return NotFound();
             }
 
-            // Assuming Gender is now included in Customer
-            ViewData["GenderIcon"] = Customer.Gender == "Male" ? "fas fa-male" : "fas fa-female";
+            ViewData["GenderIcon"] = Customer.Gender == "male" ? "fas fa-male" : "fas fa-female";
+            ViewData["GenderColor"] = Customer.Gender == "male" ? "saddlebrown" : "purple";
 
             return Page();
         }

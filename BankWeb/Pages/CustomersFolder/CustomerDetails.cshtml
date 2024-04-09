@@ -6,7 +6,8 @@
 
 <style>
     .large-icon {
-        font-size: 1.5em; 
+        font-size: 2em; 
+        margin-right: 10px;
     }
 
     .large-text {
@@ -43,10 +44,9 @@
         </div>
     }
 
-    <!-- Customer card -->
     <div class="card">
         <div class="card-header">
-            <i class="@ViewData["GenderIcon"] large-icon"></i> <!-- Font Awesome icon -->
+            <i class="@ViewData["GenderIcon"] large-icon" style="color: @ViewData["GenderColor"]"></i>
             <span class="large-text">@Model.Customer.Givenname @Model.Customer.Surname</span>
         </div>
         <div class="card-body">
