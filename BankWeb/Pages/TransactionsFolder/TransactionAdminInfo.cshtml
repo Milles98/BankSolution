@@ -5,15 +5,6 @@
     int endPage = startPage + 2 > Model.TotalPages ? Model.TotalPages : startPage + 2;
 }
 
-@* <style>
-    .table td, .table th {
-        width: 1%;
-        white-space: nowrap;
-        text-align: left;
-    }
-</style> *@
-
-
 <div class="page-heading header-text">
     <h1>Transactions</h1>
     <button id="update-profile-button" type="button" class="btn btn-primary" onclick="location.href='/TransactionsFolder/TransactionAdminInfo';">
@@ -23,8 +14,8 @@
 
 <div class="container">
     <form method="get" class="text-left mt-4">
-        <div class="input-group mb-3" style="width: 300px; margin-top: 10px;">
-            <input type="text" class="form-control" name="search" placeholder="Enter Transaction ID" value="@Request.Query["search"]">
+        <div class="input-group mb-3" style="width: 320px; margin-top: 10px;">
+            <input type="text" class="form-control" name="search" placeholder="Search Transaction ID" value="@Request.Query["search"]">
             <div class="input-group-append">
                 <button id="update-profile-button" type="submit" class="btn btn-primary">
                     <i class="fa-solid fa-magnifying-glass mr-2"></i>Search
@@ -32,7 +23,6 @@
             </div>
         </div>
     </form>
-
 
     <table class="table table-hover">
     <thead>

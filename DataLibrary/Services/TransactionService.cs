@@ -27,6 +27,11 @@ namespace DataLibrary.Services
             _mapper = mapper;
         }
 
+        public BankAppDataContext GetDbContext()
+        {
+            return _context;
+        }
+
         public async Task<List<TransactionViewModel>> GetTransactions(int currentPage, int transactionsPerPage, string sortColumn, string sortOrder, string search)
         {
             var query = _context.Transactions

@@ -12,12 +12,10 @@ namespace BankWeb.Pages.TransactionsFolder
     public class TransactionsIndividualAccountModel : PageModel
     {
         private readonly ITransactionService _transactionService;
-        private readonly BankAppDataContext _context;
 
-        public TransactionsIndividualAccountModel(ITransactionService transactionService, BankAppDataContext context)
+        public TransactionsIndividualAccountModel(ITransactionService transactionService)
         {
             _transactionService = transactionService;
-            _context = context;
         }
 
         public int AccountId { get; set; }
@@ -40,7 +38,7 @@ namespace BankWeb.Pages.TransactionsFolder
 
             try
             {
-                var transactionsQuery = _context.Transactions
+                var transactionsQuery = _transactionService.GetDbContext().Transactions
                     .Where(t => t.AccountId == accountId && !loadedIds.Contains(t.TransactionId));
 
                 if (lastFetchedTransactionTimestamp.HasValue)
