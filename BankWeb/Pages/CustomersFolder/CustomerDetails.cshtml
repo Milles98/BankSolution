@@ -67,10 +67,30 @@
                     <i class="fa-solid fa-up-right-from-square mr-2"></i>@Model.Customer.Streetaddress, @Model.Customer.City, @Model.Customer.Country
                 </a>
             </p>
-            @if (!string.IsNullOrEmpty(Model.Customer.NationalId))
-            {
-                <p class="card-title">National ID: @Model.Customer.NationalId</p>
-            }
+            <div class="row">
+                <div class="col-md-4">
+                    <p class="card-title">Gender: @Model.Customer.Gender</p>
+                    <p class="card-title">City: @Model.Customer.City</p>
+                    <p class="card-title">Zip Code: @Model.Customer.Zipcode</p>
+                    <p class="card-title">Country: @Model.Customer.Country</p>
+                    @if (!string.IsNullOrEmpty(Model.Customer.NationalId))
+                    {
+                        <p class="card-title">National ID: @Model.Customer.NationalId</p>
+                    }
+                    else
+                    {
+                        <p class="card-title>">National ID: Not Available</p>
+                    }
+                </div>
+                <div class="col-md-4">
+                    <p class="card-title">Country Code: @Model.Customer.CountryCode</p>
+                    <p class="card-title">Birthday: @Model.Customer.Birthday</p>
+                    <p class="card-title">Telephone Country Code: @Model.Customer.Telephonecountrycode</p>
+                    <p class="card-title">Telephone Number: @Model.Customer.Telephonenumber</p>
+                    <p class="card-title">Email Address: @Model.Customer.Emailaddress</p>
+                </div>
+            </div>
+            
             <a asp-page="/AccountsFolder/CreateAccount" asp-route-customerId="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary">
                 <i class="fa-solid fa-plus mr-2"></i>Create New Account
             </a>
