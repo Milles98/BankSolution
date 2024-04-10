@@ -6,6 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using DataLibrary.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
+using System.Net.Mail;
+using System.Reflection.Emit;
+using System.Reflection;
 
 namespace DataLibrary.Services
 {
@@ -16,6 +20,11 @@ namespace DataLibrary.Services
         public PersonService(BankAppDataContext context)
         {
             _context = context;
+        }
+
+        public BankAppDataContext GetDbContext()
+        {
+            return _context;
         }
 
         public async Task<Customer> CreateCustomerAsync(Customer customer, Account account, Disposition disposition)
@@ -128,6 +137,74 @@ namespace DataLibrary.Services
             var completeCustomer = await CreateCustomerAsync(customer, account, disposition);
             return (completeCustomer, account, disposition);
         }
+
+        public async Task<(Customer, List<string>)> UpdateCustomerAsync(
+            int id, string gender, string givenName, string surname, string streetAddress, string city, string zipcode,
+            string country, string countryCode, string emailaddress, string telephoneCountryCode, string telephoneNumber,
+            string? nationalId, int birthdayYear, int birthdayMonth, int birthdayDay
+        )
+        {
+            var customerFromDb = await _context.Customers.FirstAsync(m => m.CustomerId == id);
+
+            var oldValues = new
+            {
+                customerFromDb.Gender,
+                customerFromDb.Givenname,
+                customerFromDb.Surname,
+                customerFromDb.Streetaddress,
+                customerFromDb.City,
+                customerFromDb.Zipcode,
+                customerFromDb.Country,
+                customerFromDb.CountryCode,
+                customerFromDb.Telephonecountrycode,
+                customerFromDb.Telephonenumber,
+                customerFromDb.Emailaddress,
+                customerFromDb.NationalId,
+                customerFromDb.Birthday
+            };
+
+            customerFromDb.Gender = gender;
+            customerFromDb.Givenname = givenName;
+            customerFromDb.Surname = surname;
+            customerFromDb.Streetaddress = streetAddress;
+            customerFromDb.City = city;
+            customerFromDb.Zipcode = zipcode;
+            customerFromDb.Country = country;
+            customerFromDb.CountryCode = countryCode;
+            customerFromDb.Telephonecountrycode = telephoneCountryCode;
+            customerFromDb.Telephonenumber = telephoneNumber;
+            customerFromDb.Emailaddress = emailaddress;
+            customerFromDb.NationalId = nationalId;
+
+            if (birthdayYear > 0 && birthdayMonth > 0 && birthdayDay > 0)
+            {
+                customerFromDb.Birthday = new DateOnly(birthdayYear, birthdayMonth, birthdayDay);
+            }
+
+            var changes = new List<string>();
+            if (oldValues.Gender != gender) changes.Add($"Gender: {oldValues.Gender} -> {gender}");
+            if (oldValues.Givenname != givenName) changes.Add($"Givenname: {oldValues.Givenname} -> {givenName}");
+            if (oldValues.Surname != surname) changes.Add($"Surname: {oldValues.Surname} -> {surname}");
+            if (oldValues.Streetaddress != streetAddress) changes.Add($"Streetaddress: {oldValues.Streetaddress} -> {streetAddress}");
+            if (oldValues.City != city) changes.Add($"City: {oldValues.City} -> {city}");
+            if (oldValues.Zipcode != zipcode) changes.Add($"Zipcode: {oldValues.Zipcode} -> {zipcode}");
+            if (oldValues.Country != country) changes.Add($"Country: {oldValues.Country} -> {country}");
+            if (oldValues.CountryCode != countryCode) changes.Add($"CountryCode: {oldValues.CountryCode} -> {countryCode}");
+            if (oldValues.Telephonecountrycode != telephoneCountryCode) changes.Add($"Telephonecountrycode: {oldValues.Telephonecountrycode} -> {telephoneCountryCode}");
+            if (oldValues.Telephonenumber != telephoneNumber) changes.Add($"Telephonenumber: {oldValues.Telephonenumber} -> {telephoneNumber}");
+            if (oldValues.Emailaddress != emailaddress) changes.Add($"Emailaddress: {oldValues.Emailaddress} -> {emailaddress}");
+            if (oldValues.NationalId != nationalId) changes.Add($"NationalId: {oldValues.NationalId} -> {nationalId}");
+            if (oldValues.Birthday != customerFromDb.Birthday) changes.Add($"Birthday: {oldValues.Birthday} -> {customerFromDb.Birthday}");
+
+            if (changes.Count > 0)
+            {
+                _context.Attach(customerFromDb).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+
+            return (customerFromDb, changes);
+        }
+
 
     }
 }

@@ -9,6 +9,7 @@ namespace DataLibrary.Services.Interfaces
 {
     public interface IPersonService
     {
+        BankAppDataContext GetDbContext();
         Task<Customer> CreateCustomerAsync(Customer customer, Account account, Disposition disposition);
         Task DeleteCustomerAsync(int id);
         Task<Customer> GetCustomerAsync(int id);
@@ -19,5 +20,9 @@ namespace DataLibrary.Services.Interfaces
             string country, string countryCode, string emailaddress, string telephoneCountryCode, string telephoneNumber,
             string? nationalId, int birthdayYear, int birthdayMonth, int birthdayDay, string frequency, decimal initialDeposit,
             string dispositionType);
+        Task<(Customer, List<string>)> UpdateCustomerAsync(
+            int id, string gender, string givenName, string surname, string streetAddress, string city, string zipcode,
+            string country, string countryCode, string emailaddress, string telephoneCountryCode, string telephoneNumber,
+            string? nationalId, int birthdayYear, int birthdayMonth, int birthdayDay);
     }
 }

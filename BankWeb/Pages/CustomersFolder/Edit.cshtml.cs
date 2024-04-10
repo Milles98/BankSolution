@@ -3,17 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using DataLibrary.Data;
+using DataLibrary.Services.Interfaces;
 
 namespace BankWeb.Pages.CustomerCRUD
 {
     [BindProperties]
     public class EditModel : PageModel
     {
-        private readonly BankAppDataContext _context;
+        private readonly IPersonService _personService;
 
-        public EditModel(BankAppDataContext context)
+        public EditModel(IPersonService personService)
         {
-            _context = context;
+            _personService = personService;
         }
 
         [Required] public string Gender { get; set; }
@@ -37,7 +38,7 @@ namespace BankWeb.Pages.CustomerCRUD
 
         public IActionResult OnGet(int id)
         {
-            var customerFromDb = _context.Customers.First(m => m.CustomerId == id);
+            var customerFromDb = _personService.GetDbContext().Customers.First(m => m.CustomerId == id);
 
             if (customerFromDb == null)
             {
@@ -68,77 +69,35 @@ namespace BankWeb.Pages.CustomerCRUD
         }
 
 
-        public IActionResult OnPost(int id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
             if (ModelState.IsValid)
             {
-                var customerFromDb = _context.Customers.First(m => m.CustomerId == id);
-
-                var oldValues = new
+                try
                 {
-                    customerFromDb.Gender,
-                    customerFromDb.Givenname,
-                    customerFromDb.Surname,
-                    customerFromDb.Streetaddress,
-                    customerFromDb.City,
-                    customerFromDb.Zipcode,
-                    customerFromDb.Country,
-                    customerFromDb.CountryCode,
-                    customerFromDb.Telephonecountrycode,
-                    customerFromDb.Telephonenumber,
-                    customerFromDb.Emailaddress,
-                    customerFromDb.NationalId,
-                    customerFromDb.Birthday
-                };
+                    var (customer, changes) = await _personService.UpdateCustomerAsync(
+                        id, Gender, Givenname, Surname, Streetaddress, City, Zipcode, Country, CountryCode,
+                        Emailaddress, Telephonecountrycode, Telephonenumber, NationalId, BirthdayYear, BirthdayMonth, BirthdayDay
+                    );
 
-                customerFromDb.Gender = Gender;
-                customerFromDb.Givenname = Givenname;
-                customerFromDb.Surname = Surname;
-                customerFromDb.Streetaddress = Streetaddress;
-                customerFromDb.City = City;
-                customerFromDb.Zipcode = Zipcode;
-                customerFromDb.Country = Country;
-                customerFromDb.CountryCode = CountryCode;
-                customerFromDb.Telephonecountrycode = Telephonecountrycode;
-                customerFromDb.Telephonenumber = Telephonenumber;
-                customerFromDb.Emailaddress = Emailaddress;
-                customerFromDb.NationalId = NationalId;
+                    if (changes.Count > 0)
+                    {
+                        TempData["EditMessage"] = $"Customer ID {customer.CustomerId} ({customer.Givenname} {customer.Surname}) successfully updated.<br>{string.Join("<br>", changes)}";
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Nothing has been changed.";
+                    }
 
-                if (BirthdayYear > 0 && BirthdayMonth > 0 && BirthdayDay > 0)
-                {
-                    customerFromDb.Birthday = new DateOnly(BirthdayYear, BirthdayMonth, BirthdayDay);
+                    return RedirectToPage("/CustomersFolder/CustomerDetails", new { id = customer.CustomerId });
                 }
-
-                var changes = new List<string>();
-                if (oldValues.Gender != Gender) changes.Add($"Gender: {oldValues.Gender} -> {Gender}");
-                if (oldValues.Givenname != Givenname) changes.Add($"Givenname: {oldValues.Givenname} -> {Givenname}");
-                if (oldValues.Surname != Surname) changes.Add($"Surname: {oldValues.Surname} -> {Surname}");
-                if (oldValues.Streetaddress != Streetaddress) changes.Add($"Streetaddress: {oldValues.Streetaddress} -> {Streetaddress}");
-                if (oldValues.City != City) changes.Add($"City: {oldValues.City} -> {City}");
-                if (oldValues.Zipcode != Zipcode) changes.Add($"Zipcode: {oldValues.Zipcode} -> {Zipcode}");
-                if (oldValues.Country != Country) changes.Add($"Country: {oldValues.Country} -> {Country}");
-                if (oldValues.CountryCode != CountryCode) changes.Add($"CountryCode: {oldValues.CountryCode} -> {CountryCode}");
-                if (oldValues.Telephonecountrycode != Telephonecountrycode) changes.Add($"Telephonecountrycode: {oldValues.Telephonecountrycode} -> {Telephonecountrycode}");
-                if (oldValues.Telephonenumber != Telephonenumber) changes.Add($"Telephonenumber: {oldValues.Telephonenumber} -> {Telephonenumber}");
-                if (oldValues.Emailaddress != Emailaddress) changes.Add($"Emailaddress: {oldValues.Emailaddress} -> {Emailaddress}");
-                if (oldValues.NationalId != NationalId) changes.Add($"NationalId: {oldValues.NationalId} -> {NationalId}");
-                if (oldValues.Birthday != customerFromDb.Birthday) changes.Add($"Birthday: {oldValues.Birthday} -> {customerFromDb.Birthday}");
-
-                if (changes.Count > 0)
+                catch (Exception ex)
                 {
-                    _context.Attach(customerFromDb).State = EntityState.Modified;
-                    _context.SaveChanges();
-
-                    TempData["EditMessage"] = $"Customer ID {customerFromDb.CustomerId} ({customerFromDb.Givenname} {customerFromDb.Surname}) successfully updated.<br>{string.Join("<br>", changes)}";
-
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                    return Page();
                 }
-                else
-                {
-                    TempData["ErrorMessage"] = "Nothing has been changed.";
-                }
-
-                return RedirectToPage("/CustomersFolder/CustomerDetails", new { id = customerFromDb.CustomerId });
             }
+
             return Page();
         }
     }
