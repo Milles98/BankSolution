@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankWeb.Pages
 {
-    [Authorize(Roles = "Cashier")]
     [ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "country" })]
     public class CountryDetailsModel : PageModel
     {
