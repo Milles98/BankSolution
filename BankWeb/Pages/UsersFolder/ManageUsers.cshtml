@@ -73,12 +73,17 @@
                         <a id="update-profile-button" class="btn btn-primary" asp-page="EditUser" asp-route-id="@user.Id">
                             <i class="fa-solid fa-pen-to-square mr-2"></i>Edit
                         </a>
-                        @if (!isSelf)
+                        @if (!isSelf && !isProtectedUser)
                         {
-                            <a class="btn btn-danger @(isProtectedUser ? "disabled" : "")" asp-page="DeleteUser" asp-route-id="@user.Id">
+                            <a class="btn btn-danger" asp-page="DeleteUser" asp-route-id="@user.Id">
                                 <i class="fa-solid fa-trash-can mr-2"></i>Delete
                             </a>
                         }
+                        else if (isProtectedUser)
+                        {
+                            <span class="badge badge-warning">Protected User</span>
+                        }
+
                     </td>
                 </tr>
             }
