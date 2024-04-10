@@ -112,5 +112,46 @@ namespace DataLibrary.Services
             var account = await _context.Accounts.FirstAsync(a => a.AccountId == accountId);
             return account.Balance;
         }
+
+        public async Task<(List<TransactionViewModel>, bool)> LoadMoreTransactions(int accountId, DateTime? lastFetchedTransactionTimestamp, string loadedTransactionIds)
+        {
+            var loadedIds = new List<int>();
+            if (!string.IsNullOrEmpty(loadedTransactionIds))
+            {
+                loadedIds = loadedTransactionIds.Split(',').Select(int.Parse).ToList();
+            }
+
+            var transactionsQuery = _context.Transactions
+                .Where(t => t.AccountId == accountId && !loadedIds.Contains(t.TransactionId));
+
+            if (lastFetchedTransactionTimestamp.HasValue)
+            {
+                var lastFetchedDate = DateOnly.FromDateTime(lastFetchedTransactionTimestamp.Value);
+                transactionsQuery = transactionsQuery
+                    .Where(t => t.Date < lastFetchedDate);
+            }
+
+            var transactions = await transactionsQuery
+                .OrderByDescending(t => t.Date)
+                .Take(20)
+                .Select(t => new TransactionViewModel
+                {
+                    TransactionId = t.TransactionId,
+                    DateOfTransaction = t.Date,
+                    Type = t.Type,
+                    Operation = t.Operation,
+                    Amount = t.Amount,
+                    Balance = t.Balance
+                })
+                .ToListAsync();
+
+            var hasMore = transactionsQuery
+                .OrderByDescending(t => t.Date)
+                .Skip(20)
+                .Any();
+
+            return (transactions, hasMore);
+        }
+
     }
 }
