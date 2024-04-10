@@ -55,6 +55,8 @@
                             <input asp-for="Zipcode" class="form-control" />
                             <span asp-validation-for="Zipcode" class="text-danger"></span>
                         </div>
+                    </div>
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="Country" class="control-label"></label>
                             <select asp-for="Country" class="form-control" id="countryDropdown">
@@ -66,8 +68,6 @@
                             </select>
                             <span asp-validation-for="Country" class="text-danger"></span>
                         </div>
-                    </div>
-                    <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="CountryCode" class="control-label"></label>
                             <input asp-for="CountryCode" class="form-control" readonly id="countryCode" />
