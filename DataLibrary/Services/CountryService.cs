@@ -32,7 +32,6 @@ namespace DataLibrary.Services
                     CustomerId = c.CustomerId,
                     Givenname = c.Givenname,
                     Surname = c.Surname,
-                    Dispositions = c.Dispositions.ToList(),
                     TotalBalance = c.Dispositions.Sum(d => d.Account.Balance)
                 })
                 .Take(10)
