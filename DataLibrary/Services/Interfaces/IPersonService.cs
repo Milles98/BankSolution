@@ -14,5 +14,10 @@ namespace DataLibrary.Services.Interfaces
         Task<Customer> GetCustomerAsync(int id);
         Task<Customer?> GetCustomerByEmailAsync(string email);
         Task<bool> IsUniqueCombination(string givenName, string surname, string streetAddress);
+        Task<(Customer, Account, Disposition)> CreateCustomerAsync(
+            string gender, string givenName, string surname, string streetAddress, string city, string zipcode,
+            string country, string countryCode, string emailaddress, string telephoneCountryCode, string telephoneNumber,
+            string? nationalId, int birthdayYear, int birthdayMonth, int birthdayDay, string frequency, decimal initialDeposit,
+            string dispositionType);
     }
 }

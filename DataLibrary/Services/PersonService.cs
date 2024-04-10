@@ -65,5 +65,69 @@ namespace DataLibrary.Services
                                                           c.Streetaddress == streetAddress);
         }
 
+        public async Task<(Customer, Account, Disposition)> CreateCustomerAsync(
+            string gender, string givenName, string surname, string streetAddress, string city, string zipcode,
+            string country, string countryCode, string emailaddress, string telephoneCountryCode, string telephoneNumber,
+            string? nationalId, int birthdayYear, int birthdayMonth, int birthdayDay, string frequency, decimal initialDeposit,
+            string dispositionType)
+        {
+            var existingCustomer = await GetCustomerByEmailAsync(emailaddress);
+            if (existingCustomer != null)
+            {
+                throw new Exception("A customer with this email address already exists.");
+            }
+
+            var isUnique = await IsUniqueCombination(givenName, surname, streetAddress);
+            if (!isUnique)
+            {
+                throw new Exception("A customer with this name and address combination already exists.");
+            }
+
+            var customer = new Customer
+            {
+                Gender = gender,
+                Givenname = givenName,
+                Surname = surname,
+                Streetaddress = streetAddress,
+                City = city,
+                Zipcode = zipcode,
+                Country = country,
+                CountryCode = countryCode,
+                Emailaddress = emailaddress,
+                Telephonecountrycode = telephoneCountryCode,
+                Telephonenumber = telephoneNumber,
+                NationalId = nationalId
+            };
+
+            if (birthdayYear > 0 && birthdayMonth > 0 && birthdayDay > 0)
+            {
+                try
+                {
+                    customer.Birthday = new DateOnly(birthdayYear, birthdayMonth, birthdayDay);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    throw new Exception("Invalid date of birth");
+                }
+            }
+
+            var account = new Account
+            {
+                Frequency = frequency,
+                Created = DateOnly.FromDateTime(DateTime.Today),
+                Balance = initialDeposit
+            };
+
+            var disposition = new Disposition
+            {
+                Customer = customer,
+                Account = account,
+                Type = dispositionType
+            };
+
+            var completeCustomer = await CreateCustomerAsync(customer, account, disposition);
+            return (completeCustomer, account, disposition);
+        }
+
     }
 }

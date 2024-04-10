@@ -9,6 +9,7 @@ using DataLibrary.Data;
 using Microsoft.AspNetCore.Authorization;
 using System.ComponentModel.DataAnnotations;
 using DataLibrary.Services.Interfaces;
+using NuGet.DependencyResolver;
 
 namespace BankWeb.Pages.CustomerCRUD
 {
@@ -105,68 +106,22 @@ namespace BankWeb.Pages.CustomerCRUD
                 return Page();
             }
 
-            var existingCustomer = await _personService.GetCustomerByEmailAsync(Emailaddress);
-            if (existingCustomer != null)
+            try
             {
-                ModelState.AddModelError("Emailaddress", "A customer with this email address already exists.");
+                var (customer, account, disposition) = await _personService.CreateCustomerAsync(
+                    Gender, Givenname, Surname, Streetaddress, City, Zipcode, Country, CountryCode, Emailaddress,
+                    Telephonecountrycode, Telephonenumber, NationalId, BirthdayYear, BirthdayMonth, BirthdayDay,
+                    Frequency, InitialDeposit, DispositionType);
+
+                TempData["Message"] = $"Customer ID {customer.CustomerId} created along with Account ID {account.AccountId} and DispositionId {disposition.DispositionId} at {DateTime.Now:yyyy-MM-dd}";
+
+                return RedirectToPage("/CustomersFolder/CustomerDetails", new { id = customer.CustomerId });
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
                 return Page();
             }
-
-            var isUnique = await _personService.IsUniqueCombination(Givenname, Surname, Streetaddress);
-            if (!isUnique)
-            {
-                ModelState.AddModelError(string.Empty, "A customer with this name and address combination already exists.");
-                return Page();
-            }
-
-            var customer = new Customer
-            {
-                Gender = Gender,
-                Givenname = Givenname,
-                Surname = Surname,
-                Streetaddress = Streetaddress,
-                City = City,
-                Zipcode = Zipcode,
-                Country = Country,
-                CountryCode = CountryCode,
-                Emailaddress = Emailaddress,
-                Telephonecountrycode = Telephonecountrycode,
-                Telephonenumber = Telephonenumber,
-                NationalId = NationalId
-            };
-
-            if (BirthdayYear > 0 && BirthdayMonth > 0 && BirthdayDay > 0)
-            {
-                try
-                {
-                    customer.Birthday = new DateOnly(BirthdayYear, BirthdayMonth, BirthdayDay);
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    ModelState.AddModelError("string.Empty", "Invalid date of birth");
-                    return Page();
-                }
-            }
-
-            var account = new Account
-            {
-                Frequency = Frequency,
-                Created = DateOnly.FromDateTime(DateTime.Today),
-                Balance = InitialDeposit
-            };
-
-            var disposition = new Disposition
-            {
-                Customer = customer,
-                Account = account,
-                Type = DispositionType
-            };
-
-            customer = await _personService.CreateCustomerAsync(customer, account, disposition);
-
-            TempData["Message"] = $"Customer ID {customer.CustomerId} created along with Account ID {account.AccountId} and DispositionId {disposition.DispositionId} at {DateTime.Now:yyyy-MM-dd}";
-
-            return RedirectToPage("/CustomersFolder/CustomerDetails", new { id = customer.CustomerId });
         }
 
     }
