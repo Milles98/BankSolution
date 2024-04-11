@@ -107,9 +107,13 @@ namespace DataLibrary.Services
             return transactionViewModels;
         }
 
-        public async Task<decimal> GetAccountBalance(int accountId)
+        public async Task<decimal?> GetAccountBalance(int accountId)
         {
-            var account = await _context.Accounts.FirstAsync(a => a.AccountId == accountId);
+            var account = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId == accountId);
+            if (account == null)
+            {
+                return null;
+            }
             return account.Balance;
         }
 

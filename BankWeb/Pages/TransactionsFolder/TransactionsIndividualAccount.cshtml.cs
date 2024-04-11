@@ -19,14 +19,31 @@ namespace BankWeb.Pages.TransactionsFolder
         }
 
         public int AccountId { get; set; }
-        public decimal Balance { get; set; }
+        public decimal? Balance { get; set; }
+        public string SearchTerm { get; set; }
         public List<TransactionViewModel> Transactions { get; set; }
-        public async Task OnGet(int accountId)
+        public async Task<IActionResult> OnGet(int accountId, string search = null)
         {
             AccountId = accountId;
+            SearchTerm = search;
             Balance = await _transactionService.GetAccountBalance(accountId);
             Transactions = await _transactionService.GetTransactionsForAccount(accountId, null);
+            if (!string.IsNullOrEmpty(SearchTerm))
+            {
+                var exactMatch = Transactions.SingleOrDefault(t => t.TransactionId.ToString() == SearchTerm);
+                if (exactMatch == null)
+                {
+                    ModelState.AddModelError("", "Could not find exact match.");
+                }
+                Transactions = Transactions.Where(t => t.TransactionId.ToString().Contains(SearchTerm)).ToList();
+                if (Transactions.Count == 0)
+                {
+                    ModelState.AddModelError("", "Transaction not found.");
+                }
+            }
+            return Page();
         }
+
 
         public async Task<JsonResult> OnGetLoadMoreTransactions(int accountId, DateTime? lastFetchedTransactionTimestamp, string loadedTransactionIds)
         {
