@@ -6,7 +6,7 @@
 
 <div class="page-heading header-text">
     <h1>@ViewData["Title"]</h1>
-    <button id="update-profile-button" type="button" class="btn btn-primary mt-3" onclick="window.history.back();">
+    <button type="button" class="btn btn-secondary mt-3" onclick="window.history.back();">
         <i class="fa-solid fa-arrow-left mr-2"></i>Return
     </button>
 </div>
@@ -39,7 +39,7 @@
             <div class="input-group" style="width: 400px; margin-top: 10px; margin-bottom: 15px;">
                 <input type="text" class="form-control" name="query" placeholder="Search User Email" value="@Request.Query["query"]">
                 <div class="input-group-append">
-                    <button id="update-profile-button" class="btn btn-primary" type="submit">
+                    <button class="btn btn-outline-secondary" type="submit">
                         <i class="fa-solid fa-magnifying-glass mr-2"></i>Search
                     </button>
                 </div>
@@ -70,7 +70,7 @@
                         @string.Join(", ", await Model.GetRoles(user))
                     </td>
                     <td>
-                        <a id="update-profile-button" class="btn btn-primary" asp-page="EditUser" asp-route-id="@user.Id">
+                        <a class="btn btn-outline-secondary" asp-page="EditUser" asp-route-id="@user.Id">
                             <i class="fa-solid fa-pen-to-square mr-2"></i>Edit
                         </a>
                         @if (!isSelf && !isProtectedUser)
@@ -81,7 +81,8 @@
                         }
                         else if (isProtectedUser)
                         {
-                            <span class="badge badge-warning">Protected User</span>
+                            <button class="btn btn-info" disabled>Protected</button>
+                            @* <span class="badge badge-warning">Protected User</span> *@
                         }
 
                     </td>

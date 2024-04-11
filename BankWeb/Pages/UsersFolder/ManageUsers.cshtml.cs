@@ -19,7 +19,7 @@ namespace BankWeb.Pages.UsersFolder
         }
 
         public IList<IdentityUser> Users { get; set; }
-        public string LoggedInUserId { get; set; }
+        public string? LoggedInUserId { get; set; }
 
         public async Task OnGetAsync()
         {

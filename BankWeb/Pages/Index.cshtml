@@ -89,7 +89,7 @@
                                         <td class="text-white custom-width">
                                             @if (User.IsInRole("Cashier"))
                                             {
-                                                <a class="country-styling" asp-page="/CountryDetails" asp-route-country="@entry.Key">
+                                                <a class="btn btn-outline-secondary" asp-page="/CountryDetails" asp-route-country="@entry.Key">
                                                     <i class="fa-solid fa-eye mr-2"></i>@entry.Key
                                                 </a>
                                             }
@@ -113,7 +113,7 @@
                             <div class="input-group" style="width: 410px; margin-top: 10px;">
                                 <input class="form-control" type="search" placeholder="Search Customer ID, Name or City" aria-label="Search" name="query" required style="background-color: transparent; color: white;" value="@Request.Query["query"]">
                                 <div class="input-group-append">
-                                    <button id="update-profile-button" class="btn btn-primary" type="submit">
+                                    <button class="btn btn-outline-secondary" type="submit">
                                         <i class="fa-solid fa-magnifying-glass mr-2"></i>Search
                                     </button>
                                 </div>
