@@ -8,7 +8,7 @@
 <div class="page-heading header-text">
     <h1>@ViewData["Title"]</h1>
     <h2>Current Balance: @Model.Balance</h2>
-    <button id="update-profile-button" type="button" class="btn btn-primary mt-3" onclick="window.history.back();">
+    <button type="button" class="btn btn-secondary mt-3" onclick="window.history.back();">
         <i class="fa-solid fa-arrow-left mr-2"></i>Return
     </button>
 </div>
@@ -30,7 +30,7 @@
         {
             <tr>
                 <td>
-                    <a asp-page="/TransactionsFolder/TransactionDetails" asp-route-transactionId="@transaction.TransactionId" id="update-profile-button" class="btn btn-primary">
+                    <a asp-page="/TransactionsFolder/TransactionDetails" asp-route-transactionId="@transaction.TransactionId" class="btn btn-outline-secondary btn-block">
                         <i class="fa-solid fa-eye mr-2"></i>@transaction.TransactionId
                     </a>
                 </td>

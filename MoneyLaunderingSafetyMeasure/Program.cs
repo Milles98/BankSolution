@@ -15,7 +15,7 @@ class Program
 
         try
         {
-            using var dbContext = new BankAppDataContext(optionsBuilder.Options);
+            await using var dbContext = new BankAppDataContext(optionsBuilder.Options);
             var detector = new SuspiciousActivityDetector();
 
             var countries = new List<string> { "Sweden", "Norway", "Denmark", "Finland" };

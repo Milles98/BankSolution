@@ -17,7 +17,7 @@
 
 <div class="page-heading header-text">
     <h1>@ViewData["Title"]</h1>
-    <button id="update-profile-button" type="button" class="btn btn-primary" onclick="window.history.back();">
+    <button  type="button" class="btn btn-secondary" onclick="window.history.back();">
         <i class="fa-solid fa-arrow-left mr-2"></i>Return
     </button>
 </div>
@@ -120,7 +120,7 @@
             {
                 <tr>
                     <td>
-                        <a asp-page="/AccountsFolder/Account" asp-route-accountIds="@account.AccountId" id="update-profile-button" class="btn btn-primary">
+                        <a asp-page="/AccountsFolder/Account" asp-route-accountIds="@account.AccountId" class="btn btn-outline-secondary btn-block">
                             <i class="fa-solid fa-eye mr-2"></i>@account.AccountId
                         </a>
                     </td>
@@ -129,18 +129,18 @@
                     <td class="d-none d-sm-table-cell">SEK: @account.Balance</td>
                     <td class="d-none d-sm-table-cell">@account.Type</td>
                     <td>
-                        <a asp-page="/TransactionsFolder/TransactionsIndividualAccount" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary">
+                        <a asp-page="/TransactionsFolder/TransactionsIndividualAccount" asp-route-accountId="@account.AccountId" class="btn btn-outline-secondary btn-block">
                             <i class="fa-solid fa-eye mr-2"></i>View
                         </a>
                     </td>
                     <td>
-                        <a asp-page="/TransactionsFolder/Deposit" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary" title="Deposit">
+                        <a asp-page="/TransactionsFolder/Deposit" asp-route-accountId="@account.AccountId" class="btn btn-outline-secondary" title="Deposit">
                             <i class="fa-solid fa-plus"></i>
                         </a>
-                        <a asp-page="/TransactionsFolder/Withdraw" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary" title="Withdraw">
+                        <a asp-page="/TransactionsFolder/Withdraw" asp-route-accountId="@account.AccountId" class="btn btn-outline-secondary" title="Withdraw">
                             <i class="fa-solid fa-minus"></i>
                         </a>
-                        <a asp-page="/TransactionsFolder/Transfer" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary" title="Transfer">
+                        <a asp-page="/TransactionsFolder/Transfer" asp-route-accountId="@account.AccountId" class="btn btn-outline-secondary" title="Transfer">
                             <i class="fa-solid fa-right-left"></i>
                         </a>
                     </td>

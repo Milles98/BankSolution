@@ -8,7 +8,7 @@
 
 <div class="page-heading header-text">
     <h1>Customers</h1>
-    <button id="update-profile-button" type="button" class="btn btn-primary" onclick="location.href='/CustomersFolder/CustomerAdminInfo';">
+    <button type="button" class="btn btn-secondary" onclick="location.href='/CustomersFolder/CustomerAdminInfo';">
         <i class="fa-solid fa-arrow-left mr-2"></i>Return to List
     </button>
 </div>
@@ -171,12 +171,12 @@
         {
             <tr>
                 <td>
-                    <a asp-page="/CustomersFolder/CustomerDetails" asp-route-id="@customer.CustomerId" id="update-profile-button" class="btn btn-primary">
+                    <a asp-page="/CustomersFolder/CustomerDetails" asp-route-id="@customer.CustomerId" class="btn btn-block btn-outline-secondary">
                             <i class="fa-solid fa-eye mr-2"></i>@customer.CustomerId
                     </a>
                 </td>
                 <td class="d-none d-sm-table-cell">
-                    <a asp-page="/AccountsFolder/Account" asp-route-accountIds="@string.Join(',', customer.Accounts.Select(a => a.AccountId))" class="btn btn-primary" id="update-profile-button">
+                    <a asp-page="/AccountsFolder/Account" asp-route-accountIds="@string.Join(',', customer.Accounts.Select(a => a.AccountId))" class="btn btn-outline-secondary btn-block">
                             <i class="fa-solid fa-eye mr-2"></i>View
                         </a>
                 </td>
@@ -193,6 +193,9 @@
         <tr>
             <td colspan="6">
                 <div style="display: flex; flex-direction: row; justify-content: flex-start; gap: 6px;">
+                    <a class="btn btn-primary d-none d-sm-table-cell" id="update-profile-button"
+                       href='?page=1&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]&query=@Request.Query["query"]'>First</a>
+                    
                     <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : "")" id="update-profile-button"
                        href='@(Model.CurrentPage > 1 ? "?page=" + (Model.CurrentPage - 1) + "&sortColumn=" + Request.Query["sortColumn"] + "&sortOrder=" + Request.Query["sortOrder"] + "&query=" + Request.Query["query"] : "#")'>Previous</a>
 
@@ -208,10 +211,7 @@
                     <p class="d-none d-sm-table-cell">Page @Model.CurrentPage of @Model.PageCount</p>
 
                     <a class="btn btn-primary d-none d-sm-table-cell" id="update-profile-button"
-                    href='?page=1&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]&query=@Request.Query["query"]'>First</a>
-
-                    <a class="btn btn-primary d-none d-sm-table-cell" id="update-profile-button"
-                    href='?page=@Model.PageCount&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]&query=@Request.Query["query"]'>Last</a>
+                       href='?page=@Model.PageCount&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]&query=@Request.Query["query"]'>Last</a>
                 </div>
             </td>
         </tr>

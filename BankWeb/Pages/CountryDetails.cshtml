@@ -12,7 +12,7 @@
 
 
 <div class="container">
-    <button id="update-profile-button" type="button" class="btn btn-primary mt-3 mb-3" onclick="window.history.back();">
+    <button type="button" class="btn btn-secondary mt-3 mb-3" onclick="window.history.back();">
         <i class="fa-solid fa-arrow-left mr-2"></i>Return
     </button>
 </div>
@@ -37,8 +37,8 @@
                 <td class="d-none d-sm-table-cell">@customer.CustomerId</td>
                 <td class="d-none d-sm-table-cell">@customer.Givenname @customer.Surname</td>
                 <td>SEK: @customer.TotalBalance.ToString("N2")</td>
-                <td class="d-none d-sm-table-cell"><a asp-page="/GiftPage" asp-route-id="@customer.CustomerId" id="update-profile-button" class="btn btn-primary">Send Gift</a></td>
-                <td><a asp-page="/CustomersFolder/CustomerDetails" asp-route-id="@customer.CustomerId" id="update-profile-button" class="btn btn-primary">View Details</a></td>
+                <td class="d-none d-sm-table-cell"><a asp-page="/GiftPage" asp-route-id="@customer.CustomerId" class="btn btn-outline-secondary">Send Gift</a></td>
+                <td><a asp-page="/CustomersFolder/CustomerDetails" asp-route-id="@customer.CustomerId" class="btn btn-outline-secondary">View Details</a></td>
             </tr>
         }
 

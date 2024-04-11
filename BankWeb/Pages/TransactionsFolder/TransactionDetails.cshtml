@@ -6,7 +6,7 @@
 
 <div class="page-heading header-text">
     <h1>@ViewData["Title"]</h1>
-    <button id="update-profile-button" type="button" class="btn btn-primary" onclick="window.history.back();">
+    <button type="button" class="btn btn-secondary" onclick="window.history.back();">
         <i class="fa-solid fa-arrow-left mr-2"></i>Return
     </button>
 </div>
@@ -28,7 +28,7 @@
             <tr>
                 <td>@Model.Transaction.TransactionId</td>
                 <td class="d-none d-sm-table-cell">
-                    <a asp-page="/AccountsFolder/Account" asp-route-accountIds="@Model.Transaction.AccountId" class="btn btn-primary" id="update-profile-button">
+                    <a asp-page="/AccountsFolder/Account" asp-route-accountIds="@Model.Transaction.AccountId" class="btn btn-outline-secondary btn-block">
                         <i class="fa-solid fa-eye mr-2"></i>Account: @Model.Transaction.AccountId
                     </a>
                 </td>

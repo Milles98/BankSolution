@@ -7,7 +7,7 @@
 
 <div class="page-heading header-text">
     <h1>Transactions</h1>
-    <button id="update-profile-button" type="button" class="btn btn-primary" onclick="location.href='/TransactionsFolder/TransactionAdminInfo';">
+    <button type="button" class="btn btn-secondary" onclick="location.href='/TransactionsFolder/TransactionAdminInfo';">
         <i class="fa-solid fa-arrow-left mr-2"></i>Return to List
     </button>
 </div>
@@ -112,8 +112,7 @@
                 <td>
                     <a asp-page="/TransactionsFolder/TransactionDetails"
                        asp-route-transactionId="@transaction.TransactionId"
-                       id="update-profile-button"
-                       class="btn btn-primary">
+                       class="btn btn-outline-secondary btn-block">
                         <i class="fa-solid fa-eye mr-2"></i>
                        @transaction.TransactionId
                     </a>
@@ -121,8 +120,7 @@
                 <td>
                     <a asp-page="/AccountsFolder/Account"
                        asp-route-accountIds="@transaction.AccountId"
-                       id="update-profile-button"
-                       class="btn btn-primary">
+                       class="btn btn-outline-secondary btn-block">
                         <i class="fa-solid fa-eye mr-2"></i>
                         @transaction.AccountId
                     </a>
@@ -130,8 +128,7 @@
                     <td class="d-none d-sm-table-cell">
                     <a asp-page="/CustomersFolder/CustomerDetails"
                        asp-route-id="@transaction.CustomerId"
-                       id="update-profile-button"
-                       class="btn btn-primary">
+                       class="btn btn-outline-secondary btn-block">
                         <i class="fa-solid fa-eye mr-2"></i>
                         @transaction.CustomerId
                     </a>
@@ -146,6 +143,9 @@
             <tr>
                 <td colspan="6">
                     <div style="display: flex; flex-direction: row; justify-content: flex-start; gap: 6px;">
+                        <a class="btn btn-primary d-none d-sm-table-cell" id="update-profile-button"
+                           href='?page=1&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'>First</a>
+                        
                         <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : "")" id="update-profile-button"
                            href='@(Model.CurrentPage > 1 ? "?page=" + (Model.CurrentPage - 1) + "&sortColumn=" + Request.Query["sortColumn"] + "&sortOrder=" + Request.Query["sortOrder"] : "#")'>Previous</a>
 
@@ -159,9 +159,6 @@
                            href='@(Model.CurrentPage < Model.TotalPages ? "?page=" + (Model.CurrentPage + 1) + "&sortColumn=" + Request.Query["sortColumn"] + "&sortOrder=" + Request.Query["sortOrder"] : "#")'>Next</a>
 
                         <p class="d-none d-sm-table-cell">Page @Model.CurrentPage of @Model.TotalPages</p>
-
-                        <a class="btn btn-primary d-none d-sm-table-cell" id="update-profile-button"
-                           href='?page=1&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'>First</a>
 
                         <a class="btn btn-primary d-none d-sm-table-cell" id="update-profile-button"
                            href='?page=@Model.TotalPages&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'>Last</a>
