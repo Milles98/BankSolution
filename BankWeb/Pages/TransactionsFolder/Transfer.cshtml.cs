@@ -9,10 +9,8 @@ using System.ComponentModel.DataAnnotations;
 namespace BankWeb.Pages.TransactionsFolder
 {
     [Authorize(Roles = "Cashier")]
-    public class TransferModel : PageModel
+    public class TransferModel(IBankService bankService) : PageModel
     {
-        private readonly IBankService _bankService;
-
         [BindProperty]
         public int AccountId { get; set; }
 
@@ -26,17 +24,12 @@ namespace BankWeb.Pages.TransactionsFolder
         public int ToAccountId { get; set; }
 
 
-        public TransferModel(IBankService bankService)
-        {
-            _bankService = bankService;
-        }
-
         public void OnGet(int accountId = 0)
         {
             AccountId = accountId;
             if (accountId > 0)
             {
-                Account = _bankService.GetAccountDetailsForDisplay(accountId);
+                Account = bankService.GetAccountDetailsForDisplay(accountId);
             }
             TempData["Account"] = System.Text.Json.JsonSerializer.Serialize(Account);
         }
@@ -45,12 +38,12 @@ namespace BankWeb.Pages.TransactionsFolder
         {
             try
             {
-                var transactionId = _bankService.TransferFunds(AccountId, ToAccountId, Amount);
+                var transactionId = bankService.TransferFunds(AccountId, ToAccountId, Amount);
                 TempData["Message"] = $"Transfer successful from Account ID {AccountId} to Account ID {ToAccountId}, Amount: {Amount} SEK, Date: {DateTime.Now:dd-MM-yyyy}, " +
                     $"Transaction ID: <a href=\"/TransactionsFolder/TransactionDetails?transactionId={transactionId}\">{transactionId}</a>";
                 TempData["MessageClass"] = "alert-success";
 
-                Account = _bankService.GetAccountDetailsForDisplay(AccountId);
+                Account = bankService.GetAccountDetailsForDisplay(AccountId);
             }
             catch (Exception ex)
             {

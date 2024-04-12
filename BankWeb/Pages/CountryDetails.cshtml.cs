@@ -9,15 +9,8 @@ using Microsoft.EntityFrameworkCore;
 namespace BankWeb.Pages
 {
     [ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "country" })]
-    public class CountryDetailsModel : PageModel
+    public class CountryDetailsModel(ICountryService countryService) : PageModel
     {
-        private readonly ICountryService _countryService;
-
-        public CountryDetailsModel(ICountryService countryService)
-        {
-            _countryService = countryService;
-        }
-
         public string Country { get; set; }
         public string ImagePath { get; set; }
 
@@ -44,7 +37,7 @@ namespace BankWeb.Pages
                     ImagePath = "/assets/images/default.jpg";
                     break;
             }
-            TopCustomers = await _countryService.GetTopCustomersByCountry(country);
+            TopCustomers = await countryService.GetTopCustomersByCountry(country);
         }
     }
 

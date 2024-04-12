@@ -7,25 +7,18 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace BankWeb.Pages.AccountsFolder
 {
     [Authorize(Roles = "Cashier")]
-    public class CreateAccountModel : PageModel
+    public class CreateAccountModel(
+        IAccountService accountService,
+        ICustomerService customerService,
+        ILogger<CreateAccountModel> logger)
+        : PageModel
     {
-        private readonly IAccountService _accountService;
-        private readonly ICustomerService _customerService;
-        private readonly ILogger<CreateAccountModel> _logger;
-
-        public CreateAccountModel(IAccountService accountService, ICustomerService customerService, ILogger<CreateAccountModel> logger)
-        {
-            _accountService = accountService;
-            _customerService = customerService;
-            _logger = logger;
-        }
-
         [BindProperty]
         public AccountViewModel Account { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int customerId)
         {
-            var customer = await _customerService.GetCustomerDetails(customerId);
+            var customer = await customerService.GetCustomerDetails(customerId);
             if (customer == null)
             {
                 return NotFound();
@@ -44,7 +37,7 @@ namespace BankWeb.Pages.AccountsFolder
                 {
                     foreach (var error in modelState.Errors)
                     {
-                        _logger.LogError(error.ErrorMessage);
+                        logger.LogError(error.ErrorMessage);
                     }
                 }
 
@@ -55,7 +48,7 @@ namespace BankWeb.Pages.AccountsFolder
 
             Account.Created = DateTime.Now.ToString("yyyy-MM-dd");
 
-            await _accountService.CreateAccount(Account, Account.CustomerId);
+            await accountService.CreateAccount(Account, Account.CustomerId);
 
             TempData["Message"] = "Account created successfully.";
             TempData["MessageClass"] = "alert-success";

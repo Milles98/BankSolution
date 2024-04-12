@@ -14,15 +14,8 @@ using Microsoft.AspNetCore.WebUtilities;
 
 namespace BankWeb.Areas.Identity.Pages.Account
 {
-    public class ConfirmEmailModel : PageModel
+    public class ConfirmEmailModel(UserManager<IdentityUser> userManager) : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-
-        public ConfirmEmailModel(UserManager<IdentityUser> userManager)
-        {
-            _userManager = userManager;
-        }
-
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -36,14 +29,14 @@ namespace BankWeb.Areas.Identity.Pages.Account
                 return RedirectToPage("/Index");
             }
 
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{userId}'.");
             }
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-            var result = await _userManager.ConfirmEmailAsync(user, code);
+            var result = await userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
             {
                 TempData["AccountConfirmedMessage"] = "Account was confirmed.";

@@ -7,14 +7,10 @@ using DataLibrary.Services.Interfaces;
 namespace BankWeb.Pages
 {
     [Authorize(Roles = "Cashier")]
-    public class GiftPageModel : PageModel
+    public class GiftPageModel(ICustomerService customerService) : PageModel
     {
-        private readonly ICustomerService _customerService;
+        private readonly ICustomerService _customerService = customerService;
 
-        public GiftPageModel(ICustomerService customerService)
-        {
-            _customerService = customerService;
-        }
         public string GiftsJson { get; set; }
 
         public void OnGet()

@@ -10,10 +10,8 @@ using System.ComponentModel.DataAnnotations;
 namespace BankWeb.Pages.TransactionsFolder
 {
     [Authorize(Roles = "Cashier")]
-    public class WithdrawModel : PageModel
+    public class WithdrawModel(IBankService bankService) : PageModel
     {
-        private readonly IBankService _bankService;
-
         [BindProperty]
         public int AccountId { get; set; }
 
@@ -22,16 +20,10 @@ namespace BankWeb.Pages.TransactionsFolder
         public decimal Amount { get; set; }
         public AccountViewModel Account { get; set; }
 
-        public WithdrawModel(IBankService bankService)
-        {
-            _bankService = bankService;
-
-        }
-
         public void OnGet(int accountId = 0)
         {
             AccountId = accountId;
-            Account = _bankService.GetAccountDetailsForDisplay(accountId);
+            Account = bankService.GetAccountDetailsForDisplay(accountId);
             TempData["Account"] = System.Text.Json.JsonSerializer.Serialize(Account);
         }
 
@@ -40,12 +32,12 @@ namespace BankWeb.Pages.TransactionsFolder
         {
             try
             {
-                var transactionId = _bankService.Withdraw(AccountId, Amount);
+                var transactionId = bankService.Withdraw(AccountId, Amount);
                 TempData["Message"] = $"Withdraw successful for Account ID {AccountId}, Amount: -{Amount} SEK, Date: {DateTime.Now:dd-MM-yyyy}, " +
                   $"Transaction ID: <a href=\"/TransactionsFolder/TransactionDetails?transactionId={transactionId}\">{transactionId}</a>";
                 TempData["MessageClass"] = "alert-success";
 
-                Account = _bankService.GetAccountDetails(AccountId);
+                Account = bankService.GetAccountDetails(AccountId);
             }
             catch (Exception ex)
             {

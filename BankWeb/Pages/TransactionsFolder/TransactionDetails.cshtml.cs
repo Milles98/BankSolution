@@ -7,19 +7,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace BankWeb.Pages.TransactionsFolder
 {
     [Authorize(Roles = "Cashier")]
-    public class TransactionDetailsModel : PageModel
+    public class TransactionDetailsModel(ITransactionService transactionService) : PageModel
     {
-        private readonly ITransactionService _transactionService;
-
-        public TransactionDetailsModel(ITransactionService transactionService)
-        {
-            _transactionService = transactionService;
-        }
         public TransactionViewModel Transaction { get; set; }
 
         public async Task OnGet(int transactionId)
         {
-            Transaction = await _transactionService.GetTransactionDetails(transactionId);
+            Transaction = await transactionService.GetTransactionDetails(transactionId);
         }
 
     }

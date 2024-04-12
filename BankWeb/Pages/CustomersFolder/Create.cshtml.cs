@@ -1,28 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using DataLibrary.Data;
+using DataLibrary.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using DataLibrary.Data;
-using Microsoft.AspNetCore.Authorization;
-using System.ComponentModel.DataAnnotations;
-using DataLibrary.Services.Interfaces;
-using NuGet.DependencyResolver;
 
-namespace BankWeb.Pages.CustomerCRUD
+namespace BankWeb.Pages.CustomersFolder
 {
     [Authorize(Roles = "Cashier")]
-    public class CreateModel : PageModel
+    public class CreateModel(IPersonService personService) : PageModel
     {
-        private readonly IPersonService _personService;
-
-        public CreateModel(IPersonService personService)
-        {
-            _personService = personService;
-        }
-
         public IActionResult OnGet()
         {
             return Page();
@@ -108,7 +95,7 @@ namespace BankWeb.Pages.CustomerCRUD
 
             try
             {
-                var (customer, account, disposition) = await _personService.CreateCustomerAsync(
+                var (customer, account, disposition) = await personService.CreateCustomerAsync(
                     Gender, Givenname, Surname, Streetaddress, City, Zipcode, Country, CountryCode, Emailaddress,
                     Telephonecountrycode, Telephonenumber, NationalId, BirthdayYear, BirthdayMonth, BirthdayDay,
                     Frequency, InitialDeposit, DispositionType);

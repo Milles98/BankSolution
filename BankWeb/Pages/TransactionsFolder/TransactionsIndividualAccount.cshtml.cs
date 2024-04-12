@@ -9,15 +9,8 @@ using Microsoft.EntityFrameworkCore;
 namespace BankWeb.Pages.TransactionsFolder
 {
     [Authorize(Roles = "Cashier")]
-    public class TransactionsIndividualAccountModel : PageModel
+    public class TransactionsIndividualAccountModel(ITransactionService transactionService) : PageModel
     {
-        private readonly ITransactionService _transactionService;
-
-        public TransactionsIndividualAccountModel(ITransactionService transactionService)
-        {
-            _transactionService = transactionService;
-        }
-
         public int AccountId { get; set; }
         public decimal? Balance { get; set; }
         public string SearchTerm { get; set; }
@@ -26,8 +19,8 @@ namespace BankWeb.Pages.TransactionsFolder
         {
             AccountId = accountId;
             SearchTerm = search;
-            Balance = await _transactionService.GetAccountBalance(accountId);
-            Transactions = await _transactionService.GetTransactionsForAccount(accountId, null);
+            Balance = await transactionService.GetAccountBalance(accountId);
+            Transactions = await transactionService.GetTransactionsForAccount(accountId, null);
             if (!string.IsNullOrEmpty(SearchTerm))
             {
                 var exactMatch = Transactions.SingleOrDefault(t => t.TransactionId.ToString() == SearchTerm);
@@ -49,7 +42,7 @@ namespace BankWeb.Pages.TransactionsFolder
         {
             try
             {
-                var (transactions, hasMore) = await _transactionService.LoadMoreTransactions(accountId, lastFetchedTransactionTimestamp, loadedTransactionIds);
+                var (transactions, hasMore) = await transactionService.LoadMoreTransactions(accountId, lastFetchedTransactionTimestamp, loadedTransactionIds);
                 return new JsonResult(new { transactions, hasMore });
             }
             catch (Exception ex)

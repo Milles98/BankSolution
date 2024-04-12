@@ -7,19 +7,12 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MeController : ControllerBase
+    public class MeController(ICustomerService customerService) : ControllerBase
     {
-        private readonly ICustomerService _customerService;
-
-        public MeController(ICustomerService customerService)
-        {
-            _customerService = customerService;
-        }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var customer = await _customerService.GetCustomerDetails(id);
+            var customer = await customerService.GetCustomerDetails(id);
             if (customer == null)
             {
                 return NotFound();

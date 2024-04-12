@@ -4,24 +4,19 @@ using DataLibrary.ViewModels;
 
 namespace DataLibrary.Services
 {
-    public class BankService : IBankService
+    public class BankService(BankAppDataContext context) : IBankService
     {
-        private readonly BankAppDataContext _context;
-
-        public BankService(BankAppDataContext context)
-        {
-            _context = context;
-        }
-
         public int Deposit(int accountId, decimal amount)
         {
-            if (amount < 50)
-                throw new Exception("Deposit amount cannot be less than 50 SEK");
+            switch (amount)
+            {
+                case < 50:
+                    throw new Exception("Deposit amount cannot be less than 50 SEK");
+                case > 50000:
+                    throw new Exception("Deposit amount must be less than or equal to 50,000 SEK at a time!");
+            }
 
-            if (amount > 50000)
-                throw new Exception("Deposit amount must be less than or equal to 50,000 SEK at a time!");
-
-            var account = _context.Accounts.Find(accountId);
+            var account = context.Accounts.Find(accountId);
             if (account == null)
                 throw new Exception("Account not found");
 
@@ -37,8 +32,8 @@ namespace DataLibrary.Services
                 Operation = "Deposit"
             };
 
-            _context.Transactions.Add(transaction);
-            _context.SaveChanges();
+            context.Transactions.Add(transaction);
+            context.SaveChanges();
 
             return transaction.TransactionId;
         }
@@ -48,7 +43,7 @@ namespace DataLibrary.Services
             if (amount <= 0)
                 throw new Exception("Withdraw amount must be greater than 0!");
 
-            var account = _context.Accounts.Find(accountId);
+            var account = context.Accounts.Find(accountId);
             if (account == null)
                 throw new Exception("Account not found");
 
@@ -70,8 +65,8 @@ namespace DataLibrary.Services
                 Operation = "Withdraw"
             };
 
-            _context.Transactions.Add(transaction);
-            _context.SaveChanges();
+            context.Transactions.Add(transaction);
+            context.SaveChanges();
 
             return transaction.TransactionId;
         }
@@ -82,7 +77,7 @@ namespace DataLibrary.Services
             if (amount < 50)
                 throw new Exception("Transfer amount cannot be less than 50 SEK");
 
-            var fromAccount = _context.Accounts.Find(fromAccountId);
+            var fromAccount = context.Accounts.Find(fromAccountId);
             if (fromAccount == null)
                 throw new Exception("Source account not found");
 
@@ -101,7 +96,7 @@ namespace DataLibrary.Services
                 Operation = "Transfer"
             };
 
-            var toAccount = _context.Accounts.Find(toAccountId);
+            var toAccount = context.Accounts.Find(toAccountId);
             if (toAccount == null)
                 throw new Exception("Target account not found");
 
@@ -117,23 +112,23 @@ namespace DataLibrary.Services
                 Operation = "Transfer"
             };
 
-            _context.Transactions.Add(withdrawTransaction);
-            _context.Transactions.Add(depositTransaction);
+            context.Transactions.Add(withdrawTransaction);
+            context.Transactions.Add(depositTransaction);
 
-            _context.SaveChanges();
+            context.SaveChanges();
 
             return depositTransaction.TransactionId;
         }
 
         public int TransferFunds(int fromAccountId, int toAccountId, decimal amount)
         {
-            var fromAccount = _context.Accounts.First(a => a.AccountId == fromAccountId);
+            var fromAccount = context.Accounts.First(a => a.AccountId == fromAccountId);
             if (fromAccount == null)
             {
                 throw new Exception("From Account ID does not exist!");
             }
 
-            var toAccount = _context.Accounts.First(a => a.AccountId == toAccountId);
+            var toAccount = context.Accounts.First(a => a.AccountId == toAccountId);
             if (toAccount == null)
             {
                 throw new Exception("To Account ID does not exist!");
@@ -163,7 +158,7 @@ namespace DataLibrary.Services
 
         public AccountViewModel GetAccountDetails(int accountId)
         {
-            var account = _context.Accounts.First(a => a.AccountId == accountId);
+            var account = context.Accounts.First(a => a.AccountId == accountId);
             if (account != null)
             {
                 return new AccountViewModel
@@ -182,7 +177,7 @@ namespace DataLibrary.Services
         {
             if (accountId > 0)
             {
-                var account = _context.Accounts.First(a => a.AccountId == accountId);
+                var account = context.Accounts.First(a => a.AccountId == accountId);
                 if (account != null)
                 {
                     return new AccountViewModel

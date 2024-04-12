@@ -12,29 +12,21 @@ using System.Threading.Tasks;
 
 namespace DataLibrary.Services
 {
-    public class TransactionService : ITransactionService
+    public class TransactionService(
+        BankAppDataContext context,
+        IPaginationService<Transaction> paginationService,
+        ISortingService<Transaction> sortingService,
+        IMapper mapper)
+        : ITransactionService
     {
-        private readonly BankAppDataContext _context;
-        private readonly IPaginationService<Transaction> _paginationService;
-        private readonly ISortingService<Transaction> _sortingService;
-        private readonly IMapper _mapper;
-
-        public TransactionService(BankAppDataContext context, IPaginationService<Transaction> paginationService, ISortingService<Transaction> sortingService, IMapper mapper)
-        {
-            _context = context;
-            _paginationService = paginationService;
-            _sortingService = sortingService;
-            _mapper = mapper;
-        }
-
         public BankAppDataContext GetDbContext()
         {
-            return _context;
+            return context;
         }
 
         public async Task<List<TransactionViewModel>> GetTransactions(int currentPage, int transactionsPerPage, string sortColumn, string sortOrder, string search)
         {
-            var query = _context.Transactions
+            var query = context.Transactions
             .Include(t => t.AccountNavigation)
             .ThenInclude(a => a.Dispositions)
             .AsQueryable();
@@ -55,28 +47,28 @@ namespace DataLibrary.Services
                 { "Balance", t => t.Balance }
             };
 
-            query = _sortingService.Sort(query, sortColumn, sortOrder, sortExpressions);
+            query = sortingService.Sort(query, sortColumn, sortOrder, sortExpressions);
 
-            var transactions = await _paginationService.GetPage(query, currentPage, transactionsPerPage)
+            var transactions = await paginationService.GetPage(query, currentPage, transactionsPerPage)
             .ToListAsync();
 
-            var transactionViewModels = _mapper.Map<List<TransactionViewModel>>(transactions);
+            var transactionViewModels = mapper.Map<List<TransactionViewModel>>(transactions);
 
             return transactionViewModels;
         }
 
         public int GetTotalPages(int transactionsPerPage)
         {
-            var query = _context.Transactions.AsQueryable();
-            return _paginationService.GetTotalPages(query, transactionsPerPage);
+            var query = context.Transactions.AsQueryable();
+            return paginationService.GetTotalPages(query, transactionsPerPage);
         }
 
         public async Task<TransactionViewModel> GetTransactionDetails(int transactionId)
         {
-            var transaction = await _context.Transactions.FirstAsync(t => t.TransactionId == transactionId);
+            var transaction = await context.Transactions.FirstAsync(t => t.TransactionId == transactionId);
             if (transaction != null)
             {
-                return _mapper.Map<TransactionViewModel>(transaction);
+                return mapper.Map<TransactionViewModel>(transaction);
             }
 
             return null;
@@ -84,7 +76,7 @@ namespace DataLibrary.Services
 
         public async Task<List<TransactionViewModel>> GetTransactionsForAccount(int accountId, DateTime? lastFetchedTransactionTimestamp)
         {
-            var transactionsQuery = _context.Transactions
+            var transactionsQuery = context.Transactions
                 .Where(t => t.AccountId == accountId)
                 .Include(t => t.AccountNavigation)
                 .ThenInclude(a => a.Dispositions)
@@ -102,14 +94,14 @@ namespace DataLibrary.Services
             .Take(20)
             .ToListAsync();
 
-            var transactionViewModels = _mapper.Map<List<TransactionViewModel>>(transactions);
+            var transactionViewModels = mapper.Map<List<TransactionViewModel>>(transactions);
 
             return transactionViewModels;
         }
 
         public async Task<decimal?> GetAccountBalance(int accountId)
         {
-            var account = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId == accountId);
+            var account = await context.Accounts.FirstOrDefaultAsync(a => a.AccountId == accountId);
             if (account == null)
             {
                 return null;
@@ -125,7 +117,7 @@ namespace DataLibrary.Services
                 loadedIds = loadedTransactionIds.Split(',').Select(int.Parse).ToList();
             }
 
-            var transactionsQuery = _context.Transactions
+            var transactionsQuery = context.Transactions
                 .Where(t => t.AccountId == accountId && !loadedIds.Contains(t.TransactionId));
 
             if (lastFetchedTransactionTimestamp.HasValue)

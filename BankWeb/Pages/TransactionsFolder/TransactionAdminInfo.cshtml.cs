@@ -10,19 +10,13 @@ using System.Linq.Expressions;
 namespace BankWeb.Pages.TransactionsFolder
 {
     [Authorize(Roles = "Cashier")]
-    public class TransactionAdminInfoModel : PageModel
+    public class TransactionAdminInfoModel(ITransactionService transactionService) : PageModel
     {
-        private readonly ITransactionService _transactionService;
-
-        public TransactionAdminInfoModel(ITransactionService transactionService)
-        {
-            _transactionService = transactionService;
-        }
         public List<TransactionViewModel> Transactions { get; set; }
 
         public int CurrentPage { get; set; } = 1;
         public int TransactionsPerPage { get; set; } = 50;
-        public int TotalPages => _transactionService.GetTotalPages(TransactionsPerPage);
+        public int TotalPages => transactionService.GetTotalPages(TransactionsPerPage);
         public async Task OnGet(string sortColumn, string sortOrder, string search)
         {
             if (Request.Query.ContainsKey("page"))
@@ -30,7 +24,7 @@ namespace BankWeb.Pages.TransactionsFolder
                 CurrentPage = int.Parse(Request.Query["page"]);
             }
 
-            Transactions = await _transactionService
+            Transactions = await transactionService
                 .GetTransactions(CurrentPage, TransactionsPerPage, sortColumn, sortOrder, search);
         }
     }

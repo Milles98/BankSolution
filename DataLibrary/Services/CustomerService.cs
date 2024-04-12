@@ -7,28 +7,20 @@ using System.Linq.Expressions;
 
 namespace DataLibrary.Services
 {
-    public class CustomerService : ICustomerService
+    public class CustomerService(
+        BankAppDataContext context,
+        IPaginationService<Customer> paginationService,
+        ISortingService<Customer> sortingService,
+        IMapper mapper)
+        : ICustomerService
     {
-        private readonly BankAppDataContext _context;
-        private readonly IPaginationService<Customer> _paginationService;
-        private readonly ISortingService<Customer> _sortingService;
-        private readonly IMapper _mapper;
-
-        public CustomerService(BankAppDataContext context, IPaginationService<Customer> paginationService, ISortingService<Customer> sortingService, IMapper mapper)
-        {
-            _context = context;
-            _paginationService = paginationService;
-            _sortingService = sortingService;
-            _mapper = mapper;
-        }
-
         public int GetTotalCustomers()
         {
-            return _context.Customers.Count();
+            return context.Customers.Count();
         }
         public async Task<CustomerAccountViewModel> GetCustomerDetails(int id)
         {
-            var customer = await _context.Customers
+            var customer = await context.Customers
                 .Include(c => c.Dispositions)
                 .ThenInclude(d => d.Account)
                 .FirstOrDefaultAsync(m => m.CustomerId == id);
@@ -38,14 +30,14 @@ namespace DataLibrary.Services
                 return null;
             }
 
-            var customerDetails = _mapper.Map<CustomerAccountViewModel>(customer);
+            var customerDetails = mapper.Map<CustomerAccountViewModel>(customer);
 
             return customerDetails;
         }
 
         public async Task<(List<CustomerViewModel>, int)> GetCustomers(int currentPage, int customersPerPage, string sortColumn, string sortOrder, string search)
         {
-            var query = _context.Customers.AsQueryable();
+            var query = context.Customers.AsQueryable();
 
             if (!string.IsNullOrEmpty(search))
             {
@@ -76,15 +68,15 @@ namespace DataLibrary.Services
 
             };
 
-            query = _sortingService.Sort(query, sortColumn, sortOrder, sortExpressions);
+            query = sortingService.Sort(query, sortColumn, sortOrder, sortExpressions);
 
-            var customers = await _paginationService
+            var customers = await paginationService
                 .GetPage(query
                 .Include(c => c.Dispositions)
                 .ThenInclude(d => d.Account), currentPage, customersPerPage)
                 .ToListAsync();
 
-            var customerViewModels = _mapper.Map<List<CustomerViewModel>>(customers);
+            var customerViewModels = mapper.Map<List<CustomerViewModel>>(customers);
 
             return (customerViewModels, totalCustomers);
         }
@@ -92,8 +84,8 @@ namespace DataLibrary.Services
 
         public int GetTotalPages(int customersPerPage)
         {
-            var query = _context.Customers.AsQueryable();
-            return _paginationService.GetTotalPages(query, customersPerPage);
+            var query = context.Customers.AsQueryable();
+            return paginationService.GetTotalPages(query, customersPerPage);
         }
 
 

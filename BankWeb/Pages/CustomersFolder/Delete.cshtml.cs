@@ -1,26 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DataLibrary.Data;
+using DataLibrary.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using DataLibrary.Data;
-using Microsoft.AspNetCore.Authorization;
-using DataLibrary.Services.Interfaces;
 
-namespace BankWeb.Pages.CustomerCRUD
+namespace BankWeb.Pages.CustomersFolder
 {
     [Authorize(Roles = "Cashier")]
-    public class DeleteModel : PageModel
+    public class DeleteModel(IPersonService personService) : PageModel
     {
-        private readonly IPersonService _personService;
-
-        public DeleteModel(IPersonService personService)
-        {
-            _personService = personService;
-        }
-
         [BindProperty]
         public Customer Customer { get; set; } = default!;
 
@@ -31,7 +19,7 @@ namespace BankWeb.Pages.CustomerCRUD
                 return NotFound();
             }
 
-            Customer = await _personService.GetCustomerAsync(id.Value);
+            Customer = await personService.GetCustomerAsync(id.Value);
 
             if (Customer == null)
             {
@@ -50,7 +38,7 @@ namespace BankWeb.Pages.CustomerCRUD
 
             return RedirectToPage("/CustomersFolder/DeleteAccessDenied");
 
-            await _personService.DeleteCustomerAsync(id.Value);
+            await personService.DeleteCustomerAsync(id.Value);
 
             TempData["Message"] = $"Customer ID {id} has been permanently deleted at {DateTime.Now:yyyy-MM-dd}";
 

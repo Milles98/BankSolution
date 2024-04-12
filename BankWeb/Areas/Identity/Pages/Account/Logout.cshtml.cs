@@ -12,21 +12,13 @@ using Microsoft.Extensions.Logging;
 
 namespace BankWeb.Areas.Identity.Pages.Account
 {
-    public class LogoutModel : PageModel
+    public class LogoutModel(SignInManager<IdentityUser> signInManager, ILogger<LogoutModel> logger)
+        : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly ILogger<LogoutModel> _logger;
-
-        public LogoutModel(SignInManager<IdentityUser> signInManager, ILogger<LogoutModel> logger)
-        {
-            _signInManager = signInManager;
-            _logger = logger;
-        }
-
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
-            await _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
+            await signInManager.SignOutAsync();
+            logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);

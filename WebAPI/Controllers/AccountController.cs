@@ -7,19 +7,12 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController(ITransactionService transactionService) : ControllerBase
     {
-        private readonly ITransactionService _transactionService;
-
-        public AccountController(ITransactionService transactionService)
-        {
-            _transactionService = transactionService;
-        }
-
         [HttpGet("{id}/{limit}/{offset}")]
         public async Task<IActionResult> Get(int id, int limit, int offset)
         {
-            var transactions = await _transactionService.GetTransactionsForAccount(id, null);
+            var transactions = await transactionService.GetTransactionsForAccount(id, null);
             if (transactions == null || transactions.Count == 0)
             {
                 return NotFound();

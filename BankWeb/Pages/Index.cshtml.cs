@@ -6,20 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankWeb.Pages
 {
-    public class IndexModel : PageModel
+    public class IndexModel(IAccountService accountService) : PageModel
     {
-        private readonly IAccountService _accountService;
-
-        public IndexModel(IAccountService accountService)
-        {
-            _accountService = accountService;
-        }
-
         public Dictionary<string, (int customers, int accounts, decimal totalBalance)> DataPerCountry { get; set; }
 
         public void OnGet()
         {
-            DataPerCountry = _accountService.GetDataPerCountry();
+            DataPerCountry = accountService.GetDataPerCountry();
         }
 
     }

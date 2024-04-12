@@ -10,19 +10,12 @@ using System.Threading.Tasks;
 
 namespace DataLibrary.Services
 {
-    public class CountryService : ICountryService
+    public class CountryService(BankAppDataContext context) : ICountryService
     {
-        private readonly BankAppDataContext _context;
-
-        public CountryService(BankAppDataContext context)
-        {
-            _context = context;
-        }
-
         public async Task<List<CountryDetailsViewModel>> GetTopCustomersByCountry(string country)
         {
 
-            return await _context.Customers
+            return await context.Customers
                 .Include(c => c.Dispositions)
                 .ThenInclude(d => d.Account)
                 .Where(c => c.Country == country)

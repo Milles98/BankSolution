@@ -1,22 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DataLibrary.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using DataLibrary.Data;
-using DataLibrary.Services.Interfaces;
 
-namespace BankWeb.Pages.CustomerCRUD
+namespace BankWeb.Pages.CustomersFolder
 {
     [BindProperties]
-    public class EditModel : PageModel
+    public class EditModel(IPersonService personService) : PageModel
     {
-        private readonly IPersonService _personService;
-
-        public EditModel(IPersonService personService)
-        {
-            _personService = personService;
-        }
-
         [Required] public string Gender { get; set; }
         [StringLength(15, MinimumLength = 2)] public string Givenname { get; set; }
         [StringLength(15, MinimumLength = 2)] public string Surname { get; set; }
@@ -38,7 +29,7 @@ namespace BankWeb.Pages.CustomerCRUD
 
         public IActionResult OnGet(int id)
         {
-            var customerFromDb = _personService.GetDbContext().Customers.First(m => m.CustomerId == id);
+            var customerFromDb = personService.GetDbContext().Customers.First(m => m.CustomerId == id);
 
             if (customerFromDb == null)
             {
@@ -75,7 +66,7 @@ namespace BankWeb.Pages.CustomerCRUD
             {
                 try
                 {
-                    var (customer, changes) = await _personService.UpdateCustomerAsync(
+                    var (customer, changes) = await personService.UpdateCustomerAsync(
                         id, Gender, Givenname, Surname, Streetaddress, City, Zipcode, Country, CountryCode,
                         Emailaddress, Telephonecountrycode, Telephonenumber, NationalId, BirthdayYear, BirthdayMonth, BirthdayDay
                     );
@@ -86,7 +77,7 @@ namespace BankWeb.Pages.CustomerCRUD
                     }
                     else
                     {
-                        TempData["ErrorMessage"] = "Nothing has been changed.";
+                        TempData["ErrorMessage"] = "You saved but didnt update customer, nothing has been changed.";
                     }
 
                     return RedirectToPage("/CustomersFolder/CustomerDetails", new { id = customer.CustomerId });

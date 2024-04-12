@@ -5,23 +5,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
 [Authorize(Roles = "Admin")]
-public class DeleteUserModel : PageModel
+public class DeleteUserModel(UserManager<IdentityUser> userManager) : PageModel
 {
-    private readonly UserManager<IdentityUser> _userManager;
-
     [BindProperty]
     public string Id { get; set; }
 
     public string Email { get; set; }
 
-    public DeleteUserModel(UserManager<IdentityUser> userManager)
-    {
-        _userManager = userManager;
-    }
-
     public async Task<IActionResult> OnGetAsync(string id)
     {
-        var user = await _userManager.FindByIdAsync(id);
+        var user = await userManager.FindByIdAsync(id);
         Id = user.Id;
         Email = user.Email;
         return Page();
@@ -29,8 +22,8 @@ public class DeleteUserModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var user = await _userManager.FindByIdAsync(Id);
-        var result = await _userManager.DeleteAsync(user);
+        var user = await userManager.FindByIdAsync(Id);
+        var result = await userManager.DeleteAsync(user);
         if (result.Succeeded)
         {
             TempData["UserDeletedMessage"] = $"User {Email} was successfully deleted.";
@@ -42,8 +35,8 @@ public class DeleteUserModel : PageModel
 
     public async Task<List<string>> GetRoles()
     {
-        var user = await _userManager.FindByEmailAsync(Email);
-        var roles = await _userManager.GetRolesAsync(user);
+        var user = await userManager.FindByEmailAsync(Email);
+        var roles = await userManager.GetRolesAsync(user);
         return roles.ToList();
     }
 

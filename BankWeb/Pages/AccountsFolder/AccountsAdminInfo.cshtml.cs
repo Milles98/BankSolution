@@ -7,19 +7,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace BankWeb.Pages.AccountsFolder
 {
     [Authorize(Roles = "Cashier")]
-    public class AccountsAdminInfoModel : PageModel
+    public class AccountsAdminInfoModel(IAccountService accountService) : PageModel
     {
-        private readonly IAccountService _accountService;
-
-        public AccountsAdminInfoModel(IAccountService accountService)
-        {
-            _accountService = accountService;
-        }
-
         public List<AccountViewModel> Accounts { get; set; }
         public int CurrentPage { get; set; } = 1;
         public int AccountPerPage { get; set; } = 50;
-        public int TotalPages => _accountService.GetTotalPages(AccountPerPage);
+        public int TotalPages => accountService.GetTotalPages(AccountPerPage);
         public int PageCount { get; set; }
         public string Search { get; set; }
 
@@ -31,7 +24,7 @@ namespace BankWeb.Pages.AccountsFolder
                 CurrentPage = int.Parse(Request.Query["page"]);
             }
 
-            var result = await _accountService.GetAccounts(CurrentPage, AccountPerPage, sortColumn, sortOrder, Search);
+            var result = await accountService.GetAccounts(CurrentPage, AccountPerPage, sortColumn, sortOrder, Search);
             Accounts = result.Item1;
             PageCount = (int)Math.Ceiling(result.Item2 / (double)AccountPerPage);
         }

@@ -13,33 +13,26 @@ using System.Reflection;
 
 namespace DataLibrary.Services
 {
-    public class PersonService : IPersonService
+    public class PersonService(BankAppDataContext context) : IPersonService
     {
-        private readonly BankAppDataContext _context;
-
-        public PersonService(BankAppDataContext context)
-        {
-            _context = context;
-        }
-
         public BankAppDataContext GetDbContext()
         {
-            return _context;
+            return context;
         }
 
         public async Task<Customer> CreateCustomerAsync(Customer customer, Account account, Disposition disposition)
         {
             account.Dispositions.Add(disposition);
-            _context.Accounts.Add(account);
-            _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
+            context.Accounts.Add(account);
+            context.Customers.Add(customer);
+            await context.SaveChangesAsync();
 
             return customer;
         }
 
         public async Task DeleteCustomerAsync(int id)
         {
-            var customer = await _context.Customers.Include(c => c.Dispositions)
+            var customer = await context.Customers.Include(c => c.Dispositions)
                                                    .ThenInclude(d => d.Account)
                                                    .ThenInclude(a => a.Transactions)
                                                    .FirstAsync(c => c.CustomerId == id);
@@ -47,29 +40,29 @@ namespace DataLibrary.Services
             {
                 foreach (var disposition in customer.Dispositions.ToList())
                 {
-                    _context.Transactions.RemoveRange(disposition.Account.Transactions);
-                    _context.Dispositions.Remove(disposition);
-                    _context.Accounts.Remove(disposition.Account);
+                    context.Transactions.RemoveRange(disposition.Account.Transactions);
+                    context.Dispositions.Remove(disposition);
+                    context.Accounts.Remove(disposition.Account);
                 }
 
-                _context.Customers.Remove(customer);
-                await _context.SaveChangesAsync();
+                context.Customers.Remove(customer);
+                await context.SaveChangesAsync();
             }
         }
 
         public async Task<Customer> GetCustomerAsync(int id)
         {
-            return await _context.Customers.FirstAsync(m => m.CustomerId == id);
+            return await context.Customers.FirstAsync(m => m.CustomerId == id);
         }
 
         public async Task<Customer?> GetCustomerByEmailAsync(string email)
         {
-            return await _context.Customers.FirstOrDefaultAsync(c => c.Emailaddress == email);
+            return await context.Customers.FirstOrDefaultAsync(c => c.Emailaddress == email);
         }
 
         public async Task<bool> IsUniqueCombination(string givenName, string surname, string streetAddress)
         {
-            return !await _context.Customers.AnyAsync(c => c.Givenname == givenName &&
+            return !await context.Customers.AnyAsync(c => c.Givenname == givenName &&
                                                           c.Surname == surname &&
                                                           c.Streetaddress == streetAddress);
         }
@@ -144,7 +137,7 @@ namespace DataLibrary.Services
             string? nationalId, int birthdayYear, int birthdayMonth, int birthdayDay
         )
         {
-            var customerFromDb = await _context.Customers.FirstAsync(m => m.CustomerId == id);
+            var customerFromDb = await context.Customers.FirstAsync(m => m.CustomerId == id);
 
             var oldValues = new
             {
@@ -198,8 +191,8 @@ namespace DataLibrary.Services
 
             if (changes.Count > 0)
             {
-                _context.Attach(customerFromDb).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
+                context.Attach(customerFromDb).State = EntityState.Modified;
+                await context.SaveChangesAsync();
             }
 
             return (customerFromDb, changes);

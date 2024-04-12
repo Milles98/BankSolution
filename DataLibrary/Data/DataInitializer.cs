@@ -3,19 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataLibrary.Data;
 
-public class DataInitializer
+public class DataInitializer(BankAppDataContext dbContext, UserManager<IdentityUser> userManager)
 {
-    private readonly BankAppDataContext _dbContext;
-    private readonly UserManager<IdentityUser> _userManager;
-
-    public DataInitializer(BankAppDataContext dbContext, UserManager<IdentityUser> userManager)
-    {
-        _dbContext = dbContext;
-        _userManager = userManager;
-    }
     public void SeedData()
     {
-        _dbContext.Database.Migrate();
+        dbContext.Database.Migrate();
         SeedRoles();
         SeedUsers();
     }
@@ -36,17 +28,17 @@ public class DataInitializer
 
     private void AddRoleIfNotExisting(string roleName)
     {
-        var role = _dbContext.Roles.FirstOrDefault(r => r.Name == roleName);
+        var role = dbContext.Roles.FirstOrDefault(r => r.Name == roleName);
         if (role == null)
         {
-            _dbContext.Roles.Add(new IdentityRole { Name = roleName, NormalizedName = roleName });
-            _dbContext.SaveChanges();
+            dbContext.Roles.Add(new IdentityRole { Name = roleName, NormalizedName = roleName });
+            dbContext.SaveChanges();
         }
     }
 
     private void AddUserIfNotExists(string userName, string password, string[] roles)
     {
-        if (_userManager.FindByEmailAsync(userName).Result != null) return;
+        if (userManager.FindByEmailAsync(userName).Result != null) return;
 
         var user = new IdentityUser
         {
@@ -54,7 +46,7 @@ public class DataInitializer
             Email = userName,
             EmailConfirmed = true
         };
-        _userManager.CreateAsync(user, password).Wait();
-        _userManager.AddToRolesAsync(user, roles).Wait();
+        userManager.CreateAsync(user, password).Wait();
+        userManager.AddToRolesAsync(user, roles).Wait();
     }
 }

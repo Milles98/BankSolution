@@ -5,11 +5,13 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 
 [Authorize(Roles = "Admin")]
-public class EditUserModel : PageModel
+public class EditUserModel(
+    UserManager<IdentityUser> userManager,
+    SignInManager<IdentityUser> signInManager,
+    RoleManager<IdentityRole> roleManager)
+    : PageModel
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly RoleManager<IdentityRole> _roleManager = roleManager;
 
     [BindProperty]
     public string Id { get; set; }
@@ -26,32 +28,25 @@ public class EditUserModel : PageModel
     [BindProperty]
     public string Role { get; set; }
 
-    public EditUserModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
-    {
-        _userManager = userManager;
-        _signInManager = signInManager;
-        _roleManager = roleManager;
-    }
-
     public async Task<IActionResult> OnGetAsync(string id)
     {
-        var user = await _userManager.FindByIdAsync(id);
+        var user = await userManager.FindByIdAsync(id);
         Id = user.Id;
         Email = user.Email;
-        var userRole = await _userManager.GetRolesAsync(user);
+        var userRole = await userManager.GetRolesAsync(user);
         Role = userRole.FirstOrDefault();
         return Page();
     }
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var user = await _userManager.FindByIdAsync(Id);
+        var user = await userManager.FindByIdAsync(Id);
         user.Email = Email;
         user.UserName = Email;
         if (!string.IsNullOrEmpty(Password))
         {
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var resetResult = await _userManager.ResetPasswordAsync(user, token, Password);
+            var token = await userManager.GeneratePasswordResetTokenAsync(user);
+            var resetResult = await userManager.ResetPasswordAsync(user, token, Password);
             if (!resetResult.Succeeded)
             {
                 foreach (var error in resetResult.Errors)
@@ -61,16 +56,16 @@ public class EditUserModel : PageModel
                 return Page();
             }
         }
-        var updateResult = await _userManager.UpdateAsync(user);
+        var updateResult = await userManager.UpdateAsync(user);
         if (updateResult.Succeeded)
         {
-            var userRole = await _userManager.GetRolesAsync(user);
+            var userRole = await userManager.GetRolesAsync(user);
             if (userRole.FirstOrDefault() != Role)
             {
-                await _userManager.RemoveFromRoleAsync(user, userRole.FirstOrDefault());
-                await _userManager.AddToRoleAsync(user, Role);
+                await userManager.RemoveFromRoleAsync(user, userRole.FirstOrDefault());
+                await userManager.AddToRoleAsync(user, Role);
             }
-            await _signInManager.RefreshSignInAsync(user);
+            await signInManager.RefreshSignInAsync(user);
             return RedirectToPage("ManageUsers");
         }
         foreach (var error in updateResult.Errors)

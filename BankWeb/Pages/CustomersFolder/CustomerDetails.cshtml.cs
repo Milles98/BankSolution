@@ -10,20 +10,13 @@ using Microsoft.EntityFrameworkCore;
 namespace BankWeb.Pages.CustomersFolder
 {
     [Authorize(Roles = "Cashier")]
-    public class CustomerDetailsModel : PageModel
+    public class CustomerDetailsModel(ICustomerService customerService) : PageModel
     {
-        private readonly ICustomerService _customerService;
-
-        public CustomerDetailsModel(ICustomerService customerService)
-        {
-            _customerService = customerService;
-        }
-
         public CustomerAccountViewModel Customer { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            Customer = await _customerService.GetCustomerDetails(id);
+            Customer = await customerService.GetCustomerDetails(id);
 
             if (Customer == null)
             {
