@@ -3,11 +3,27 @@
 
 @{
     ViewData["Title"] = "Edit Customer";
+
+    var months = new Dictionary<int, string>
+    {
+        { 1, "January" },
+        { 2, "February" },
+        { 3, "March" },
+        { 4, "April" },
+        { 5, "May" },
+        { 6, "June" },
+        { 7, "July" },
+        { 8, "August" },
+        { 9, "September" },
+        { 10, "October" },
+        { 11, "November" },
+        { 12, "December" }
+    };
 }
 
 <div class="page-heading header-text">
     <h1>@ViewData["Title"]</h1>
-    <button type="button" class="btn btn-secondary" onclick="window.history.back();">
+    <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Page("/CustomersFolder/CustomerDetails", new { id = ViewData["CustomerId"] })'">
         <i class="fa-solid fa-arrow-left mr-2"></i>Return to Customer
     </button>
 </div>
@@ -85,9 +101,9 @@
                             <span asp-validation-for="BirthdayYear" class="text-danger"></span>
                             <select asp-for="BirthdayMonth" class="form-control mt-1">
                                 <option value="">Select Month...</option>
-                                @for (int i = 1; i <= 12; i++)
+                                @foreach (var month in months)
                                 {
-                                    <option value="@i">@i</option>
+                                    <option value="@month.Key">@month.Value</option>
                                 }
                             </select>
                             <span asp-validation-for="BirthdayMonth" class="text-danger"></span>

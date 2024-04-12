@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DataLibrary.Attributes;
 using DataLibrary.Data;
 using DataLibrary.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -54,6 +55,7 @@ namespace BankWeb.Pages.CustomersFolder
         public string Frequency { get; set; }
         [BindProperty]
         [Required]
+        [MinimumAge(18)]
         public int BirthdayYear { get; set; }
 
         [BindProperty]

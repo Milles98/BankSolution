@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DataLibrary.Attributes;
 using DataLibrary.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,6 +20,7 @@ namespace BankWeb.Pages.CustomersFolder
 
         [RegularExpression("^(Sweden|Norway|Denmark|Finland)$")] public string Country { get; set; }
         public string CountryCode { get; set; }
+        [MinimumAge(18)]
         public int BirthdayYear { get; set; }
         public int BirthdayMonth { get; set; }
         public int BirthdayDay { get; set; }
@@ -56,12 +58,16 @@ namespace BankWeb.Pages.CustomersFolder
                 BirthdayDay = customerFromDb.Birthday.Value.Day;
             }
 
+            ViewData["CustomerId"] = id;
+
             return Page();
         }
 
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
+            ViewData["CustomerId"] = id;
+
             if (ModelState.IsValid)
             {
                 try
