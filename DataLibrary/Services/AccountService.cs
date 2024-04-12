@@ -118,6 +118,30 @@ namespace DataLibrary.Services
             return paginationService.GetTotalPages(query, accountsPerPage);
         }
 
+        public async Task DeleteAccountAndRelatedData(int id)
+        {
+            // Find the account
+            var account = await context.Accounts.FindAsync(id);
+            if (account == null)
+            {
+                throw new Exception("Account not found");
+            }
+
+            // Find and remove all related dispositions
+            var dispositions = context.Dispositions.Where(d => d.AccountId == id);
+            context.Dispositions.RemoveRange(dispositions);
+
+            // Find and remove all related transactions
+            var transactions = context.Transactions.Where(t => t.AccountId == id);
+            context.Transactions.RemoveRange(transactions);
+
+            // Remove the account itself
+            context.Accounts.Remove(account);
+
+            // Save changes to the database
+            await context.SaveChangesAsync();
+        }
+
 
     }
 }

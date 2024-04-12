@@ -1,19 +1,38 @@
 ﻿@page
-@model BankWeb.Pages.AccountsFolder.DeleteAccount
+@model BankWeb.Pages.AccountsFolder.DeleteAccountModel
 
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    
+<div class="page-heading header-text">
+    <h1>@ViewData["Title"]</h1>
+    <h3>Are you sure you want to delete Account Id @Model.Account.AccountId?</h3>
+    <button type="button" class="btn btn-secondary mt-3" onclick="window.history.back();">
+        <i class="fa-solid fa-arrow-left mr-2"></i>Return to Account
+    </button>
+    <h4 class="mt-3">All money will be lost!</h4>
 </div>
-</body>
-</html>
+
+<div class="container">
+    <div class="row d-flex justify-content-center align-items-center min-vh-100">
+        <div class="col-md-8">
+            <hr />
+            <table class="table table-striped">
+                <tbody>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Account.AccountId)</th>
+                    <td>@Html.DisplayFor(model => model.Account.AccountId)</td>
+                </tr>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Account.Balance)</th>
+                    <td>@Html.DisplayFor(model => model.Account.Balance)</td>
+                </tr>
+                <!-- Add more fields as necessary -->
+                </tbody>
+            </table>
+            <form method="post">
+                <input type="hidden" asp-for="Account.AccountId" />
+                <div class="form-group d-flex justify-content-center">
+                    <input type="submit" value="Delete" class="btn btn-danger mr-2" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

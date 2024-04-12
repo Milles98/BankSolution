@@ -13,6 +13,22 @@
     </button>
 </div>
 
+<div class="container">
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Message"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+</div>
+
 <div class="container" style="width: 80%; margin: auto; padding: 20px;">
 
     <form method="get" class="text-left d-none d-sm-table-cell" asp-page="/AccountsFolder/AccountsAdminInfo">
