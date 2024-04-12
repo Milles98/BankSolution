@@ -51,12 +51,12 @@
         </a>
     </div>
 
-    <table class="table container table-hover">
+    <table class="table container table-hover table-bordered">
         <thead>
             <tr>
                 <th style="width: 40%;">Email</th>
-                <th style="width: 40%;">Roles</th>
-                <th style="width: 20%;">Actions</th>
+                <th style="width: 30%;">Roles</th>
+                <th style="width: 30%;">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -70,21 +70,29 @@
                         @string.Join(", ", await Model.GetRoles(user))
                     </td>
                     <td>
-                        <a class="btn btn-outline-secondary" asp-page="EditUser" asp-route-id="@user.Id">
-                            <i class="fa-solid fa-pen-to-square mr-2"></i>Edit
-                        </a>
-                        @if (!isSelf && !isProtectedUser)
-                        {
-                            <a class="btn btn-danger" asp-page="DeleteUser" asp-route-id="@user.Id">
-                                <i class="fa-solid fa-trash-can mr-2"></i>Delete
-                            </a>
-                        }
-                        else if (isProtectedUser)
-                        {
-                            <button class="btn btn-info" disabled>Protected</button>
-                            @* <span class="badge badge-warning">Protected User</span> *@
-                        }
-
+                        <div class="row">
+                            <div class="col">
+                                <a class="btn btn-outline-secondary btn-block" asp-page="EditUser" asp-route-id="@user.Id">
+                                    <i class="fa-solid fa-pen-to-square mr-2"></i>Edit
+                                </a>
+                            </div>
+                            @if (!isSelf && !isProtectedUser)
+                            {
+                                <div class="col">
+                                    <a class="btn btn-danger btn-block" asp-page="DeleteUser" asp-route-id="@user.Id">
+                                        <i class="fa-solid fa-trash-can mr-2"></i>Delete
+                                    </a>
+                                </div>
+                            }
+                            else if (isProtectedUser)
+                            {
+                                <div class="col">
+                                    <button class="btn btn-info btn-block" disabled>
+                                        <i class="fa-solid fa-shield-halved mr-2"></i>Protected
+                                    </button>
+                                </div>
+                            }
+                        </div>
                     </td>
                 </tr>
             }
