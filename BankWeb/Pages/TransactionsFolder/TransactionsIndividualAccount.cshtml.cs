@@ -26,7 +26,7 @@ namespace BankWeb.Pages.TransactionsFolder
                 var exactMatch = Transactions.SingleOrDefault(t => t.TransactionId.ToString() == SearchTerm);
                 if (exactMatch == null)
                 {
-                    ModelState.AddModelError("", "Could not find exact match.");
+                    ModelState.AddModelError("", "Could not find exact match. Try again.");
                 }
                 Transactions = Transactions.Where(t => t.TransactionId.ToString().Contains(SearchTerm)).ToList();
                 if (Transactions.Count == 0)

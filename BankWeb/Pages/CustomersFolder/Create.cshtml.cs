@@ -10,11 +10,6 @@ namespace BankWeb.Pages.CustomersFolder
     [Authorize(Roles = "Cashier")]
     public class CreateModel(IPersonService personService) : PageModel
     {
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
-
         [BindProperty]
         public Customer Customer { get; set; } = default!;
         [BindProperty]
@@ -84,6 +79,11 @@ namespace BankWeb.Pages.CustomersFolder
         [BindProperty]
         [Range(50, 50000, ErrorMessage = "Initial deposit must be between 50 and 50.000 SEK")]
         public decimal InitialDeposit { get; set; }
+
+        public IActionResult OnGet()
+        {
+            return Page();
+        }
 
 
         public async Task<IActionResult> OnPostAsync()
