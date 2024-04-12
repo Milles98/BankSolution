@@ -22,11 +22,34 @@ namespace BankWeb.Pages.AccountsFolder
                 return NotFound();
             }
 
+            TempData.Keep("Message");
+            TempData.Keep("MessageClass");
+
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
+            var accountIds = new List<int> { id };
+            var accounts = accountService.GetAccountDetails(accountIds);
+
+            Account = accounts.First();
+
+            if (Account == null)
+            {
+                return NotFound();
+            }
+
+            if (Account.Balance > 0)
+            {
+                TempData["Message"] = "Account has a balance. Please withdraw or transfer the funds before deleting the account.";
+                TempData["MessageClass"] = "alert-danger";
+                TempData["ShowWithdrawButton"] = true;
+                TempData["ShowTransferButton"] = true;
+                return Page();
+            }
+
+
             try
             {
                 await accountService.DeleteAccountAndRelatedData(id);
@@ -39,6 +62,7 @@ namespace BankWeb.Pages.AccountsFolder
 
             return RedirectToPage("/AccountsFolder/AccountsAdminInfo");
         }
+
 
 
     }

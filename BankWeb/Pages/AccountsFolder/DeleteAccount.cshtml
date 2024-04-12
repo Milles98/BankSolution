@@ -11,6 +11,31 @@
 </div>
 
 <div class="container">
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert text-center @TempData["MessageClass"]">
+            @Html.Raw(TempData["Message"])
+        </div>
+    }
+</div>
+
+<div class="container d-flex justify-content-center mt-3">
+    @if (TempData["ShowWithdrawButton"] != null)
+    {
+        <button type="button" id="update-profile-button" class="btn btn-primary mr-2" onclick="location.href='/TransactionsFolder/Withdraw?accountId=' + @Model.Account.AccountId;">
+            <i class="fa-solid fa-arrow-down mr-2"></i>Withdraw
+        </button>
+    }
+
+    @if (TempData["ShowTransferButton"] != null)
+    {
+        <button type="button" id="update-profile-button" class="btn btn-primary ml-2" onclick="location.href='/TransactionsFolder/Transfer?accountId=' + @Model.Account.AccountId;">
+            <i class="fa-solid fa-arrow-right-left mr-2"></i>Transfer
+        </button>
+    }
+</div>
+
+<div class="container">
     <div class="row d-flex justify-content-center align-items-center min-vh-100">
         <div class="col-md-8">
             <hr />
