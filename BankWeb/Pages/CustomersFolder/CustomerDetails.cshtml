@@ -143,7 +143,9 @@
                         <a asp-page="/TransactionsFolder/Transfer" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary" title="Transfer">
                             <i class="fa-solid fa-right-left"></i>
                         </a>
-                        <a asp-page="/AccountsFolder/DeleteAccount" asp-route-id="@account.AccountId" class="btn btn-danger">Delete</a>
+                        <a asp-page="/AccountsFolder/DeleteAccount" asp-route-id="@account.AccountId" class="btn btn-danger">
+                            <i class="fa-solid fa-trash-can mr-2"></i>Delete
+                        </a>
                     </td>
                 </tr>
             }
