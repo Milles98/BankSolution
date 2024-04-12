@@ -53,12 +53,15 @@ namespace BankWeb.Pages.CustomersFolder
         [RegularExpression("^(Monthly|Weekly|AfterTransaction)$", ErrorMessage = "Frequency must be either 'Monthly', 'Weekly' or 'After Transaction'")]
         public string Frequency { get; set; }
         [BindProperty]
+        [Required]
         public int BirthdayYear { get; set; }
 
         [BindProperty]
+        [Required]
         public int BirthdayMonth { get; set; }
 
         [BindProperty]
+        [Required]
         public int BirthdayDay { get; set; }
         [BindProperty]
         [Required]
@@ -72,11 +75,13 @@ namespace BankWeb.Pages.CustomersFolder
         public string Telephonecountrycode { get; set; }
 
         [BindProperty]
+        [Required]
         public string Telephonenumber { get; set; }
 
         [BindProperty]
         public string? NationalId { get; set; }
         [BindProperty]
+        [Required]
         [Range(50, 50000, ErrorMessage = "Initial deposit must be between 50 and 50.000 SEK")]
         public decimal InitialDeposit { get; set; }
 

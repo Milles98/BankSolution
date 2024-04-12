@@ -36,7 +36,7 @@ namespace BankWeb.Pages.CustomersFolder
                 return NotFound();
             }
 
-            return RedirectToPage("/CustomersFolder/DeleteAccessDenied");
+            //return RedirectToPage("/CustomersFolder/DeleteAccessDenied");
 
             await personService.DeleteCustomerAsync(id.Value);
 
