@@ -13,7 +13,7 @@ namespace BankWeb.Pages.TransactionsFolder
     public class TransactionAdminInfoModel(ITransactionService transactionService) : PageModel
     {
         public List<TransactionViewModel> Transactions { get; set; }
-
+        public int TotalTransactions { get; set; }
         public int CurrentPage { get; set; } = 1;
         public int TransactionsPerPage { get; set; } = 50;
         public int TotalPages => transactionService.GetTotalPages(TransactionsPerPage);
@@ -23,6 +23,8 @@ namespace BankWeb.Pages.TransactionsFolder
             {
                 CurrentPage = int.Parse(Request.Query["page"]);
             }
+
+            TotalTransactions = transactionService.GetTotalTransactions();
 
             Transactions = await transactionService
                 .GetTransactions(CurrentPage, TransactionsPerPage, sortColumn, sortOrder, search);

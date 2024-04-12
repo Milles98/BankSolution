@@ -149,5 +149,11 @@ namespace DataLibrary.Services
             return (transactions, hasMore);
         }
 
+        public int GetTotalTransactions()
+        {
+            return context.Transactions.Count();
+        }
+
+
     }
 }

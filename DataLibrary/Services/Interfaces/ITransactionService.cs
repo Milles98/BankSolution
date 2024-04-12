@@ -18,5 +18,6 @@ namespace DataLibrary.Services.Interfaces
         Task<List<TransactionViewModel>> GetTransactionsForAccount(int accountId, DateTime? lastFetchedTransactionTimestamp);
         Task<decimal?> GetAccountBalance(int accountId);
         Task<(List<TransactionViewModel>, bool)> LoadMoreTransactions(int accountId, DateTime? lastFetchedTransactionTimestamp, string loadedTransactionIds);
+        int GetTotalTransactions();
     }
 }

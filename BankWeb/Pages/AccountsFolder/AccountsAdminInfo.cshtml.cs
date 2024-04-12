@@ -10,6 +10,7 @@ namespace BankWeb.Pages.AccountsFolder
     public class AccountsAdminInfoModel(IAccountService accountService) : PageModel
     {
         public List<AccountViewModel> Accounts { get; set; }
+        public int TotalAccounts { get; set; }
         public int CurrentPage { get; set; } = 1;
         public int AccountPerPage { get; set; } = 50;
         public int TotalPages => accountService.GetTotalPages(AccountPerPage);
@@ -23,6 +24,8 @@ namespace BankWeb.Pages.AccountsFolder
             {
                 CurrentPage = int.Parse(Request.Query["page"]);
             }
+
+            TotalAccounts = accountService.GetTotalAccounts();
 
             var result = await accountService.GetAccounts(CurrentPage, AccountPerPage, sortColumn, sortOrder, Search);
             Accounts = result.Item1;
