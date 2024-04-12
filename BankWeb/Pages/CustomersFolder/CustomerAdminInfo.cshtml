@@ -19,7 +19,7 @@
     <div class="d-flex justify-content-between align-items-center">
         <div style="flex-grow: 1;">
             <form method="get" class="my-2 my-lg-0 d-none d-sm-table-cell" asp-page="/CustomersFolder/CustomerAdminInfo">
-                <div class="input-group" style="width: 400px; margin-top: 10px; margin-bottom: 15px;">
+                <div class="input-group" style="width: 410px; margin-top: 10px; margin-bottom: 15px;">
                     <input type="text" class="form-control" name="query" placeholder="Search Customer ID, Name or City" value="@Request.Query["query"]">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="submit">
@@ -48,7 +48,7 @@
         </div>
     }
 
-    <table class="table table-hover">
+    <table class="table table-hover table-bordered">
     <thead>
         <tr>
             <th scope="col">
