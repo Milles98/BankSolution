@@ -57,14 +57,11 @@
                             <span asp-validation-for="Zipcode" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label for="DispositionType" class="control-label">Account Type</label>
-                            <select asp-for="DispositionType" class="form-control">
-                                <option value="">Select Type...</option>
-                                <option value="OWNER">Owner</option>
-                                <option value="DISPONENT">Disponent</option>
-                            </select>
+                            <label asp-for="DispositionType" class="control-label">Account Type</label>
+                            <input asp-for="DispositionType" class="form-control" readonly value="OWNER" />
                             <span asp-validation-for="DispositionType" class="text-danger"></span>
                         </div>
+
                         <div class="form-group">
                             <label for="InitialDeposit" class="control-label">Initial Deposit</label>
                             <input asp-for="InitialDeposit" class="form-control" />

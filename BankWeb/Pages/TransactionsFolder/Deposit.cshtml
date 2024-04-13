@@ -20,16 +20,16 @@
 }
 
 <form method="post" class="text-center">
-    <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
+    <div class="form-group" style="width: 200px; margin: 10px auto;">
         <label asp-for="AccountId">Account ID:</label>
         <input asp-for="AccountId" class="form-control" required readonly>
-        <span class="personal-field-validation-error" asp-validation-for="AccountId"></span>
+        <span asp-validation-for="AccountId" class="text-danger"></span>
     </div>
 
-    <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
+    <div class="form-group" style="width: 200px; margin: 10px auto;">
         <label asp-for="Amount">Amount SEK:</label>
         <input asp-for="Amount" class="form-control" required>
-        <span class="personal-field-validation-error" asp-validation-for="Amount"></span>
+        <span asp-validation-for="Amount" class="text-danger"></span>
     </div>
 
     <button type="submit" id="update-profile-button" class="btn btn-primary mb-3" style="margin-top: 10px;">

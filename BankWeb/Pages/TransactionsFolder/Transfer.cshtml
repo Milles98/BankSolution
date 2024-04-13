@@ -20,17 +20,22 @@
 }
 
 <form method="post" class="text-center">
-    <input type="hidden" id="AccountId" name="AccountId" value="@Model.AccountId" />
-    <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
-        <label for="toAccountId">To Account ID:</label>
-        <input id="ToAccountId" name="ToAccountId" type="number" class="form-control" value="@Model.ToAccountId" required>
-        <span class="personal-field-validation-error" asp-validation-for="AccountId"></span>
+    <div class="form-group" style="width: 200px; margin: 10px auto;">
+        <label asp-for="AccountId">From Account ID:</label>
+        <input asp-for="AccountId" class="form-control" required readonly>
+        <span asp-validation-for="AccountId" class="text-danger"></span>
     </div>
 
-    <div class="form-group d-inline-block" style="width: 200px; margin-top: 10px;">
-        <label for="amount">Amount SEK:</label>
-        <input id="amount" name="amount" type="number" step="0.01" class="form-control" required>
-        <span class="personal-field-validation-error" asp-validation-for="Amount"></span>
+    <div class="form-group" style="width: 200px; margin: 10px auto;">
+        <label asp-for="ToAccountId">To Account ID:</label>
+        <input asp-for="ToAccountId" class="form-control" required>
+        <span asp-validation-for="ToAccountId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group" style="width: 200px; margin: 10px auto;">
+        <label asp-for="Amount">Amount SEK:</label>
+        <input asp-for="Amount" class="form-control" required>
+        <span asp-validation-for="Amount" class="text-danger"></span>
     </div>
 
     <button type="submit" id="update-profile-button" class="btn btn-primary mb-3" style="margin-top: 10px;">
