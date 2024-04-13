@@ -12,10 +12,12 @@ namespace BankWeb.Pages.TransactionsFolder
     public class DepositModel(IBankService bankService) : PageModel
     {
         [BindProperty]
+        [Required]
         public int AccountId { get; set; }
 
         [BindProperty]
         [Range(50, 50000)]
+        [Required]
         public decimal Amount { get; set; }
         public AccountViewModel Account { get; set; }
 

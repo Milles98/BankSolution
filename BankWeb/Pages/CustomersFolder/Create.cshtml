@@ -161,7 +161,7 @@
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="Shared/_ValidationScriptsPartial" />
 
     <script>
         document.getElementById('countryDropdown').addEventListener('change', function () {

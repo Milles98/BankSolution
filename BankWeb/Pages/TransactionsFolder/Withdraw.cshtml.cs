@@ -13,10 +13,12 @@ namespace BankWeb.Pages.TransactionsFolder
     public class WithdrawModel(IBankService bankService) : PageModel
     {
         [BindProperty]
+        [Required]
         public int AccountId { get; set; }
 
         [BindProperty]
         [Range(1, 50000)]
+        [Required]
         public decimal Amount { get; set; }
         public AccountViewModel Account { get; set; }
 
