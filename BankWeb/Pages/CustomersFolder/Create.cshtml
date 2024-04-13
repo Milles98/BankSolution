@@ -99,7 +99,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label">Birthday</label>
-                            <select asp-for="BirthdayYear" class="form-control">
+                            <select asp-for="BirthdayYear" class="form-control" data-val-minimumage="You must be at least 18 years old." data-val-minimumage-minimumage="18">
                                 <option value="">Select Year...</option>
                                 @for (int i = DateTime.Now.Year; i >= 1900; i--)
                                 {
@@ -188,14 +188,18 @@
         });
 
         jQuery.validator.addMethod('minimumage', function (value, element, params) {
-            var minimumAge = params[0];
+            var minimumAge = params.minimumage;
             var yearOfBirth = parseInt(value);
             var currentYear = new Date().getFullYear();
             return yearOfBirth <= currentYear - minimumAge;
+        }, function (params, element) {
+            return $(element).data('val-minimumage-message');
         });
 
         jQuery.validator.unobtrusive.adapters.add('minimumage', ['minimumage'], function (options) {
-            options.rules['minimumage'] = options.params;
+            options.rules['minimumage'] = {
+                minimumage: options.params.minimumage
+            };
             options.messages['minimumage'] = options.message;
         });
     </script>
