@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace DataLibrary.Attributes
 {
-    public class MinimumAgeAttribute : ValidationAttribute
+    public class MinimumAgeAttribute : ValidationAttribute, IClientModelValidator
     {
         private readonly int _minimumAge;
 
@@ -34,6 +32,28 @@ namespace DataLibrary.Attributes
             var earliestYear = DateTime.Now.Year - _minimumAge;
             return $"User must be at least {_minimumAge} years old. {earliestYear} or earlier.";
         }
-    }
 
+        public void AddValidation(ClientModelValidationContext context)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            MergeAttribute(context.Attributes, "data-val", "true");
+            MergeAttribute(context.Attributes, "data-val-minimumage", GetErrorMessage());
+            MergeAttribute(context.Attributes, "data-val-minimumage-minimumage", _minimumAge.ToString());
+        }
+
+        private bool MergeAttribute(IDictionary<string, string> attributes, string key, string value)
+        {
+            if (attributes.ContainsKey(key))
+            {
+                return false;
+            }
+
+            attributes.Add(key, value);
+            return true;
+        }
+    }
 }

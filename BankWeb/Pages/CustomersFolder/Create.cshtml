@@ -189,5 +189,17 @@
                     countryCodeInput.value = '';
             }
         });
+
+        jQuery.validator.addMethod('minimumage', function (value, element, params) {
+            var minimumAge = params[0];
+            var yearOfBirth = parseInt(value);
+            var currentYear = new Date().getFullYear();
+            return yearOfBirth <= currentYear - minimumAge;
+        });
+
+        jQuery.validator.unobtrusive.adapters.add('minimumage', ['minimumage'], function (options) {
+            options.rules['minimumage'] = options.params;
+            options.messages['minimumage'] = options.message;
+        });
     </script>
 }
