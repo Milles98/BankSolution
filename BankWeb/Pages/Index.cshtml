@@ -87,16 +87,9 @@
                                 {
                                     <tr>
                                         <td class="text-white custom-width">
-                                            @if (User.IsInRole("Cashier"))
-                                            {
-                                                <a class="btn btn-outline-secondary" asp-page="/CountryDetails" asp-route-country="@entry.Key">
-                                                    <i class="fa-solid fa-eye mr-2"></i>@entry.Key
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <span class="ml-2">@entry.Key</span>
-                                            }
+                                            <a class="btn btn-outline-secondary" asp-page="/CountryDetails" asp-route-country="@entry.Key">
+                                                <i class="fa-solid fa-eye mr-2"></i>@entry.Key
+                                            </a>
                                         </td>
                                         <td class="text-white custom-width pl-4 d-none d-sm-table-cell">@entry.Value.customers</td>
                                         <td class="text-white custom-width pl-4 d-none d-sm-table-cell">@entry.Value.accounts</td>

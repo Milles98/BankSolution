@@ -11,14 +11,13 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<BankAppDataContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+//builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<BankAppDataContext>();
 builder.Services.AddRazorPages();
 
-builder.Services.AddResponseCaching();
 
 builder.Services.AddTransient<DataInitializer>();
 builder.Services.AddTransient<ISortingService<Transaction>, SortingService<Transaction>>();
@@ -36,6 +35,7 @@ builder.Services.AddTransient<IPersonService, PersonService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddResponseCaching();
 
 var app = builder.Build();
 
@@ -56,15 +56,15 @@ else
     app.UseHsts();
 }
 
+app.UseResponseCaching();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseResponseCaching();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapRazorPages();
 
 app.Run();
