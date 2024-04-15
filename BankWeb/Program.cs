@@ -56,11 +56,11 @@ else
     app.UseHsts();
 }
 
-app.UseResponseCaching();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseResponseCaching();
 
 app.UseRouting();
 app.UseAuthentication();
