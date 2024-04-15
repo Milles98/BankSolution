@@ -39,7 +39,8 @@ namespace MoneyLaunderingSafetyMeasure
                 Console.Write($"\rChecking customer {currentDisposition} of {totalDispositions} for suspicious activity...");
 
                 var account = disposition.Account;
-                var transactions = account.Transactions.Where(t => t.Date > lastRunDate && t.Date <= today);
+                var date = lastRunDate;
+                var transactions = account.Transactions.Where(t => t.Date > date && t.Date <= today);
 
                 foreach (var transaction in transactions)
                 {
