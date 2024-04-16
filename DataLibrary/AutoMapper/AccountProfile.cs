@@ -2,7 +2,7 @@
 using DataLibrary.Data;
 using DataLibrary.ViewModels;
 
-namespace DataLibrary.MappingProfiles
+namespace DataLibrary.AutoMapper
 {
     public class AccountProfile : Profile
     {

@@ -2,6 +2,8 @@
 using DataLibrary.Data;
 using DataLibrary.ViewModels;
 
+namespace DataLibrary.AutoMapper;
+
 public class CustomerProfile : Profile
 {
     public CustomerProfile()
