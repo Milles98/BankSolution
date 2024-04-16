@@ -34,6 +34,13 @@
         </div>
     }
 
+    @if (TempData["DepositMessage"] != null)
+    {
+    <div class="alert text-center @TempData["MessageClass"]">
+        @Html.Raw(TempData["DepositMessage"])
+    </div>
+    }
+
     @if (TempData["EditMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">

@@ -12,10 +12,10 @@
 </div>
 
 
-@if (TempData["Message"] != null)
+@if (TempData["DepositMessage"] != null)
 {
     <div class="alert text-center @TempData["MessageClass"]">
-        @Html.Raw(TempData["Message"])
+        @Html.Raw(TempData["DepositMessage"])
     </div>
 }
 

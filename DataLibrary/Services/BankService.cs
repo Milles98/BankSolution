@@ -1,6 +1,7 @@
 ﻿using DataLibrary.Data;
 using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLibrary.Services
 {
@@ -158,16 +159,21 @@ namespace DataLibrary.Services
 
         public AccountViewModel GetAccountDetails(int accountId)
         {
-            var account = context.Accounts.First(a => a.AccountId == accountId);
+            var account = context.Accounts
+                .Include(a => a.Dispositions)
+                .ThenInclude(d => d.Customer)
+                .First(a => a.AccountId == accountId);
             if (account != null)
             {
+                var customerId = account.Dispositions.First().CustomerId;
                 return new AccountViewModel
                 {
                     AccountId = account.AccountId.ToString(),
                     Frequency = account.Frequency,
                     Created = account.Created.ToString(),
                     Balance = account.Balance,
-                    Type = account.GetType().Name
+                    Type = account.GetType().Name,
+                    CustomerId = customerId
                 };
             }
             return null;
