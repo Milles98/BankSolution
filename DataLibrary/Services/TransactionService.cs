@@ -110,7 +110,7 @@ namespace DataLibrary.Services
             return account.Balance;
         }
 
-        public async Task<(List<TransactionViewModel>, bool)> LoadMoreTransactions(int accountId, DateTime? lastFetchedTransactionTimestamp, string loadedTransactionIds)
+        public async Task<(List<TransactionViewModel>, bool)> LoadMoreTransactions(int accountId, string loadedTransactionIds, int pageNo)
         {
             var loadedIds = new List<int>();
             if (!string.IsNullOrEmpty(loadedTransactionIds))
@@ -119,18 +119,18 @@ namespace DataLibrary.Services
             }
 
             var transactionsQuery = context.Transactions
-                .Where(t => t.AccountId == accountId && !loadedIds.Contains(t.TransactionId));
-
-            if (lastFetchedTransactionTimestamp.HasValue)
+                .Where(t => t.AccountId == accountId);
+            
+            if (loadedIds.Any())
             {
-                var lastFetchedDate = DateOnly.FromDateTime(lastFetchedTransactionTimestamp.Value);
-                transactionsQuery = transactionsQuery
-                    .Where(t => t.Date < lastFetchedDate);
+                transactionsQuery = transactionsQuery.Where(t => !loadedIds.Contains(t.TransactionId));
             }
 
-            var transactions = await transactionsQuery
+            var pagedTransactions = await transactionsQuery
                 .OrderByDescending(t => t.Date)
-                .Take(20)
+                .GetPaged(pageNo, 20);
+
+            var transactions = pagedTransactions.Results
                 .Select(t => new TransactionViewModel
                 {
                     TransactionId = t.TransactionId,
@@ -140,11 +140,11 @@ namespace DataLibrary.Services
                     Amount = t.Amount,
                     Balance = t.Balance
                 })
-                .ToListAsync();
+                .ToList();
 
             var hasMore = transactionsQuery
                 .OrderByDescending(t => t.Date)
-                .Skip(20)
+                .Skip(pageNo * 20)
                 .Any();
 
             return (transactions, hasMore);

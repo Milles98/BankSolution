@@ -41,117 +41,95 @@
 
 <table class="table container table-hover table-bordered">
     <thead>
-        <tr>
-            <th>Transaction ID</th>
-            <th class="d-none d-sm-table-cell">Date</th>
-            <th class="d-none d-sm-table-cell">Type</th>
-            <th class="d-none d-sm-table-cell">Operation</th>
-            <th>Amount</th>
-            <th>Balance</th>
-        </tr>
+    <tr>
+        <th>Transaction ID</th>
+        <th class="d-none d-sm-table-cell">Date</th>
+        <th class="d-none d-sm-table-cell">Type</th>
+        <th class="d-none d-sm-table-cell">Operation</th>
+        <th>Amount</th>
+        <th>Balance</th>
+    </tr>
     </thead>
     <tbody id="transactionTable">
-        @if (Model.Transactions != null)
+    @if (Model.Transactions != null)
+    {
+        @foreach (var transaction in Model.Transactions)
         {
-            @foreach (var transaction in Model.Transactions)
-            {
-                <tr>
-                    <td>
-                        <a asp-page="/Transactions/TransactionDetails" asp-route-transactionId="@transaction.TransactionId" class="btn btn-outline-secondary btn-block">
-                            <i class="fa-solid fa-eye mr-2"></i>@transaction.TransactionId
-                        </a>
-                    </td>
-                    <td class="d-none d-sm-table-cell">@transaction.DateOfTransaction</td>
-                    <td class="d-none d-sm-table-cell">@transaction.Type</td>
-                    <td class="d-none d-sm-table-cell">@transaction.Operation</td>
-                    <td>SEK: @transaction.Amount</td>
-                    <td>SEK: @transaction.Balance</td>
-                </tr>
-            }
+            <tr>
+                <td>
+                    <a asp-page="/Transactions/TransactionDetails" asp-route-transactionId="@transaction.TransactionId" class="btn btn-outline-secondary btn-block">
+                        <i class="fa-solid fa-eye mr-2"></i>@transaction.TransactionId
+                    </a>
+                </td>
+                <td class="d-none d-sm-table-cell">@transaction.DateOfTransaction</td>
+                <td class="d-none d-sm-table-cell">@transaction.Type</td>
+                <td class="d-none d-sm-table-cell">@transaction.Operation</td>
+                <td>SEK: @transaction.Amount</td>
+                <td>SEK: @transaction.Balance</td>
+            </tr>
         }
+    }
     </tbody>
 </table>
 
 <div style="text-align: center">
-    <button id="loadMoreButton" class="btn btn-primary update-profile-button mb-3">
+    @* <button id="loadMoreButton" class="btn btn-primary update-profile-button mb-3"> *@
+    @*     <i class="fa-solid fa-arrows-rotate mr-2"></i>Load More *@
+    @* </button> *@
+    <a id="update-profile-button" class="btn btn-primary mb-3" href="javascript:loadMore();">
         <i class="fa-solid fa-arrows-rotate mr-2"></i>Load More
-    </button>
+    </a>
 </div>
 
 @section Scripts {
     <script>
-        var pageNo = 1;
-        var accountId = @Model.AccountId;
-        var loadedTransactionIds = new Set();
-        var loadMoreButton = document.getElementById('loadMoreButton');
-        var warningText = document.createElement('p');
-        warningText.innerText = 'No more transactions to load.';
-        warningText.style.display = 'none';
-        warningText.style.color = 'red';
-        warningText.style.marginTop = '-10px';
-        loadMoreButton.parentNode.appendChild(warningText);
-        
-        if (@Model.Transactions.Count() === 0)
-        {
-            loadMoreButton.disabled = true;
-            warningText.style.display = 'block';
-        }
 
-        function loadMoreTransactions() {
-            var lastTransactionDate = document.querySelector('#transactionTable tr:last-child td:nth-child(2)').innerText;
-            fetch(`/Transactions/TransactionsIndividualAccount?handler=LoadMoreTransactions&accountId=${accountId}&lastFetchedTransactionTimestamp=${lastTransactionDate}&loadedTransactionIds=${Array.from(loadedTransactionIds).join(',')}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Server error: ' + response.status);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    var table = document.getElementById('transactionTable');
-                    data.transactions.forEach(transaction => {
-                        loadedTransactionIds.add(transaction.transactionId);
-                        var row = table.insertRow(-1);
-                        var cell = row.insertCell(0);
-                        var link = document.createElement('a');
-                        link.href = '/Transactions/TransactionDetails?transactionId=' + transaction.transactionId;
+        let pageNo = 2;
+        let loadedTransactionIds = [];
 
-                        var icon = document.createElement('i');
-                        icon.className = 'fa-solid fa-eye mr-2';
-                        link.appendChild(icon);
-
-                        var textNode = document.createTextNode(transaction.transactionId);
-                        link.appendChild(textNode);
-
-                        link.className = 'btn btn-outline-secondary btn-block';
-                        cell.appendChild(link);
-                        var dateCell = row.insertCell(1);
-                        dateCell.innerText = transaction.dateOfTransaction;
-                        dateCell.className = 'd-none d-sm-table-cell';
-                        var typeCell = row.insertCell(2);
-                        typeCell.innerText = transaction.type;
-                        typeCell.className = 'd-none d-sm-table-cell';
-                        var operationCell = row.insertCell(3);
-                        operationCell.innerText = transaction.operation;
-                        operationCell.className = 'd-none d-sm-table-cell';
-                        row.insertCell(4).innerText = 'SEK: ' + transaction.amount;
-                        row.insertCell(5).innerText = 'SEK: ' + transaction.balance;
+        function loadMore() {
+            fetch(`/Transactions/TransactionsIndividualAccount?handler=LoadMoreTransactions&pageNo=${pageNo}&accountId=@Model.AccountId&loadedTransactionIds=${loadedTransactionIds.join(',')}`)
+                .then((response) => response.json())
+                .then((json) => {
+                    json.transactions.forEach(transaction => {
+                        loadedTransactionIds.push(transaction.transactionId);
+                        drawElements(transaction);
                     });
+                    pageNo = pageNo + 1;
 
-
-                    if (!data.hasMore) {
+                    if (!json.hasMore) {
+                        let loadMoreButton = document.getElementById('update-profile-button');
                         loadMoreButton.disabled = true;
-                        warningText.style.display = 'block';
+                        loadMoreButton.style.backgroundColor = '#cccccc'; // Add inline style
+                        loadMoreButton.style.color = '#666666'; // Add inline style
+                        loadMoreButton.style.pointerEvents = 'none';
+
+                        let message = document.createElement('p');
+                        message.style.color = 'red';
+                        message.textContent = 'No more transactions to load';
+                        document.querySelector('div[style="text-align: center"]').appendChild(message);
                     }
-                })
-                .catch(error => console.error('Fetch error:', error));
+                });
         }
 
-        loadMoreButton.addEventListener('click', function () {
-            pageNo++;
-            loadMoreTransactions();
-        });
+        function drawElements(transaction) {
+            let tableBody = document.querySelector('#transactionTable');
+            let row = document.createElement('tr');
+
+            row.innerHTML =
+                `<td>
+            <a href="/Transactions/TransactionDetails?transactionId=${transaction.transactionId}" class="btn btn-outline-secondary btn-block">
+                <i class="fa-solid fa-eye mr-2"></i>${transaction.transactionId}
+            </a>
+        </td>
+        <td class="d-none d-sm-table-cell">${new Date(transaction.dateOfTransaction).toLocaleDateString()}</td>
+        <td class="d-none d-sm-table-cell">${transaction.type}</td>
+        <td class="d-none d-sm-table-cell">${transaction.operation}</td>
+        <td>SEK: ${transaction.amount}</td>
+        <td>SEK: ${transaction.balance}</td>`;
+
+            tableBody.appendChild(row);
+        }
+
     </script>
 }
-
-
-

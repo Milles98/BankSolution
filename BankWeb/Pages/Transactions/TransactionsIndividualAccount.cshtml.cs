@@ -38,11 +38,11 @@ namespace BankWeb.Pages.Transactions
         }
 
 
-        public async Task<JsonResult> OnGetLoadMoreTransactions(int accountId, DateTime? lastFetchedTransactionTimestamp, string loadedTransactionIds)
+        public async Task<JsonResult> OnGetLoadMoreTransactions(int accountId, string loadedTransactionIds, int pageNo)
         {
             try
             {
-                var (transactions, hasMore) = await transactionService.LoadMoreTransactions(accountId, lastFetchedTransactionTimestamp, loadedTransactionIds);
+                var (transactions, hasMore) = await transactionService.LoadMoreTransactions(accountId, loadedTransactionIds, pageNo);
                 return new JsonResult(new { transactions, hasMore });
             }
             catch (Exception ex)
