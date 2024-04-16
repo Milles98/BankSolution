@@ -32,6 +32,11 @@ namespace BankWeb.Pages.TransactionsFolder
 
         public IActionResult OnPost()
         {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+            
             try
             {
                 var transactionId = bankService.Withdraw(AccountId, Amount);
