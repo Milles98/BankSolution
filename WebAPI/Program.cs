@@ -13,9 +13,9 @@ builder.Services.AddDbContext<BankAppDataContext>(options =>
 
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
-builder.Services.AddTransient<IPaginationService<Transaction>, PaginationService<Transaction>>();
+//builder.Services.AddTransient<IPaginationService<Transaction>, PaginationService<Transaction>>();
 builder.Services.AddTransient<ISortingService<Transaction>, SortingService<Transaction>>();
-builder.Services.AddTransient<IPaginationService<Customer>, PaginationService<Customer>>();
+//builder.Services.AddTransient<IPaginationService<Customer>, PaginationService<Customer>>();
 builder.Services.AddTransient<ISortingService<Customer>, SortingService<Customer>>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

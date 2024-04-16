@@ -1,4 +1,5 @@
 using DataLibrary.Data;
+using DataLibrary.Infrastructure.Paging;
 using DataLibrary.Services;
 using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
@@ -12,17 +13,20 @@ namespace BankWeb.Pages.Customers
     [Authorize(Roles = "Cashier")]
     public class CustomerAdminInfoModel(ICustomerService customerService) : PageModel
     {
-        public List<CustomerViewModel> Customers { get; set; }
+        public PagedResult<CustomerViewModel> Customers { get; set; }
+        public int CurrentPage { get; set; }
+        public int CustomerPerPage { get; set; }
         public int TotalCustomers { get; set; }
-        public int CurrentPage { get; set; } = 1;
-        public int CustomerPerPage { get; set; } = 50;
-        public int TotalPages => customerService.GetTotalPages(CustomerPerPage);
-        public int PageCount { get; set; }
         public string Search { get; set; }
 
-        public async Task OnGet(string sortColumn, string sortOrder, string query)
+        public async Task OnGet(string sortColumn, string sortOrder, int pageNo, string query)
         {
             Search = query;
+
+            if (pageNo == 0)
+                pageNo = 1;
+            CurrentPage = pageNo;
+
             if (Request.Query.ContainsKey("page"))
             {
                 CurrentPage = int.Parse(Request.Query["page"]);
@@ -30,11 +34,7 @@ namespace BankWeb.Pages.Customers
 
             TotalCustomers = customerService.GetTotalCustomers();
 
-            var result = await customerService.GetCustomers(CurrentPage, CustomerPerPage, sortColumn, sortOrder, Search);
-            Customers = result.Item1;
-            PageCount = (int)Math.Ceiling(result.Item2 / (double)CustomerPerPage);
+            Customers = await customerService.GetCustomers(CurrentPage, CustomerPerPage, sortColumn, sortOrder, Search);
         }
-
-
     }
 }

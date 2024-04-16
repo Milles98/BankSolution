@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DataLibrary.Data;
+using DataLibrary.Infrastructure.Paging;
 using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,6 @@ namespace DataLibrary.Services
 {
     public class CustomerService(
         BankAppDataContext context,
-        IPaginationService<Customer> paginationService,
         ISortingService<Customer> sortingService,
         IMapper mapper)
         : ICustomerService
@@ -35,7 +35,7 @@ namespace DataLibrary.Services
             return customerDetails;
         }
 
-        public async Task<(List<CustomerViewModel>, int)> GetCustomers(int currentPage, int customersPerPage, string sortColumn, string sortOrder, string search)
+        public async Task<PagedResult<CustomerViewModel>> GetCustomers(int pageNo, int customersPerPage, string sortColumn, string sortOrder, string search)
         {
             var query = context.Customers.AsQueryable();
 
@@ -54,8 +54,6 @@ namespace DataLibrary.Services
                 }
             }
 
-            int totalCustomers = await query.CountAsync();
-
             var sortExpressions = new Dictionary<string, Expression<Func<Customer, object>>>
             {
                 { "CustomerId", c => c.CustomerId },
@@ -70,22 +68,21 @@ namespace DataLibrary.Services
 
             query = sortingService.Sort(query, sortColumn, sortOrder, sortExpressions);
 
-            var customers = await paginationService
-                .GetPage(query
+            var customers = await query
                 .Include(c => c.Dispositions)
-                .ThenInclude(d => d.Account), currentPage, customersPerPage)
-                .ToListAsync();
+                .ThenInclude(d => d.Account)
+                .GetPaged(pageNo, 50);
 
-            var customerViewModels = mapper.Map<List<CustomerViewModel>>(customers);
+            var customerViewModels = mapper.Map<List<CustomerViewModel>>(customers.Results);
 
-            return (customerViewModels, totalCustomers);
-        }
-
-
-        public int GetTotalPages(int customersPerPage)
-        {
-            var query = context.Customers.AsQueryable();
-            return paginationService.GetTotalPages(query, customersPerPage);
+            return new PagedResult<CustomerViewModel>
+            {
+                CurrentPage = customers.CurrentPage,
+                PageCount = customers.PageCount,
+                PageSize = customers.PageSize,
+                RowCount = customers.RowCount,
+                Results = customerViewModels
+            };
         }
 
 

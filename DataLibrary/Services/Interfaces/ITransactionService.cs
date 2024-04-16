@@ -1,4 +1,5 @@
 ﻿using DataLibrary.Data;
+using DataLibrary.Infrastructure.Paging;
 using DataLibrary.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,7 @@ namespace DataLibrary.Services.Interfaces
     public interface ITransactionService
     {
         BankAppDataContext GetDbContext();
-        Task<List<TransactionViewModel>> GetTransactions(int currentPage, int transactionsPerPage,
-            string sortColumn, string sortOrder, string search);
-        int GetTotalPages(int transactionsPerPage);
+        Task<PagedResult<TransactionViewModel>> GetTransactions(int currentPage, int transactionsPerPage, string sortColumn, string sortOrder, string search);
         Task<TransactionViewModel> GetTransactionDetails(int transactionId);
         Task<List<TransactionViewModel>> GetTransactionsForAccount(int accountId, DateTime? lastFetchedTransactionTimestamp);
         Task<decimal?> GetAccountBalance(int accountId);

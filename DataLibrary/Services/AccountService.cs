@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DataLibrary.Data;
+using DataLibrary.Infrastructure.Paging;
 using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,6 @@ namespace DataLibrary.Services
 {
     public class AccountService(
         BankAppDataContext context,
-        IPaginationService<Account> paginationService,
         ISortingService<Account> sortingService,
         IMapper mapper)
         : IAccountService
@@ -72,7 +72,7 @@ namespace DataLibrary.Services
             await context.SaveChangesAsync();
         }
 
-        public async Task<(List<AccountViewModel>, int)> GetAccounts(int currentPage, int accountsPerPage, string sortColumn, string sortOrder, string search)
+        public async Task<PagedResult<AccountViewModel>> GetAccounts(int pageNo, int accountsPerPage, string sortColumn, string sortOrder, string search)
         {
             var query = context.Accounts.AsQueryable();
 
@@ -89,34 +89,34 @@ namespace DataLibrary.Services
                 }
             }
 
-            int totalAccounts = await query.CountAsync();
-
             var sortExpressions = new Dictionary<string, Expression<Func<Account, object>>>
-            {
-                { "AccountId", a => a.AccountId },
-                { "Frequency", a => a.Frequency },
-                { "Created", a => a.Created },
-                { "Balance", a => a.Balance }
-            };
+                {
+                    { "AccountId", a => a.AccountId },
+                    { "Frequency", a => a.Frequency },
+                    { "Created", a => a.Created },
+                    { "Balance", a => a.Balance }
+                };
 
             query = sortingService.Sort(query, sortColumn, sortOrder, sortExpressions);
 
-            var accounts = await paginationService
-            .GetPage(query
-            .Include(a => a.Dispositions)
-            .ThenInclude(d => d.Customer), currentPage, accountsPerPage)
-            .ToListAsync();
+            var accounts = await query
+               .Include(a => a.Dispositions)
+               .ThenInclude(d => d.Customer)
+               .GetPaged(pageNo, 50);
 
-            var accountViewModels = mapper.Map<List<AccountViewModel>>(accounts);
+            var accountViewModels = mapper.Map<List<AccountViewModel>>(accounts.Results);
 
-            return (accountViewModels, totalAccounts);
+            return new PagedResult<AccountViewModel>
+            {
+                CurrentPage = accounts.CurrentPage,
+                PageCount = accounts.PageCount,
+                PageSize = accounts.PageSize,
+                RowCount = accounts.RowCount,
+                Results = accountViewModels
+            };
         }
 
-        public int GetTotalPages(int accountsPerPage)
-        {
-            var query = context.Accounts.AsQueryable();
-            return paginationService.GetTotalPages(query, accountsPerPage);
-        }
+
 
         public async Task DeleteAccountAndRelatedData(int id)
         {

@@ -2,7 +2,7 @@
 @model TransactionAdminInfoModel
 @{
     int startPage = Model.CurrentPage - 1 <= 0 ? 1 : Model.CurrentPage - 1;
-    int endPage = startPage + 2 > Model.TotalPages ? Model.TotalPages : startPage + 2;
+    int endPage = startPage + 2 > Model.Transactions.PageCount ? Model.Transactions.PageCount : startPage + 2;
 }
 
 <div class="page-heading header-text">
@@ -107,7 +107,7 @@
     </thead>
 
     <tbody>
-        @foreach (var transaction in Model.Transactions)
+        @foreach (var transaction in Model.Transactions.Results)
         {
             <tr>
                 <td>
@@ -145,28 +145,39 @@
                 <td colspan="6">
                     <div style="display: flex; flex-direction: row; justify-content: flex-start; gap: 6px;">
                         <a class="btn btn-primary d-none d-sm-table-cell" id="update-profile-button"
-                           href='?page=1&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'>First</a>
-                        
+                           asp-route-pageNo="1"
+                           asp-route-sortColumn="@Request.Query["sortColumn"]"
+                           asp-route-sortOrder="@Request.Query["sortOrder"]">First</a>
+
                         <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : "")" id="update-profile-button"
-                           href='@(Model.CurrentPage > 1 ? "?page=" + (Model.CurrentPage - 1) + "&sortColumn=" + Request.Query["sortColumn"] + "&sortOrder=" + Request.Query["sortOrder"] : "#")'>Previous</a>
+                           asp-route-pageNo="@(Model.CurrentPage > 1 ? (Model.CurrentPage - 1).ToString() : "#")"
+                           asp-route-sortColumn="@Request.Query["sortColumn"]"
+                           asp-route-sortOrder="@Request.Query["sortOrder"]">Previous</a>
 
                         @for (int i = startPage; i <= endPage; i++)
                         {
                             <a class="btn @(Model.CurrentPage == i ? "btn-primary" : "btn-secondary")" id="@(Model.CurrentPage == i ? "update-profile-button" : "")"
-                               href='?page=@i&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'>@i</a>
+                               asp-route-pageNo="@i"
+                               asp-route-sortColumn="@Request.Query["sortColumn"]"
+                               asp-route-sortOrder="@Request.Query["sortOrder"]">@i</a>
                         }
 
-                        <a class="btn btn-primary @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")" id="update-profile-button"
-                           href='@(Model.CurrentPage < Model.TotalPages ? "?page=" + (Model.CurrentPage + 1) + "&sortColumn=" + Request.Query["sortColumn"] + "&sortOrder=" + Request.Query["sortOrder"] : "#")'>Next</a>
+                        <a class="btn btn-primary @(Model.CurrentPage == Model.Transactions.PageCount ? "disabled" : "")" id="update-profile-button"
+                           asp-route-pageNo="@(Model.CurrentPage < Model.Transactions.PageCount ? (Model.CurrentPage + 1).ToString() : "#")"
+                           asp-route-sortColumn="@Request.Query["sortColumn"]"
+                           asp-route-sortOrder="@Request.Query["sortOrder"]">Next</a>
 
-                        <p class="d-none d-sm-table-cell">Page @Model.CurrentPage of @Model.TotalPages</p>
+                        <p class="d-none d-sm-table-cell">Page @Model.CurrentPage of @Model.Transactions.PageCount</p>
 
                         <a class="btn btn-primary d-none d-sm-table-cell" id="update-profile-button"
-                           href='?page=@Model.TotalPages&sortColumn=@Request.Query["sortColumn"]&sortOrder=@Request.Query["sortOrder"]'>Last</a>
+                           asp-route-pageNo="@Model.Transactions.PageCount"
+                           asp-route-sortColumn="@Request.Query["sortColumn"]"
+                           asp-route-sortOrder="@Request.Query["sortOrder"]">Last</a>
                     </div>
                 </td>
             </tr>
         </tfoot>
+
 </table>
 </div>
 

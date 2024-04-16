@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DataLibrary.Data;
+using DataLibrary.Infrastructure.Paging;
 using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,6 @@ namespace DataLibrary.Services
 {
     public class TransactionService(
         BankAppDataContext context,
-        IPaginationService<Transaction> paginationService,
         ISortingService<Transaction> sortingService,
         IMapper mapper)
         : ITransactionService
@@ -24,12 +24,9 @@ namespace DataLibrary.Services
             return context;
         }
 
-        public async Task<List<TransactionViewModel>> GetTransactions(int currentPage, int transactionsPerPage, string sortColumn, string sortOrder, string search)
+        public async Task<PagedResult<TransactionViewModel>> GetTransactions(int pageNo, int transactionsPerPage, string sortColumn, string sortOrder, string search)
         {
-            var query = context.Transactions
-            .Include(t => t.AccountNavigation)
-            .ThenInclude(a => a.Dispositions)
-            .AsQueryable();
+            var query = context.Transactions.AsQueryable();
 
             if (!string.IsNullOrEmpty(search) && int.TryParse(search, out int transactionId))
             {
@@ -49,19 +46,23 @@ namespace DataLibrary.Services
 
             query = sortingService.Sort(query, sortColumn, sortOrder, sortExpressions);
 
-            var transactions = await paginationService.GetPage(query, currentPage, transactionsPerPage)
-            .ToListAsync();
+            var transactions = await query
+               .Include(t => t.AccountNavigation)
+               .ThenInclude(a => a.Dispositions)
+               .GetPaged(pageNo, 50);
 
-            var transactionViewModels = mapper.Map<List<TransactionViewModel>>(transactions);
+            var transactionViewModels = mapper.Map<List<TransactionViewModel>>(transactions.Results);
 
-            return transactionViewModels;
+            return new PagedResult<TransactionViewModel>
+            {
+                CurrentPage = transactions.CurrentPage,
+                PageCount = transactions.PageCount,
+                PageSize = transactions.PageSize,
+                RowCount = transactions.RowCount,
+                Results = transactionViewModels
+            };
         }
 
-        public int GetTotalPages(int transactionsPerPage)
-        {
-            var query = context.Transactions.AsQueryable();
-            return paginationService.GetTotalPages(query, transactionsPerPage);
-        }
 
         public async Task<TransactionViewModel> GetTransactionDetails(int transactionId)
         {

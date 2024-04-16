@@ -22,9 +22,9 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddTransient<DataInitializer>();
 builder.Services.AddTransient<ISortingService<Transaction>, SortingService<Transaction>>();
-builder.Services.AddTransient<IPaginationService<Transaction>, PaginationService<Transaction>>();
-builder.Services.AddTransient<IPaginationService<Customer>, PaginationService<Customer>>();
-builder.Services.AddTransient<IPaginationService<Account>, PaginationService<Account>>();
+//builder.Services.AddTransient<IPaginationService<Transaction>, PaginationService<Transaction>>();
+//builder.Services.AddTransient<IPaginationService<Customer>, PaginationService<Customer>>();
+//builder.Services.AddTransient<IPaginationService<Account>, PaginationService<Account>>();
 builder.Services.AddTransient<ISortingService<Customer>, SortingService<Customer>>();
 builder.Services.AddTransient<ISortingService<Account>, SortingService<Account>>();
 builder.Services.AddTransient<IBankService, BankService>();
