@@ -41,11 +41,13 @@ namespace BankWeb.Pages.TransactionsFolder
             try
             {
                 var transactionId = bankService.TransferFunds(AccountId, ToAccountId, Amount);
-                TempData["Message"] = $"Transfer successful from Account ID {AccountId} to Account ID {ToAccountId}, Amount: {Amount} SEK, Date: {DateTime.Now:dd-MM-yyyy}, " +
+                TempData["BankMessage"] = $"Transfer successful from Account ID {AccountId} to Account ID {ToAccountId}, Amount: {Amount} SEK, Date: {DateTime.Now:dd-MM-yyyy}, " +
                     $"Transaction ID: <a href=\"/TransactionsFolder/TransactionDetails?transactionId={transactionId}\">{transactionId}</a>";
                 TempData["MessageClass"] = "alert-success";
 
                 Account = bankService.GetAccountDetailsForDisplay(AccountId);
+                
+                return RedirectToPage("/CustomersFolder/CustomerDetails", new { id = Account.CustomerId });
             }
             catch (Exception ex)
             {

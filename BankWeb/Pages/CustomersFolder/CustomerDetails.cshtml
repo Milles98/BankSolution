@@ -34,11 +34,14 @@
         </div>
     }
 
-    @if (TempData["DepositMessage"] != null)
+    @if (TempData["BankMessage"] != null)
     {
-    <div class="alert text-center @TempData["MessageClass"]">
-        @Html.Raw(TempData["DepositMessage"])
-    </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @Html.Raw(TempData["BankMessage"])
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
     }
 
     @if (TempData["EditMessage"] != null)

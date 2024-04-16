@@ -33,7 +33,7 @@ namespace BankWeb.Pages.TransactionsFolder
             try
             {
                 var transactionId = bankService.DepositFunds(AccountId, Amount);
-                TempData["DepositMessage"] = $"Deposit successful for Account ID {AccountId}, Amount: {Amount} SEK, Date: {DateTime.Now:dd-MM-yyyy}, " +
+                TempData["BankMessage"] = $"Deposit successful for Account ID {AccountId}, Amount: {Amount} SEK, Date: {DateTime.Now:dd-MM-yyyy}, " +
                     $"Transaction ID: <a href=\"/TransactionsFolder/TransactionDetails?transactionId={transactionId}\">{transactionId}</a>";
                 TempData["MessageClass"] = "alert-success";
 
