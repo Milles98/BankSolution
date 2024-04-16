@@ -80,7 +80,7 @@
 
 @section Scripts {
     <script>
-        var page = 1;
+        var pageNo = 1;
         var accountId = @Model.AccountId;
         var loadedTransactionIds = new Set();
         var loadMoreButton = document.getElementById('loadMoreButton');
@@ -88,7 +88,14 @@
         warningText.innerText = 'No more transactions to load.';
         warningText.style.display = 'none';
         warningText.style.color = 'red';
+        warningText.style.marginTop = '-10px';
         loadMoreButton.parentNode.appendChild(warningText);
+        
+        if (@Model.Transactions.Count() === 0)
+        {
+            loadMoreButton.disabled = true;
+            warningText.style.display = 'block';
+        }
 
         function loadMoreTransactions() {
             var lastTransactionDate = document.querySelector('#transactionTable tr:last-child td:nth-child(2)').innerText;
@@ -140,7 +147,7 @@
         }
 
         loadMoreButton.addEventListener('click', function () {
-            page++;
+            pageNo++;
             loadMoreTransactions();
         });
     </script>
