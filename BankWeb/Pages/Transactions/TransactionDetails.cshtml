@@ -1,0 +1,46 @@
+﻿@page
+@model TransactionDetailsModel
+@{
+    ViewData["Title"] = "Transaction Details";
+}
+
+<div class="page-heading header-text">
+    <h1>@ViewData["Title"]</h1>
+    <button type="button" class="btn btn-secondary" onclick="window.history.back();">
+        <i class="fa-solid fa-arrow-left mr-2"></i>Return
+    </button>
+</div>
+
+@if (Model.Transaction != null)
+{
+    <table class="table container table-hover table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Transaction ID</th>
+                <th scope="col" class="d-none d-sm-table-cell">Account ID</th>
+                <th scope="col">Amount</th>
+                <th scope="col" class="d-none d-sm-table-cell">Balance</th>
+                <th scope="col">Date of Transaction</th>
+                <th scope="col" class="d-none d-sm-table-cell">Operation</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Transaction.TransactionId</td>
+                <td class="d-none d-sm-table-cell">
+                    <a asp-page="/Accounts/Account" asp-route-accountIds="@Model.Transaction.AccountId" class="btn btn-outline-secondary btn-block">
+                        <i class="fa-solid fa-eye mr-2"></i>Account: @Model.Transaction.AccountId
+                    </a>
+                </td>
+                <td>@Model.Transaction.Amount SEK</td>
+                <td class="d-none d-sm-table-cell">@Model.Transaction.Balance SEK</td>
+                <td>@Model.Transaction.DateOfTransaction</td>
+                <td class="d-none d-sm-table-cell">@Model.Transaction.Operation</td>
+            </tr>
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No transaction details available.</p>
+}

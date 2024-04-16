@@ -102,7 +102,7 @@
 
                     @if (User.IsInRole("Cashier"))
                     {
-                        <form class="my-2 my-lg-0 pl-3 d-none d-sm-block" method="get" asp-page="/CustomersFolder/CustomerAdminInfo">
+                        <form class="my-2 my-lg-0 pl-3 d-none d-sm-block" method="get" asp-page="/Customers/CustomerAdminInfo">
                             <div class="input-group" style="width: 410px; margin-top: 10px;">
                                 <input class="form-control" type="search" placeholder="Search Customer ID, Name or City" aria-label="Search" name="query" required style="background-color: transparent; color: white;" value="@Request.Query["query"]">
                                 <div class="input-group-append">

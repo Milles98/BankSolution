@@ -58,9 +58,9 @@ https://templatemo.com/tm-545-finance-business
                                         Services
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownServices">
-                                        <a class="dropdown-item" asp-page="/CustomersFolder/CustomerAdminInfo">Customers</a>
-                                        <a class="dropdown-item" asp-page="/TransactionsFolder/TransactionAdminInfo">Transactions</a>
-                                        <a class="dropdown-item" asp-page="/AccountsFolder/AccountsAdminInfo">Accounts</a>
+                                        <a class="dropdown-item" asp-page="/Customers/CustomerAdminInfo">Customers</a>
+                                        <a class="dropdown-item" asp-page="/Transactions/TransactionAdminInfo">Transactions</a>
+                                        <a class="dropdown-item" asp-page="/Accounts/AccountsAdminInfo">Accounts</a>
                                     </div>
                                 </li>
                             }
@@ -68,7 +68,7 @@ https://templatemo.com/tm-545-finance-business
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-page="/UsersFolder/ManageUsers">Manage Users</a>
+                                    <a class="nav-link" asp-page="/Users/ManageUsers">Manage Users</a>
                                 </li>
                             }
                         </ul>

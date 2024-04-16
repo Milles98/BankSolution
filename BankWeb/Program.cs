@@ -7,7 +7,8 @@ using DataLibrary.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+                       throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<BankAppDataContext>(options =>
     options.UseSqlServer(connectionString));
 
@@ -61,6 +62,15 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseResponseCaching();
+
+app.Use(async (context, next) =>
+{
+    await next();
+
+    var logger = ((IApplicationBuilder)app).ApplicationServices.GetRequiredService<ILogger<Program>>();
+    logger.LogInformation("Response status code: {StatusCode}", context.Response.StatusCode);
+    logger.LogInformation("Response headers: {Headers}", context.Response.Headers);
+});
 
 app.UseRouting();
 app.UseAuthentication();

@@ -6,11 +6,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace BankWeb.Pages
 {
+    [IgnoreAntiforgeryToken]
     [ResponseCache(Duration = 60, VaryByQueryKeys = new[] { "country" })]
-    public class CountryDetailsModel(ICountryService countryService) : PageModel
+    public class CountryDetailsModel : PageModel
     {
+        private readonly ILogger<CountryDetailsModel> _logger;
+        private readonly ICountryService _countryService;
+
+        public CountryDetailsModel(ICountryService countryService, ILogger<CountryDetailsModel> logger)
+        {
+            _countryService = countryService;
+            _logger = logger;
+        }
         public string Country { get; set; }
         public string ImagePath { get; set; }
 
@@ -18,6 +28,8 @@ namespace BankWeb.Pages
 
         public async Task OnGet(string country)
         {
+            _logger.LogInformation("OnGet called with country: {Country}", country);
+
             Country = country;
             switch (country)
             {
@@ -37,7 +49,8 @@ namespace BankWeb.Pages
                     ImagePath = "/assets/images/default.jpg";
                     break;
             }
-            TopCustomers = await countryService.GetTopCustomersByCountry(country);
+            TopCustomers = await _countryService.GetTopCustomersByCountry(country);
+            _logger.LogInformation("TopCustomers count: {Count}", TopCustomers.Count);
         }
     }
 

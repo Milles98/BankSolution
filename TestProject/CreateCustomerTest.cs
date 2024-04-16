@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using BankWeb.Pages.CustomersFolder;
+using BankWeb.Pages.Customers;
 using DataLibrary.Data;
 using DataLibrary.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -72,7 +72,7 @@ namespace TestProject
         //     Assert.IsInstanceOf<RedirectToPageResult>(result);
         //     var redirectResult = result as RedirectToPageResult;
         //     Assert.IsNotNull(redirectResult);
-        //     Assert.AreEqual("/CustomersFolder/CustomerDetails", redirectResult.PageName);
+        //     Assert.AreEqual("/Customers/CustomerDetails", redirectResult.PageName);
         //     Assert.IsTrue(redirectResult.RouteValues.ContainsKey("id"));
         //     Assert.AreEqual(customer.CustomerId, redirectResult.RouteValues["id"]);
         //

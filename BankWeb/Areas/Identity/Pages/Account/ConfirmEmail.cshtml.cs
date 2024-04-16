@@ -40,7 +40,7 @@ namespace BankWeb.Areas.Identity.Pages.Account
             if (result.Succeeded)
             {
                 TempData["AccountConfirmedMessage"] = "Account was confirmed.";
-                return RedirectToPage("/UsersFolder/ManageUsers");
+                return RedirectToPage("/Users/ManageUsers");
             }
             else
             {
