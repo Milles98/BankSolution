@@ -8,7 +8,7 @@ This readme includes a short description of the project, its purpose and main fu
 
 ## 1. Description
 
-This project is made in ASP.NET Razor pages and is made to be a bank application.
+This project is made in ASP.NET Razor pages and is a fullstack solution to a bank application.
 The project features a money laundering console to check for suspicious activity,
 an API that gets account and customer details aswell as the bank web application itself.
 
