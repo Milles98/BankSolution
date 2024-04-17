@@ -22,7 +22,7 @@ https://millesbankapp.azurewebsites.net
 
 ### Principles i have used in my project:
 #### SOC (Separation of Concern):
-I achieved this by making sure to divide my classes and interfaces into different maps and more classes. This makes it easier to for example debug, scale and develop.
+I achieved this by making sure to divide my classes, relevant methods and interfaces into different maps and more classes. This makes it easier to for example debug, scale and develop.
 
 #### Single Responsibility Principle (SRP):
 Since i have divided my classes and interfaces it also makes my project follow SRP by only being responsible for one thing. 
