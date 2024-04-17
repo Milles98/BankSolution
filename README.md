@@ -14,6 +14,7 @@ an API that gets account and customer details aswell as the bank web application
 
 I have used services, library, automapper and more.
 
+## 2. Patterns/Principles
 
 ### Principles i have used in my project:
 #### SOC (Separation of Concern):
