@@ -1,5 +1,5 @@
 # Milles Bank
-This readme includes a short description of the project, its purpose and main functions.
+This readme includes a short description of the project and its main functions.
 
 ## Content
 1. Description
