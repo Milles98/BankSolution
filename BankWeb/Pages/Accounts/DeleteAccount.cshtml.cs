@@ -30,6 +30,11 @@ namespace BankWeb.Pages.AccountsFolder
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+            
             var accountIds = new List<int> { id };
             var accounts = accountService.GetAccountDetails(accountIds);
 

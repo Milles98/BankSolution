@@ -40,6 +40,11 @@ public class EditUserModel(
 
     public async Task<IActionResult> OnPostAsync()
     {
+        if(!ModelState.IsValid)
+        {
+            return Page();
+        }
+        
         var user = await userManager.FindByIdAsync(Id);
         user.Email = Email;
         user.UserName = Email;

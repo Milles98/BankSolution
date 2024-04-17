@@ -22,6 +22,11 @@ public class DeleteUserModel(UserManager<IdentityUser> userManager) : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
+        if (!ModelState.IsValid)
+        {
+            return Page();
+        }
+        
         var user = await userManager.FindByIdAsync(Id);
         var result = await userManager.DeleteAsync(user);
         if (result.Succeeded)
