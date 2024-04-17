@@ -4,10 +4,7 @@ This readme includes a short description of the project, its purpose and main fu
 ## Content
 1. Description
 2. Patterns/Principles
-3. 
-4. 
-5. 
-6. Library, Common Classes & Interfaces
+3. Library, Common Classes & Interfaces
 
 ## 1. Description
 
