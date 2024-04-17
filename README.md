@@ -14,6 +14,10 @@ an API that gets account and customer details aswell as the bank web application
 
 I have used services, library, automapper and more.
 
+View bank web application:
+
+https://millesbankapp.azurewebsites.net
+
 ## 2. Patterns/Principles
 
 ### Principles i have used in my project:
