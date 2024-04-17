@@ -7,10 +7,15 @@ This readme includes a short description of the project, its purpose and main fu
 3. 
 4. 
 5. 
-6. Autofac, Library, Common Classes & Interfaces
+6. Library, Common Classes & Interfaces
 
 ## 1. Description
 
+This project is made in ASP.NET Razor pages and is made to be a bank application.
+The project features a money laundering console to check for suspicious activity,
+an API that gets account and customer details aswell as the bank web application itself.
+
+I have used services, library, automapper and more.
 
 
 ### Principles i have used in my project:
