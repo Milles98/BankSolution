@@ -38,24 +38,7 @@ is following ISP.
 #### Dependency Inversion Principle (DIP):
 Almost all my classes depend on interfaces that are registered by Autofac, thus my project is not very dependent on different parts of my code.
 
-## 3. 
-
-## 4. 
-
-## 5. 
-
-## 6. Dependency Injection, Generic Classes & Interfaces
+## 3. Dependency Injection, Generic Classes & Interfaces
 
 The bank application uses dependency injection for easier testing aswell as generic classes to follow the DRY principles. Interfaces are ofcourse included to streamline the process of relieving dependencies.
 
-### Common Classes & Interfaces (that Shape, Calculator and Rock Paper Scissors share)
-- App
-- Program
-- DataSeeding
-- DbConfiguration
-- ProjectDbContext
-- Message
-- Autofac
-- IMenu
-- IMenuFactory
-- IDataSeeding
