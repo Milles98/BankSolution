@@ -71,7 +71,7 @@
             <span class="large-text">@Model.Customer.Givenname @Model.Customer.Surname</span>
         </div>
         <div class="card-body">
-            <h5 class="card-text mb-3">Total Balance: SEK: @Model.Customer.TotalBalance</h5>
+            <h5 class="card-text mb-3">Total Balance, SEK: @string.Format("{0:N2}", Model.Customer.TotalBalance)</h5>
             <p class="card-title">
                 <a href="https://www.google.com/maps/search/?api=1&query=@System.Net.WebUtility.UrlEncode(Model.Customer.Streetaddress + ", " + Model.Customer.City + ", " + Model.Customer.Country)" target="_blank">
                     <i class="fa-solid fa-up-right-from-square mr-2"></i>@Model.Customer.Streetaddress, @Model.Customer.City, @Model.Customer.Country
