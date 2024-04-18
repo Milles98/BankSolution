@@ -2,6 +2,7 @@
 using DataLibrary.Services;
 using DataLibrary.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,14 @@ class Program
 {
     static async Task Main(string[] args)
     {
+        var configuration = new ConfigurationBuilder()
+           .SetBasePath(Directory.GetCurrentDirectory())
+           .AddJsonFile("appsettings.json")
+           .Build();
+
         var services = new ServiceCollection();
         services.AddDbContext<BankAppDataContext>(options =>
-            options.UseSqlServer("Server=localhost;Database=BankAppData;Trusted_Connection=True;TrustServerCertificate=true;MultipleActiveResultSets=true"));
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
         services.AddScoped<IMoneyLaunderingService, MoneyLaunderingService>();
 
         var serviceProvider = services.BuildServiceProvider();
