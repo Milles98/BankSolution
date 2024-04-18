@@ -20,6 +20,17 @@ namespace DataLibrary.Services
         {
             _context = context;
         }
+
+        public async Task<List<Disposition>> GetDispositionsAsync(string country)
+        {
+            return await _context.Dispositions
+                .Include(d => d.Account)
+                .ThenInclude(a => a.Transactions)
+                .Include(d => d.Customer)
+                .Where(d => d.Customer.Country == country)
+                .ToListAsync();
+        }
+
         public async Task DetectAndReportSuspiciousActivity()
         {
             var countries = new List<string> { "Sweden", "Norway", "Denmark", "Finland" };
@@ -50,16 +61,6 @@ namespace DataLibrary.Services
             Console.WriteLine("Suspicious activity detection completed.");
         }
 
-        public async Task<List<Disposition>> GetDispositionsAsync(string country)
-        {
-            return await _context.Dispositions
-                .Include(d => d.Account)
-                .ThenInclude(a => a.Transactions)
-                .Include(d => d.Customer)
-                .Where(d => d.Customer.Country == country)
-                .ToListAsync();
-        }
-
         public (List<string>, DateOnly) DetectSuspiciousActivity(List<Disposition> dispositions, DateOnly lastRunDate)
         {
             var suspiciousUsers = new List<string>();
@@ -76,7 +77,7 @@ namespace DataLibrary.Services
 
                 var account = disposition.Account;
                 var date = lastRunDate;
-                var transactions = account.Transactions.Where(t => t.Date > date && t.Date <= today);
+                var transactions = account.Transactions.Where(t => t.Date >= date && t.Date <= today);
 
                 foreach (var transaction in transactions)
                 {
