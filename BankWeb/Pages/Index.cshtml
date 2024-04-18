@@ -4,20 +4,6 @@
     ViewData["Title"] = "Home page";
 }
 
-@functions {
-    public static string FormatNumber(decimal num)
-    {
-        if (num >= 1000000000)
-            return (num / 1000000000).ToString("0.0") + "B";
-        else if (num >= 1000000)
-            return (num / 1000000).ToString("0.0") + "M";
-        else if (num >= 1000)
-            return (num / 1000).ToString("0.0") + "K";
-        else
-            return num.ToString("0.0");
-    }
-}
-
 <style>
     .spaced-table {
         width: 75%; 
@@ -83,19 +69,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                                @foreach (var entry in Model.DataPerCountry)
-                                {
-                                    <tr>
-                                        <td class="text-white custom-width">
-                                            <a class="btn btn-outline-secondary" asp-page="/CountryDetails" asp-route-country="@entry.Key">
-                                                <i class="fa-solid fa-eye mr-2"></i>@entry.Key
-                                            </a>
-                                        </td>
-                                        <td class="text-white custom-width pl-4 d-none d-sm-table-cell">@entry.Value.customers</td>
-                                        <td class="text-white custom-width pl-4 d-none d-sm-table-cell">@entry.Value.accounts</td>
-                                        <td class="text-white custom-width pl-2">SEK: @FormatNumber(entry.Value.totalBalance)</td>
-                                    </tr>
-                                }
+                                <partial name="_Country" model="@Model.DataPerCountry">
                         </tbody>
                     </table>
                     </div>
