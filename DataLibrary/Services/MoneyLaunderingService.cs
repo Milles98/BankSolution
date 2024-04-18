@@ -11,15 +11,15 @@ namespace DataLibrary.Services
 {
     public class MoneyLaunderingService : IMoneyLaunderingService
     {
+        private const decimal SingleTransactionLimit = 15000m;
+        private const decimal TotalTransactionLimit = 23000m;
+        private const int DaysToCheck = 3;
+
         private readonly BankAppDataContext _context;
         public MoneyLaunderingService(BankAppDataContext context)
         {
             _context = context;
         }
-
-        private const decimal SingleTransactionLimit = 15000m;
-        private const decimal TotalTransactionLimit = 23000m;
-        private const int DaysToCheck = 3;
 
         public async Task<List<Disposition>> GetDispositionsAsync(string country)
         {
@@ -31,13 +31,42 @@ namespace DataLibrary.Services
                 .ToListAsync();
         }
 
+        public async Task DetectAndReportSuspiciousActivity()
+        {
+            var countries = new List<string> { "Sweden", "Norway", "Denmark", "Finland" };
+
+            var currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var lastRunTimeFilePath = Path.Combine(currentDirectory, "..", "..", "..", "SuspicionReport", "lastRunTime.txt");
+            DateOnly globalLastRunTime = GetLastRunTime(lastRunTimeFilePath);
+
+            DateOnly latestTransactionDateAcrossCountries = globalLastRunTime;
+
+            foreach (var country in countries)
+            {
+                Console.WriteLine($"Starting detection for {country}. Last run time: {globalLastRunTime}");
+
+                var dispositions = await GetDispositionsAsync(country);
+                var (suspiciousUsers, latestTransactionDate) = DetectSuspiciousActivity(dispositions, globalLastRunTime);
+
+                var reportFilePath = Path.Combine(currentDirectory, "..", "..", "..", "SuspicionReport", $"report_{country}.txt");
+                GenerateReport(suspiciousUsers, reportFilePath, country);
+
+                Console.WriteLine($"Detected {suspiciousUsers.Count} suspicious users for {country}.\n");
+                Console.WriteLine("--------------------------------------------\n");
+                latestTransactionDateAcrossCountries = latestTransactionDate > latestTransactionDateAcrossCountries ? latestTransactionDate : latestTransactionDateAcrossCountries;
+            }
+
+            SaveLastRunTime(latestTransactionDateAcrossCountries, lastRunTimeFilePath);
+            Console.WriteLine("Suspicious activity detection completed.");
+        }
+
         public (List<string>, DateOnly) DetectSuspiciousActivity(List<Disposition> dispositions, DateOnly lastRunDate)
         {
             var suspiciousUsers = new List<string>();
             DateOnly today = DateOnly.FromDateTime(DateTime.UtcNow);
             DateOnly threeDaysAgo = today.AddDays(-DaysToCheck);
 
-            int totalDispositions = dispositions.Count();
+            int totalDispositions = dispositions.Count;
             int currentDisposition = 0;
 
             foreach (var disposition in dispositions)

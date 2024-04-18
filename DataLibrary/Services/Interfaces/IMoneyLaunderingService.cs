@@ -10,6 +10,7 @@ namespace DataLibrary.Services.Interfaces
     public interface IMoneyLaunderingService
     {
         Task<List<Disposition>> GetDispositionsAsync(string country);
+        Task DetectAndReportSuspiciousActivity();
         (List<string>, DateOnly) DetectSuspiciousActivity(List<Disposition> dispositions, DateOnly lastRunDate);
         void GenerateReport(List<string> suspiciousUsers, string filePath, string country);
         void SaveLastRunTime(DateOnly lastRunDate, string filePath);

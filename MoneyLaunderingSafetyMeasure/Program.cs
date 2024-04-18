@@ -1,6 +1,8 @@
 ﻿using DataLibrary.Data;
+using DataLibrary.Services;
+using DataLibrary.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using MoneyLaunderingSafetyMeasure;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,39 +12,19 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        var optionsBuilder = new DbContextOptionsBuilder<BankAppDataContext>();
-        optionsBuilder.UseSqlServer("Server=localhost;Database=BankAppData;Trusted_Connection=True;TrustServerCertificate=true;MultipleActiveResultSets=true");
+        var services = new ServiceCollection();
+        services.AddDbContext<BankAppDataContext>(options =>
+            options.UseSqlServer("Server=localhost;Database=BankAppData;Trusted_Connection=True;TrustServerCertificate=true;MultipleActiveResultSets=true"));
+        services.AddScoped<IMoneyLaunderingService, MoneyLaunderingService>();
+
+        var serviceProvider = services.BuildServiceProvider();
 
         try
         {
-            await using var dbContext = new BankAppDataContext(optionsBuilder.Options);
-            var detector = new SuspiciousActivityDetector();
+            using var scope = serviceProvider.CreateScope();
+            var service = scope.ServiceProvider.GetRequiredService<IMoneyLaunderingService>();
 
-            var countries = new List<string> { "Sweden", "Norway", "Denmark", "Finland" };
-
-            var currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var lastRunTimeFilePath = Path.Combine(currentDirectory, "..", "..", "..", "SuspicionReport", "lastRunTime.txt");
-            DateOnly globalLastRunTime = detector.GetLastRunTime(lastRunTimeFilePath);
-
-            DateOnly latestTransactionDateAcrossCountries = globalLastRunTime;
-
-            foreach (var country in countries)
-            {
-                Console.WriteLine($"Starting detection for {country}. Last run time: {globalLastRunTime}");
-
-                var dispositions = await detector.GetDispositionsAsync(dbContext, country);
-                var (suspiciousUsers, latestTransactionDate) = detector.DetectSuspiciousActivity(dispositions, globalLastRunTime);
-
-                var reportFilePath = Path.Combine(currentDirectory, "..", "..", "..", "SuspicionReport", $"report_{country}.txt");
-                detector.GenerateReport(suspiciousUsers, reportFilePath, country);
-
-                Console.WriteLine($"Detected {suspiciousUsers.Count} suspicious users for {country}.\n");
-                Console.WriteLine("--------------------------------------------\n");
-                latestTransactionDateAcrossCountries = latestTransactionDate > latestTransactionDateAcrossCountries ? latestTransactionDate : latestTransactionDateAcrossCountries;
-            }
-
-            detector.SaveLastRunTime(latestTransactionDateAcrossCountries, lastRunTimeFilePath);
-            Console.WriteLine("Suspicious activity detection completed.");
+            await service.DetectAndReportSuspiciousActivity();
         }
         catch (Exception ex)
         {
