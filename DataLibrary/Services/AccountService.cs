@@ -102,7 +102,7 @@ namespace DataLibrary.Services
             var accounts = await query
                .Include(a => a.Dispositions)
                .ThenInclude(d => d.Customer)
-               .GetPaged(pageNo, 50);
+               .GetPaged(pageNo, 48);
 
             var accountViewModels = mapper.Map<List<AccountViewModel>>(accounts.Results);
 

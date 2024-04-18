@@ -71,7 +71,7 @@ namespace DataLibrary.Services
             var customers = await query
                 .Include(c => c.Dispositions)
                 .ThenInclude(d => d.Account)
-                .GetPaged(pageNo, 50);
+                .GetPaged(pageNo, 48);
 
             var customerViewModels = mapper.Map<List<CustomerViewModel>>(customers.Results);
 

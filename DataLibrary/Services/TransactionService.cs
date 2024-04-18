@@ -49,7 +49,7 @@ namespace DataLibrary.Services
             var transactions = await query
                .Include(t => t.AccountNavigation)
                .ThenInclude(a => a.Dispositions)
-               .GetPaged(pageNo, 50);
+               .GetPaged(pageNo, 49);
 
             var transactionViewModels = mapper.Map<List<TransactionViewModel>>(transactions.Results);
 
@@ -120,7 +120,7 @@ namespace DataLibrary.Services
 
             var transactionsQuery = context.Transactions
                 .Where(t => t.AccountId == accountId);
-            
+
             if (loadedIds.Any())
             {
                 transactionsQuery = transactionsQuery.Where(t => !loadedIds.Contains(t.TransactionId));
