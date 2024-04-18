@@ -34,7 +34,7 @@
 
     <form method="get" class="text-left d-none d-sm-table-cell" asp-page="/Accounts/AccountsAdminInfo">
         <div class="input-group mb-3" style="width: 300px; margin-top: 10px;">
-            <input type="text" class="form-control" name="query" placeholder="Search Account ID" value="@Request.Query["query"]">
+            <input type="number" class="form-control" name="query" placeholder="Search Account ID" value="@Request.Query["query"]">
             <div class="input-group-append">
                 <button type="submit" class="btn btn-outline-secondary">
                     <i class="fa-solid fa-magnifying-glass mr-2"></i>Search
