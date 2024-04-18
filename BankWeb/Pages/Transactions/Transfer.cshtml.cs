@@ -25,6 +25,8 @@ namespace BankWeb.Pages.Transactions
         public AccountViewModel Account { get; set; }
 
         [BindProperty]
+        [Range(1, 1000000, ErrorMessage = "Please enter a valid Account ID")]
+        [Required(ErrorMessage = "Please select an account to transfer to")]
         public int ToAccountId { get; set; }
 
 
@@ -35,7 +37,7 @@ namespace BankWeb.Pages.Transactions
             {
                 Account = bankService.GetAccountDetailsForDisplay(accountId);
             }
-            CustomerId = Account.CustomerId;
+            HttpContext.Session.SetInt32("CustomerId", Account.CustomerId);
             TempData["Account"] = System.Text.Json.JsonSerializer.Serialize(Account);
         }
 

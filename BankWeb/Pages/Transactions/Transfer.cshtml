@@ -6,36 +6,37 @@
 <div class="page-heading header-text">
     <h1>Transfer</h1>
     <h2>From Account ID: @Model.AccountId</h2>
-    <button type="button" class="btn btn-secondary mt-3" onclick="location.href='/Customers/CustomerDetails?id=' + @Model.CustomerId;">
+    <button type="button" class="btn btn-secondary mt-3" onclick="location.href='/Customers/CustomerDetails?id=' + '@HttpContext.Session.GetInt32("CustomerId")'">
         <i class="fa-solid fa-arrow-left mr-2"></i>Return
     </button>
 </div>
 
-
-@if (TempData["Message"] != null)
-{
-    <div class="alert text-center @TempData["MessageClass"]">
-        @Html.Raw(TempData["Message"])
-    </div>
-}
+<div class="container">
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert text-center @TempData["MessageClass"]">
+            @Html.Raw(TempData["Message"])
+        </div>
+    }
+</div>
 
 <form method="post" class="text-center">
     <div class="form-group" style="width: 200px; margin: 10px auto;">
         <label asp-for="AccountId">From Account ID:</label>
         <input asp-for="AccountId" class="form-control" required readonly>
-        <span asp-validation-for="AccountId" class="text-danger"></span>
+        <span asp-validation-for="AccountId" class="text-danger" style="height: 35px; display: block;"></span>
     </div>
 
     <div class="form-group" style="width: 200px; margin: 10px auto;">
         <label asp-for="ToAccountId">To Account ID:</label>
-        <input asp-for="ToAccountId" class="form-control" required>
-        <span asp-validation-for="ToAccountId" class="text-danger"></span>
+        <input asp-for="ToAccountId" class="form-control" type="number" required>
+        <span asp-validation-for="ToAccountId" class="text-danger" style="height: 35px; display: block;"></span>
     </div>
 
     <div class="form-group" style="width: 200px; margin: 10px auto;">
         <label asp-for="Amount">Amount SEK:</label>
         <input asp-for="Amount" class="form-control" required>
-        <span asp-validation-for="Amount" class="text-danger"></span>
+        <span asp-validation-for="Amount" class="text-danger" style="height: 55px; display: block;"></span>
     </div>
 
     <button type="submit" id="update-profile-button" class="btn btn-primary mb-3" style="margin-top: 10px;">

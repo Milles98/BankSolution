@@ -4,6 +4,7 @@ using DataLibrary.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MoneyLaunderingSafetyMeasure;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,28 +14,20 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        var configuration = new ConfigurationBuilder()
-           .SetBasePath(Directory.GetCurrentDirectory())
-           .AddJsonFile("appsettings.json")
-           .Build();
+        var serviceCollection = new ServiceCollection();
+        ConfigureServices(serviceCollection);
 
-        var services = new ServiceCollection();
+        var serviceProvider = serviceCollection.BuildServiceProvider();
+
+        var appRun = serviceProvider.GetService<AppRun>();
+        await appRun.Run();
+    }
+
+    private static void ConfigureServices(IServiceCollection services)
+    {
         services.AddDbContext<BankAppDataContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-        services.AddScoped<IMoneyLaunderingService, MoneyLaunderingService>();
-
-        var serviceProvider = services.BuildServiceProvider();
-
-        try
-        {
-            using var scope = serviceProvider.CreateScope();
-            var service = scope.ServiceProvider.GetRequiredService<IMoneyLaunderingService>();
-
-            await service.DetectAndReportSuspiciousActivity();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"An error occurred: {ex.Message}");
-        }
+            options.UseSqlServer("DefaultConnection"));
+        services.AddTransient<IMoneyLaunderingService, MoneyLaunderingService>();
+        services.AddTransient<AppRun>();
     }
 }
