@@ -30,11 +30,6 @@ namespace BankWeb.Pages.AccountsFolder
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-            
             var accountIds = new List<int> { id };
             var accounts = accountService.GetAccountDetails(accountIds);
 
@@ -54,7 +49,6 @@ namespace BankWeb.Pages.AccountsFolder
                 return Page();
             }
 
-
             try
             {
                 await accountService.DeleteAccountAndRelatedData(id);
@@ -63,12 +57,10 @@ namespace BankWeb.Pages.AccountsFolder
             catch (Exception ex)
             {
                 TempData["Error"] = "Failed to delete account: " + ex.Message;
+                return Page();
             }
 
             return RedirectToPage("/Accounts/AccountsAdminInfo");
         }
-
-
-
     }
 }

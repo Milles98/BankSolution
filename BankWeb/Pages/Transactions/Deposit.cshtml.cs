@@ -19,12 +19,15 @@ namespace BankWeb.Pages.Transactions
         [Range(50, 50000)]
         [Required]
         public decimal Amount { get; set; }
+        [BindProperty]
+        public int CustomerId { get; set; }
         public AccountViewModel Account { get; set; }
 
         public void OnGet(int accountId)
         {
             AccountId = accountId;
             Account = bankService.GetAccountDetailsForDisplay(accountId);
+            CustomerId = Account.CustomerId;
             TempData["Account"] = System.Text.Json.JsonSerializer.Serialize(Account);
         }
 
@@ -34,7 +37,7 @@ namespace BankWeb.Pages.Transactions
             {
                 return Page();
             }
-            
+
             try
             {
                 var transactionId = bankService.DepositFunds(AccountId, Amount);
@@ -43,7 +46,7 @@ namespace BankWeb.Pages.Transactions
                 TempData["MessageClass"] = "alert-success";
 
                 Account = bankService.GetAccountDetails(AccountId);
-                
+
                 return RedirectToPage("/Customers/CustomerDetails", new { id = Account.CustomerId });
             }
             catch (Exception ex)

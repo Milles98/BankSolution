@@ -12,6 +12,7 @@ namespace DataLibrary.ViewModels
         public string? Frequency { get; set; }
         public string? Created { get; set; }
 
+        [Required(ErrorMessage = "Balance is required.")]
         [Range(50, 50000, ErrorMessage = "Initial deposit must be between 50 and 50.000 SEK.")]
         public decimal Balance { get; set; }
         public string? Type { get; set; }
