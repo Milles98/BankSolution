@@ -61,7 +61,6 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseResponseCaching();
 
 app.Use(async (context, next) =>
 {
@@ -75,6 +74,7 @@ app.Use(async (context, next) =>
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseResponseCaching();
 app.MapRazorPages();
 
 app.Run();
