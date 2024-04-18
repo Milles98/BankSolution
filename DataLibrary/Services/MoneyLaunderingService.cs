@@ -20,17 +20,6 @@ namespace DataLibrary.Services
         {
             _context = context;
         }
-
-        public async Task<List<Disposition>> GetDispositionsAsync(string country)
-        {
-            return await _context.Dispositions
-                .Include(d => d.Account)
-                .ThenInclude(a => a.Transactions)
-                .Include(d => d.Customer)
-                .Where(d => d.Customer.Country == country)
-                .ToListAsync();
-        }
-
         public async Task DetectAndReportSuspiciousActivity()
         {
             var countries = new List<string> { "Sweden", "Norway", "Denmark", "Finland" };
@@ -56,8 +45,19 @@ namespace DataLibrary.Services
                 latestTransactionDateAcrossCountries = latestTransactionDate > latestTransactionDateAcrossCountries ? latestTransactionDate : latestTransactionDateAcrossCountries;
             }
 
-            SaveLastRunTime(latestTransactionDateAcrossCountries, lastRunTimeFilePath);
+            SaveLastRunTime(lastRunTimeFilePath);
+
             Console.WriteLine("Suspicious activity detection completed.");
+        }
+
+        public async Task<List<Disposition>> GetDispositionsAsync(string country)
+        {
+            return await _context.Dispositions
+                .Include(d => d.Account)
+                .ThenInclude(a => a.Transactions)
+                .Include(d => d.Customer)
+                .Where(d => d.Customer.Country == country)
+                .ToListAsync();
         }
 
         public (List<string>, DateOnly) DetectSuspiciousActivity(List<Disposition> dispositions, DateOnly lastRunDate)
@@ -133,11 +133,11 @@ namespace DataLibrary.Services
             Console.WriteLine($"\nReport for {country} generated with {newEntries.Count} new suspicious users.");
         }
 
-
-        public void SaveLastRunTime(DateOnly lastRunDate, string filePath)
+        public void SaveLastRunTime(string filePath)
         {
+            DateOnly today = DateOnly.FromDateTime(DateTime.UtcNow);
             Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-            File.WriteAllText(filePath, lastRunDate.ToString() + Environment.NewLine);
+            File.WriteAllText(filePath, today.ToString() + Environment.NewLine);
         }
 
         public DateOnly GetLastRunTime(string filePath)

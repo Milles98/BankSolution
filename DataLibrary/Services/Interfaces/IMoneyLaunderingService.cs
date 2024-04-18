@@ -13,7 +13,8 @@ namespace DataLibrary.Services.Interfaces
         Task DetectAndReportSuspiciousActivity();
         (List<string>, DateOnly) DetectSuspiciousActivity(List<Disposition> dispositions, DateOnly lastRunDate);
         void GenerateReport(List<string> suspiciousUsers, string filePath, string country);
-        void SaveLastRunTime(DateOnly lastRunDate, string filePath);
+        void SaveLastRunTime(string filePath);
+
         DateOnly GetLastRunTime(string filePath);
     }
 }
