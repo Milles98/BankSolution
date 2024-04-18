@@ -186,7 +186,16 @@
                 <td class="d-none d-sm-table-cell">@customer.NationalId</td>
                 <td>@customer.Givenname</td>
                 <td class="d-none d-sm-table-cell">@customer.Surname</td>
-                <td class="d-none d-sm-table-cell">@customer.Streetaddress</td>
+                    <td class="d-none d-sm-table-cell">
+                        @if (customer.Streetaddress.Length > 20)
+                        {
+                            @:@(customer.Streetaddress.Substring(0, 20))...
+                        }
+                        else
+                        {
+                            @customer.Streetaddress
+                        }
+                    </td>
                 <td class="d-none d-sm-table-cell">@customer.City</td>
             </tr>
         }
