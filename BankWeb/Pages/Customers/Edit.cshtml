@@ -178,5 +178,42 @@
                     countryCodeInput.value = '';
             }
         });
+
+        document.getElementById('BirthdayMonth').addEventListener('change', function () {
+            var dayDropdown = document.getElementById('BirthdayDay');
+            var selectedMonth = Number(this.value);
+
+            while (dayDropdown.firstChild) {
+                dayDropdown.removeChild(dayDropdown.firstChild);
+            }
+
+            var defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.text = 'Select Day...';
+            dayDropdown.appendChild(defaultOption);
+
+            var daysInMonth;
+            switch (selectedMonth) {
+                case 2: // February
+                    daysInMonth = 28;
+                    break;
+                case 4:
+                case 6:
+                case 9:
+                case 11: // April, June, September, November
+                    daysInMonth = 30;
+                    break;
+                default: // January, March, May, July, August, October, December
+                    daysInMonth = 31;
+                    break;
+            }
+
+            for (var i = 1; i <= daysInMonth; i++) {
+                var option = document.createElement('option');
+                option.value = i;
+                option.text = i;
+                dayDropdown.appendChild(option);
+            }
+        });
     </script>
 }

@@ -4,6 +4,22 @@
 
 @{
     ViewData["Title"] = "Create new Customer";
+
+    var months = new Dictionary<int, string>
+    {
+        { 1, "January" },
+        { 2, "February" },
+        { 3, "March" },
+        { 4, "April" },
+        { 5, "May" },
+        { 6, "June" },
+        { 7, "July" },
+        { 8, "August" },
+        { 9, "September" },
+        { 10, "October" },
+        { 11, "November" },
+        { 12, "December" }
+    };
 }
 
 <div class="page-heading header-text">
@@ -109,9 +125,9 @@
                             <span asp-validation-for="BirthdayYear" class="text-danger"></span>
                             <select asp-for="BirthdayMonth" class="form-control mt-1">
                                 <option value="">Select Month...</option>
-                                @for (int i = 1; i <= 12; i++)
+                                @foreach (var month in months)
                                 {
-                                    <option value="@i">@i</option>
+                                    <option value="@month.Key">@month.Value</option>
                                 }
                             </select>
                             <span asp-validation-for="BirthdayMonth" class="text-danger"></span>
@@ -201,6 +217,43 @@
                 minimumage: options.params.minimumage
             };
             options.messages['minimumage'] = options.message;
+        });
+
+        document.getElementById('BirthdayMonth').addEventListener('change', function () {
+            var dayDropdown = document.getElementById('BirthdayDay');
+            var selectedMonth = Number(this.value);
+
+            while (dayDropdown.firstChild) {
+                dayDropdown.removeChild(dayDropdown.firstChild);
+            }
+
+            var defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.text = 'Select Day...';
+            dayDropdown.appendChild(defaultOption);
+
+            var daysInMonth;
+            switch (selectedMonth) {
+                case 2: // Februari
+                    daysInMonth = 28;
+                    break;
+                case 4:
+                case 6:
+                case 9:
+                case 11: // April, Juni, September, November
+                    daysInMonth = 30;
+                    break;
+                default: // Resterande
+                    daysInMonth = 31;
+                    break;
+            }
+
+            for (var i = 1; i <= daysInMonth; i++) {
+                var option = document.createElement('option');
+                option.value = i;
+                option.text = i;
+                dayDropdown.appendChild(option);
+            }
         });
     </script>
 }
