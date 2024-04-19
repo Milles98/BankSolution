@@ -21,10 +21,12 @@ namespace BankWeb.Pages.Customers
         [BindProperty]
         [Required]
         [StringLength(15, MinimumLength = 2, ErrorMessage = "Given name must be between 2 and 15 characters long")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Given name can only contain letters")]
         public string Givenname { get; set; }
         [BindProperty]
         [Required]
         [StringLength(15, MinimumLength = 2, ErrorMessage = "Sur name must be between 2 and 15 characters long")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Sur name can only contain letters")]
         public string Surname { get; set; }
         [BindProperty]
         [Required]
@@ -78,6 +80,7 @@ namespace BankWeb.Pages.Customers
 
         [BindProperty]
         [Required]
+        [RegularExpression(@"^\+?(\d[\d-. ]+)?(\([\d-. ]+\))?[\d-. ]+\d$", ErrorMessage = "Invalid phone number format")]
         public string Telephonenumber { get; set; }
 
         [BindProperty]

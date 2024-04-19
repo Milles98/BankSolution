@@ -10,7 +10,9 @@ namespace BankWeb.Pages.Customers
     public class EditModel(IPersonService personService) : PageModel
     {
         [Required] public string Gender { get; set; }
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Given name can only contain letters")]
         [StringLength(15, MinimumLength = 2)] public string Givenname { get; set; }
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Sur name can only contain letters")]
         [StringLength(15, MinimumLength = 2)] public string Surname { get; set; }
         [StringLength(30, MinimumLength = 2)] public string Streetaddress { get; set; }
         [StringLength(15, MinimumLength = 2)] public string City { get; set; }
@@ -26,6 +28,7 @@ namespace BankWeb.Pages.Customers
         public int BirthdayDay { get; set; }
         public string? NationalId { get; set; }
         public string Telephonecountrycode { get; set; }
+        [RegularExpression(@"^\+?(\d[\d-. ]+)?(\([\d-. ]+\))?[\d-. ]+\d$", ErrorMessage = "Invalid phone number format")]
         public string Telephonenumber { get; set; }
         [RegularExpression(@"^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$")] public string Emailaddress { get; set; }
 
