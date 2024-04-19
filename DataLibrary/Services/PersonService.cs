@@ -20,16 +20,6 @@ namespace DataLibrary.Services
             return context;
         }
 
-        public async Task<Customer> CreateCustomerAsync(Customer customer, Account account, Disposition disposition)
-        {
-            account.Dispositions.Add(disposition);
-            context.Accounts.Add(account);
-            context.Customers.Add(customer);
-            await context.SaveChangesAsync();
-
-            return customer;
-        }
-
         public async Task DeleteCustomerAsync(int id)
         {
             var customer = await context.Customers.Include(c => c.Dispositions)
@@ -65,6 +55,18 @@ namespace DataLibrary.Services
             return !await context.Customers.AnyAsync(c => c.Givenname == givenName &&
                                                           c.Surname == surname &&
                                                           c.Streetaddress == streetAddress);
+        }
+
+        public async Task<Customer> CreateCustomerAsync(Customer customer, Account account, Disposition disposition, Transaction transaction)
+        {
+            account.Dispositions.Add(disposition);
+            context.Accounts.Add(account);
+            context.Customers.Add(customer);
+            await context.SaveChangesAsync();
+            account.Transactions.Add(transaction);
+            await context.SaveChangesAsync();
+
+            return customer;
         }
 
         public async Task<(Customer, Account, Disposition)> CreateCustomerAsync(
@@ -127,7 +129,17 @@ namespace DataLibrary.Services
                 Type = dispositionType
             };
 
-            var completeCustomer = await CreateCustomerAsync(customer, account, disposition);
+            var transaction = new Transaction
+            {
+                AccountId = account.AccountId,
+                Amount = initialDeposit,
+                Balance = account.Balance,
+                Date = DateOnly.FromDateTime(DateTime.Today),
+                Type = "Credit",
+                Operation = "Initial Deposit"
+            };
+
+            var completeCustomer = await CreateCustomerAsync(customer, account, disposition, transaction);
             return (completeCustomer, account, disposition);
         }
 

@@ -10,7 +10,7 @@ namespace DataLibrary.Services.Interfaces
     public interface IPersonService
     {
         BankAppDataContext GetDbContext();
-        Task<Customer> CreateCustomerAsync(Customer customer, Account account, Disposition disposition);
+        Task<Customer> CreateCustomerAsync(Customer customer, Account account, Disposition disposition, Transaction transaction);
         Task DeleteCustomerAsync(int id);
         Task<Customer> GetCustomerAsync(int id);
         Task<Customer?> GetCustomerByEmailAsync(string email);
