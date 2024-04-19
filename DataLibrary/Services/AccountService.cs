@@ -70,6 +70,19 @@ namespace DataLibrary.Services
 
             context.Dispositions.Add(disposition);
             await context.SaveChangesAsync();
+
+            var transaction = new Transaction
+            {
+                AccountId = account.AccountId,
+                Amount = account.Balance,
+                Balance = account.Balance,
+                Date = DateOnly.FromDateTime(DateTime.Today),
+                Type = "Credit",
+                Operation = "Initial Deposit"
+            };
+
+            account.Transactions.Add(transaction);
+            await context.SaveChangesAsync();
         }
 
         public async Task<PagedResult<AccountViewModel>> GetAccounts(int pageNo, int accountsPerPage, string sortColumn, string sortOrder, string search)
