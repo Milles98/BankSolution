@@ -40,6 +40,8 @@ namespace BankWeb.Pages.AccountsFolder
                 return NotFound();
             }
 
+            return RedirectToPage("/Customers/DeleteAccessDenied");
+
             if (Account.Balance > 0)
             {
                 TempData["Message"] = "Account has a balance. Please withdraw or transfer the funds before deleting the account.";
