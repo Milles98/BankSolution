@@ -63,6 +63,40 @@ namespace DataLibrary.Services
             };
         }
 
+        public async Task<List<TransactionViewModel>> GetTransactionsForIndividualAccount(string sortColumn, string sortOrder, int accountId, string search)
+        {
+            var transactionsQuery = context.Transactions
+                .Where(t => t.AccountId == accountId)
+                .Include(t => t.AccountNavigation)
+                .ThenInclude(a => a.Dispositions)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(search) && int.TryParse(search, out int transactionId))
+            {
+                transactionsQuery = transactionsQuery.Where(t => t.TransactionId == transactionId);
+            }
+
+            var sortExpressions = new Dictionary<string, Expression<Func<Transaction, object>>>
+                {
+                    { "TransactionId", t => t.TransactionId},
+                    { "DateOfTransaction", t => t.Date },
+                    { "Type", t => t.Type },
+                    { "Operation", t => t.Operation },
+                    { "Amount", t => t.Amount },
+                    { "Balance", t => t.Balance }
+                };
+
+            transactionsQuery = sortingService.Sort(transactionsQuery, sortColumn, sortOrder, sortExpressions);
+
+            var transactions = await transactionsQuery
+                .Take(20)
+                .ToListAsync();
+
+            var transactionViewModels = mapper.Map<List<TransactionViewModel>>(transactions);
+
+            return transactionViewModels;
+        }
+
 
         public async Task<TransactionViewModel> GetTransactionDetails(int transactionId)
         {
@@ -75,20 +109,13 @@ namespace DataLibrary.Services
             return null;
         }
 
-        public async Task<List<TransactionViewModel>> GetTransactionsForAccount(int accountId, DateTime? lastFetchedTransactionTimestamp)
+        public async Task<List<TransactionViewModel>> GetTransactionsForAccount(int accountId)
         {
             var transactionsQuery = context.Transactions
                 .Where(t => t.AccountId == accountId)
                 .Include(t => t.AccountNavigation)
                 .ThenInclude(a => a.Dispositions)
                 .AsQueryable();
-
-            if (lastFetchedTransactionTimestamp.HasValue)
-            {
-                var lastFetchedDate = DateOnly.FromDateTime(lastFetchedTransactionTimestamp.Value);
-                transactionsQuery = transactionsQuery
-                    .Where(t => t.Date < lastFetchedDate);
-            }
 
             var transactions = await transactionsQuery
             .OrderByDescending(t => t.Date)

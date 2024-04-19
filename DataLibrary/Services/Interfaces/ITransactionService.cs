@@ -13,8 +13,9 @@ namespace DataLibrary.Services.Interfaces
     {
         BankAppDataContext GetDbContext();
         Task<PagedResult<TransactionViewModel>> GetTransactions(int currentPage, int transactionsPerPage, string sortColumn, string sortOrder, string search);
+        Task<List<TransactionViewModel>> GetTransactionsForIndividualAccount(string sortColumn, string sortOrder, int accountId, string search);
         Task<TransactionViewModel> GetTransactionDetails(int transactionId);
-        Task<List<TransactionViewModel>> GetTransactionsForAccount(int accountId, DateTime? lastFetchedTransactionTimestamp);
+        Task<List<TransactionViewModel>> GetTransactionsForAccount(int accountId);
         Task<decimal?> GetAccountBalance(int accountId);
         Task<(List<TransactionViewModel>, bool)> LoadMoreTransactions(int accountId, string loadedTransactionIds, int pageNo);
         int GetTotalTransactions();

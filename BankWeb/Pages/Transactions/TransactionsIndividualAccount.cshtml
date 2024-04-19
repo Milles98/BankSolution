@@ -13,22 +13,11 @@
     </button>
 </div>
 
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="alert alert-danger container">
-        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-        {
-            <p>@error.ErrorMessage</p>
-        }
-    </div>
-}
-
-
 <div class="container my-3">
     <form method="get">
         <input type="hidden" name="accountId" value="@Model.AccountId">
         <div class="input-group mb-3" style="width: 320px; margin-top: 10px; margin-left: -14px;">
-            <input type="text" class="form-control" name="search" placeholder="Search Transaction ID" value="@Model.SearchTerm">
+            <input type="text" class="form-control" name="query" placeholder="Search Transaction ID" value="@Model.Search">
             <div class="input-group-append">
                 <button type="submit" class="btn btn-outline-secondary">
                     <i class="fa-solid fa-magnifying-glass mr-2"></i>Search
@@ -41,34 +30,130 @@
 
 <table class="table container table-hover table-bordered shadow p-3 mb-5 bg-white rounded">
     <thead>
-    <tr>
-        <th>Transaction ID</th>
-        <th class="d-none d-sm-table-cell">Date</th>
-        <th class="d-none d-sm-table-cell">Type</th>
-        <th class="d-none d-sm-table-cell">Operation</th>
-        <th>Amount</th>
-        <th>Balance</th>
-    </tr>
+        <tr>
+            <th scope="col">
+                Transaction ID
+                <a asp-page="/Transactions/TransactionsIndividualAccount"
+                   asp-route-accountId="@Model.AccountId"
+                   asp-route-sortColumn="TransactionId"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/Transactions/TransactionsIndividualAccount"
+                   asp-route-accountId="@Model.AccountId"
+                   asp-route-sortColumn="TransactionId"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th class="d-none d-sm-table-cell">
+                Date
+                <a asp-page="/Transactions/TransactionsIndividualAccount"
+                   asp-route-accountId="@Model.AccountId"
+                   asp-route-sortColumn="DateOfTransaction"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/Transactions/TransactionsIndividualAccount"
+                   asp-route-accountId="@Model.AccountId"
+                   asp-route-sortColumn="DateOfTransaction"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th class="d-none d-sm-table-cell">
+                Type
+                <a asp-page="/Transactions/TransactionsIndividualAccount"
+                   asp-route-accountId="@Model.AccountId"
+                   asp-route-sortColumn="Type"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/Transactions/TransactionsIndividualAccount"
+                   asp-route-accountId="@Model.AccountId"
+                   asp-route-sortColumn="Type"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th class="d-none d-sm-table-cell">
+                Operation
+                <a asp-page="/Transactions/TransactionsIndividualAccount"
+                   asp-route-accountId="@Model.AccountId"
+                   asp-route-sortColumn="Operation"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/Transactions/TransactionsIndividualAccount"
+                   asp-route-accountId="@Model.AccountId"
+                   asp-route-sortColumn="Operation"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th>
+                Amount
+                <a asp-page="/Transactions/TransactionsIndividualAccount"
+                   asp-route-accountId="@Model.AccountId"
+                   asp-route-sortColumn="Amount"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/Transactions/TransactionsIndividualAccount"
+                   asp-route-accountId="@Model.AccountId"
+                   asp-route-sortColumn="Amount"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+            <th>
+                Balance
+                <a asp-page="/Transactions/TransactionsIndividualAccount"
+                   asp-route-accountId="@Model.AccountId"
+                   asp-route-sortColumn="Balance"
+                   asp-route-sortOrder="asc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-up"></i>
+                </a>
+                <a asp-page="/Transactions/TransactionsIndividualAccount"
+                   asp-route-accountId="@Model.AccountId"
+                   asp-route-sortColumn="Balance"
+                   asp-route-sortOrder="desc"
+                   style="text-decoration: none">
+                    <i class="fa-solid fa-angle-down"></i>
+                </a>
+            </th>
+        </tr>
     </thead>
     <tbody id="transactionTable">
-    @if (Model.Transactions != null)
-    {
-        @foreach (var transaction in Model.Transactions)
+        @if (Model.Transactions != null)
         {
-            <tr>
-                <td>
-                    <a asp-page="/Transactions/TransactionDetails" asp-route-transactionId="@transaction.TransactionId" class="btn btn-outline-secondary btn-block">
-                        <i class="fa-solid fa-eye mr-2"></i>@transaction.TransactionId
-                    </a>
-                </td>
-                <td class="d-none d-sm-table-cell">@transaction.DateOfTransaction</td>
-                <td class="d-none d-sm-table-cell">@transaction.Type</td>
-                <td class="d-none d-sm-table-cell">@transaction.Operation</td>
-                <td>SEK: @transaction.Amount</td>
-                <td>SEK: @transaction.Balance</td>
-            </tr>
+            @foreach (var transaction in Model.Transactions)
+            {
+                <tr>
+                    <td>
+                        <a asp-page="/Transactions/TransactionDetails" asp-route-transactionId="@transaction.TransactionId" class="btn btn-outline-secondary btn-block">
+                            <i class="fa-solid fa-eye mr-2"></i>@transaction.TransactionId
+                        </a>
+                    </td>
+                    <td class="d-none d-sm-table-cell">@transaction.DateOfTransaction</td>
+                    <td class="d-none d-sm-table-cell">@transaction.Type</td>
+                    <td class="d-none d-sm-table-cell">@transaction.Operation</td>
+                    <td>SEK: @transaction.Amount</td>
+                    <td>SEK: @transaction.Balance</td>
+                </tr>
+            }
         }
-    }
     </tbody>
 </table>
 
@@ -118,15 +203,15 @@
 
             row.innerHTML =
                 `<td>
-            <a href="/Transactions/TransactionDetails?transactionId=${transaction.transactionId}" class="btn btn-outline-secondary btn-block">
-                <i class="fa-solid fa-eye mr-2"></i>${transaction.transactionId}
-            </a>
-        </td>
-        <td class="d-none d-sm-table-cell">${new Date(transaction.dateOfTransaction).toLocaleDateString()}</td>
-        <td class="d-none d-sm-table-cell">${transaction.type}</td>
-        <td class="d-none d-sm-table-cell">${transaction.operation}</td>
-        <td>SEK: ${transaction.amount}</td>
-        <td>SEK: ${transaction.balance}</td>`;
+                            <a href="/Transactions/TransactionDetails?transactionId=${transaction.transactionId}" class="btn btn-outline-secondary btn-block">
+                                <i class="fa-solid fa-eye mr-2"></i>${transaction.transactionId}
+                            </a>
+                        </td>
+                        <td class="d-none d-sm-table-cell">${new Date(transaction.dateOfTransaction).toLocaleDateString()}</td>
+                        <td class="d-none d-sm-table-cell">${transaction.type}</td>
+                        <td class="d-none d-sm-table-cell">${transaction.operation}</td>
+                        <td>SEK: ${transaction.amount}</td>
+                        <td>SEK: ${transaction.balance}</td>`;
 
             tableBody.appendChild(row);
         }
