@@ -21,7 +21,9 @@ The project references the DataLibrary project for data-related operations.
 ## DataLibrary
 DataLibrary is a class library project that serves as the data access layer for the solution. 
 
-It uses Entity Framework Core 8.0 for data access and AutoMapper for object-to-object mapping. It also includes services for handling business logic.
+It uses Entity Framework Core 8.0 for data access and AutoMapper for object-to-object mapping. 
+
+It also includes services for handling business logic.
 
 ## MoneyLaunderingSafetyMeasure
 MoneyLaunderingSafetyMeasure is a console application project that uses .NET 8.0. It is responsible for implementing safety measures against money laundering. 
@@ -31,10 +33,13 @@ It uses Microsoft.Extensions.Configuration for configuration management and refe
 ## WebAPI
 WebAPI is a web API project that uses ASP.NET Core 8.0. It exposes endpoints for interacting with the solution programmatically. 
 
-It uses AutoMapper for object-to-object mapping and Swashbuckle for API documentation. The project references the DataLibrary project for data-related operations.
+It uses AutoMapper for object-to-object mapping and Swashbuckle for API documentation. 
+
+The project references the DataLibrary project for data-related operations.
 
 ## Getting Started
 To get started with this solution, you will need to have .NET 8.0 SDK installed on your machine. 
+
 Once you have the SDK installed, you can clone this repository and open the solution in your preferred IDE (like Visual Studio).
 
 ## Building the Solution
