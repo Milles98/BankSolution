@@ -1,44 +1,22 @@
-# Milles Bank
-This readme includes a short description of the project and its main functions.
-
-## Content
-1. Description
-2. Patterns/Principles
-3. Library, Common Classes & Interfaces
-
-## 1. Description
-
-This project is made in ASP.NET Razor pages and is a fullstack solution to a bank application.
-The project features a money laundering console to check for suspicious activity,
-an API that gets account and customer details aswell as the bank web application itself.
-
-I have used services, library, automapper and more.
-
-View bank web application:
-
-https://millesbankapp.azurewebsites.net
-
-## 2. Patterns/Principles
-
-### Principles i have used in my project:
-#### SOC (Separation of Concern):
-I achieved this by making sure to divide my classes, relevant methods and interfaces into different maps and more classes. This makes it easier to for example debug, scale and develop.
-
-#### Single Responsibility Principle (SRP):
-Since i have divided my classes and interfaces it also makes my project follow SRP by only being responsible for one thing. 
-An example of this is my CustomerService class, it is only responsible of getting methods used for the customer entity.
-
-#### Open/Closed Principle (OCP):
-My classes have been designed to not require any adjustments but they can be developed to include new features without needing to change code that's already written.
-
-#### Interface Segregation Principle (ISP):
-Most of my classes have a interface and the interfaces only have methods that the classes require, the methods that arent required for the interface were made private and thus my project
-is following ISP.
-
-#### Dependency Inversion Principle (DIP):
-Almost all my classes depend on interfaces that are registered by ASP.NET DI, thus my project is not very dependent on different parts of my code.
-
-## 3. Dependency Injection, Generic Classes & Interfaces
-
-The bank application uses dependency injection for easier testing aswell as generic classes to follow the DRY principles. Interfaces are ofcourse included to streamline the process of relieving dependencies.
-
+# BankSolution ReadMe
+## Overview
+This solution consists of four projects: BankWeb, DataLibrary, MoneyLaunderingSafetyMeasure, and WebAPI. Each project serves a specific purpose in the overall solution.
+## BankWeb
+BankWeb is a web application project that uses ASP.NET Core 8.0. It is responsible for the user interface and user interaction. It uses the Microsoft.AspNetCore.Identity for user management and Microsoft.EntityFrameworkCore for data access. The project references the DataLibrary project for data-related operations.
+## DataLibrary
+DataLibrary is a class library project that serves as the data access layer for the solution. It uses Entity Framework Core 8.0 for data access and AutoMapper for object-to-object mapping. It also includes services for handling business logic.
+## MoneyLaunderingSafetyMeasure
+MoneyLaunderingSafetyMeasure is a console application project that uses .NET 8.0. It is responsible for implementing safety measures against money laundering. It uses Microsoft.Extensions.Configuration for configuration management and references the DataLibrary project for data-related operations.
+## WebAPI
+WebAPI is a web API project that uses ASP.NET Core 8.0. It exposes endpoints for interacting with the solution programmatically. It uses AutoMapper for object-to-object mapping and Swashbuckle for API documentation. The project references the DataLibrary project for data-related operations.
+## Getting Started
+To get started with this solution, you will need to have .NET 8.0 SDK installed on your machine. Once you have the SDK installed, you can clone this repository and open the solution in your preferred IDE (like Visual Studio).
+## Building the Solution
+To build the solution, navigate to the root directory of the solution in your terminal and run the following command:
+dotnet build
+## Running the Solution
+To run the solution, navigate to the root directory of each project in your terminal and run the following command:
+dotnet run
+## Testing the Solution
+To test the solution, navigate to the root directory of the solution in your terminal and run the following command:
+dotnet test
