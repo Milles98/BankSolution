@@ -1,6 +1,11 @@
 # BankSolution ReadMe
 ## Overview
-This solution consists of four projects: BankWeb, DataLibrary, MoneyLaunderingSafetyMeasure, and WebAPI. Each project serves a specific purpose in the overall solution.
+This solution consists of four projects: 
+* BankWeb
+* DataLibrary
+* MoneyLaunderingSafetyMeasure
+* WebAPI.
+Each project serves a specific purpose in the overall solution.
 ## BankWeb
 BankWeb is a web application project that uses ASP.NET Core 8.0. It is responsible for the user interface and user interaction. It uses the Microsoft.AspNetCore.Identity for user management and Microsoft.EntityFrameworkCore for data access. The project references the DataLibrary project for data-related operations.
 ## DataLibrary
