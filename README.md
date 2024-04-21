@@ -13,7 +13,7 @@ WebAPI is a web API project that uses ASP.NET Core 8.0. It exposes endpoints for
 To get started with this solution, you will need to have .NET 8.0 SDK installed on your machine. Once you have the SDK installed, you can clone this repository and open the solution in your preferred IDE (like Visual Studio).
 ## Building the Solution
 To build the solution, navigate to the root directory of the solution in your terminal and run the following command:
-dotnet build
+#### dotnet build
 ## Running the Solution
 To run the solution, navigate to the root directory of each project in your terminal and run the following command:
 dotnet run
