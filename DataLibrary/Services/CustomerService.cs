@@ -54,17 +54,17 @@ namespace DataLibrary.Services
                 }
             }
 
-            var sortExpressions = new Dictionary<string, Expression<Func<Customer, object>>>
-            {
-                { "CustomerId", c => c.CustomerId },
-                { "AccountId", c => c.Dispositions.Select(d => d.AccountId).First() },
-                { "NationalId", c => c.NationalId },
-                { "Givenname", c => c.Givenname },
-                { "Surname", c => c.Surname },
-                { "Streetaddress", c => c.Streetaddress },
-                { "City", c => c.City },
+            var sortExpressions = new Dictionary<string, LambdaExpression>
+                {
+                    { "CustomerId", (Expression<Func<Customer, int>>)(c => c.CustomerId) },
+                    { "AccountId", (Expression<Func<Customer, int>>)(c => c.Dispositions.Select(d => d.AccountId).First()) },
+                    { "NationalId", (Expression<Func<Customer, string>>)(c => c.NationalId) },
+                    { "Givenname", (Expression<Func<Customer, string>>)(c => c.Givenname) },
+                    { "Surname", (Expression<Func<Customer, string>>)(c => c.Surname) },
+                    { "Streetaddress", (Expression<Func<Customer, string>>)(c => c.Streetaddress) },
+                    { "City", (Expression<Func<Customer, string>>)(c => c.City) },
+                };
 
-            };
 
             query = sortingService.Sort(query, sortColumn, sortOrder, sortExpressions);
 

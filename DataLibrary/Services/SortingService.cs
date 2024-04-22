@@ -5,7 +5,7 @@ namespace DataLibrary.Services
 {
     public class SortingService<T> : ISortingService<T>
     {
-        public IQueryable<T> Sort(IQueryable<T> query, string sortColumn, string sortOrder, Dictionary<string, Expression<Func<T, object>>> sortExpressions)
+        public IQueryable<T> Sort(IQueryable<T> query, string sortColumn, string sortOrder, Dictionary<string, LambdaExpression> sortExpressions)
         {
             sortColumn = sortColumn ?? "DefaultName";
 
@@ -15,15 +15,28 @@ namespace DataLibrary.Services
 
                 if (sortOrder == "asc")
                 {
-                    query = query.OrderBy(sortExpression);
+                    query = CallOrderBy(query, sortExpression, "OrderBy");
                 }
                 else
                 {
-                    query = query.OrderByDescending(sortExpression);
+                    query = CallOrderBy(query, sortExpression, "OrderByDescending");
                 }
             }
 
             return query;
         }
+
+        private static IQueryable<T> CallOrderBy(IQueryable<T> query, LambdaExpression sortExpression, string methodName)
+        {
+            var expression = Expression.Call(
+                typeof(Queryable),
+                methodName,
+                new[] { typeof(T), sortExpression.ReturnType },
+                query.Expression,
+                sortExpression);
+
+            return query.Provider.CreateQuery<T>(expression);
+        }
     }
+
 }

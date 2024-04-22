@@ -15,7 +15,7 @@ namespace BankWeb.Pages.Transactions
         public decimal? Balance { get; set; }
         public string Search { get; set; }
         public List<TransactionViewModel> Transactions { get; set; }
-        public async Task<IActionResult> OnGet(string sortColumn, string sortOrder, int accountId, string query)
+        public async Task<IActionResult> OnGet(int accountId, string query, string sortColumn = "DateOfTransaction", string sortOrder = "desc")
         {
             Search = query;
             AccountId = accountId;
@@ -26,11 +26,11 @@ namespace BankWeb.Pages.Transactions
         }
 
 
-        public async Task<JsonResult> OnGetLoadMoreTransactions(int accountId, string loadedTransactionIds, int pageNo)
+        public async Task<JsonResult> OnGetLoadMoreTransactions(int accountId, string loadedTransactionIds, int pageNo, string sortColumn, string sortOrder)
         {
             try
             {
-                var (transactions, hasMore) = await transactionService.LoadMoreTransactions(accountId, loadedTransactionIds, pageNo);
+                var (transactions, hasMore) = await transactionService.LoadMoreTransactions(accountId, loadedTransactionIds, pageNo, sortColumn, sortOrder);
                 return new JsonResult(new { transactions, hasMore });
             }
             catch (Exception ex)
