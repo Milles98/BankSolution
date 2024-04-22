@@ -33,16 +33,16 @@ namespace DataLibrary.Services
                 query = query.Where(t => t.TransactionId == transactionId);
             }
 
-            var sortExpressions = new Dictionary<string, Expression<Func<Transaction, object>>>
-            {
-                { "TransactionId", t => t.TransactionId},
-                { "AccountId", t => t.AccountId },
-                { "CustomerId", t => t.AccountNavigation.Dispositions.FirstOrDefault().CustomerId },
-                { "DateOfTransaction", t => t.Date },
-                { "Operation", t => t.Operation },
-                { "Amount", t => t.Amount },
-                { "Balance", t => t.Balance }
-            };
+            var sortExpressions = new Dictionary<string, LambdaExpression>
+                {
+                    { "TransactionId", (Expression<Func<Transaction, int>>)(t => t.TransactionId) },
+                    { "AccountId", (Expression<Func<Transaction, int>>)(t => t.AccountId) },
+                    { "CustomerId", (Expression<Func<Transaction, int>>)(t => t.AccountNavigation.Dispositions.FirstOrDefault().CustomerId) },
+                    { "DateOfTransaction", (Expression<Func<Transaction, DateOnly>>)(t => t.Date) },
+                    { "Operation", (Expression<Func<Transaction, string>>)(t => t.Operation) },
+                    { "Amount", (Expression<Func<Transaction, decimal>>)(t => t.Amount) },
+                    { "Balance", (Expression<Func<Transaction, decimal>>)(t => t.Balance) }
+                };
 
             query = sortingService.Sort(query, sortColumn, sortOrder, sortExpressions);
 
@@ -76,14 +76,14 @@ namespace DataLibrary.Services
                 transactionsQuery = transactionsQuery.Where(t => t.TransactionId == transactionId);
             }
 
-            var sortExpressions = new Dictionary<string, Expression<Func<Transaction, object>>>
+            var sortExpressions = new Dictionary<string, LambdaExpression>
                 {
-                    { "TransactionId", t => t.TransactionId},
-                    { "DateOfTransaction", t => t.Date },
-                    { "Type", t => t.Type },
-                    { "Operation", t => t.Operation },
-                    { "Amount", t => t.Amount },
-                    { "Balance", t => t.Balance }
+                    { "TransactionId", (Expression<Func<Transaction, int>>)(t => t.TransactionId) },
+                    { "DateOfTransaction", (Expression<Func<Transaction, DateOnly>>)(t => t.Date) },
+                    { "Type", (Expression<Func<Transaction, string>>)(t => t.Type) },
+                    { "Operation", (Expression<Func<Transaction, string>>)(t => t.Operation) },
+                    { "Amount", (Expression<Func<Transaction, decimal>>)(t => t.Amount) },
+                    { "Balance", (Expression<Func<Transaction, decimal>>)(t => t.Balance) }
                 };
 
             transactionsQuery = sortingService.Sort(transactionsQuery, sortColumn, sortOrder, sortExpressions);
@@ -137,7 +137,7 @@ namespace DataLibrary.Services
             return account.Balance;
         }
 
-        public async Task<(List<TransactionViewModel>, bool)> LoadMoreTransactions(int accountId, string loadedTransactionIds, int pageNo)
+        public async Task<(List<TransactionViewModel>, bool)> LoadMoreTransactions(int accountId, string loadedTransactionIds, int pageNo, string sortColumn = "Date", string sortOrder = "desc")
         {
             var loadedIds = new List<int>();
             if (!string.IsNullOrEmpty(loadedTransactionIds))
@@ -145,8 +145,21 @@ namespace DataLibrary.Services
                 loadedIds = loadedTransactionIds.Split(',').Select(int.Parse).ToList();
             }
 
+            var sortExpressions = new Dictionary<string, LambdaExpression>
+                {
+                    { "TransactionId", (Expression<Func<Transaction, int>>)(t => t.TransactionId) },
+                    { "DateOfTransaction", (Expression<Func<Transaction, DateOnly>>)(t => t.Date) },
+                    { "Type", (Expression<Func<Transaction, string>>)(t => t.Type) },
+                    { "Operation", (Expression<Func<Transaction, string>>)(t => t.Operation) },
+                    { "Amount", (Expression<Func<Transaction, decimal>>)(t => t.Amount) },
+                    { "Balance", (Expression<Func<Transaction, decimal>>)(t => t.Balance) }
+                };
+
+
             var transactionsQuery = context.Transactions
                 .Where(t => t.AccountId == accountId);
+
+            transactionsQuery = sortingService.Sort(transactionsQuery, sortColumn, sortOrder, sortExpressions);
 
             if (loadedIds.Any())
             {
@@ -154,7 +167,6 @@ namespace DataLibrary.Services
             }
 
             var pagedTransactions = await transactionsQuery
-                .OrderByDescending(t => t.Date)
                 .GetPaged(pageNo, 20);
 
             var transactions = pagedTransactions.Results
@@ -176,6 +188,7 @@ namespace DataLibrary.Services
 
             return (transactions, hasMore);
         }
+
 
         public int GetTotalTransactions()
         {

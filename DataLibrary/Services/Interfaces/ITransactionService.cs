@@ -17,7 +17,7 @@ namespace DataLibrary.Services.Interfaces
         Task<TransactionViewModel> GetTransactionDetails(int transactionId);
         Task<List<TransactionViewModel>> GetTransactionsForAccount(int accountId);
         Task<decimal?> GetAccountBalance(int accountId);
-        Task<(List<TransactionViewModel>, bool)> LoadMoreTransactions(int accountId, string loadedTransactionIds, int pageNo);
+        Task<(List<TransactionViewModel>, bool)> LoadMoreTransactions(int accountId, string loadedTransactionIds, int pageNo, string sortColumn = "Date", string sortOrder = "desc");
         int GetTotalTransactions();
     }
 }

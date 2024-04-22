@@ -102,12 +102,12 @@ namespace DataLibrary.Services
                 }
             }
 
-            var sortExpressions = new Dictionary<string, Expression<Func<Account, object>>>
+            var sortExpressions = new Dictionary<string, LambdaExpression>
                 {
-                    { "AccountId", a => a.AccountId },
-                    { "Frequency", a => a.Frequency },
-                    { "Created", a => a.Created },
-                    { "Balance", a => a.Balance }
+                    { "AccountId", (Expression<Func<Account, int>>)(a => a.AccountId) },
+                    { "Frequency", (Expression<Func<Account, string>>)(a => a.Frequency) },
+                    { "Created", (Expression<Func<Account, DateOnly>>)(a => a.Created) },
+                    { "Balance", (Expression<Func<Account, decimal>>)(a => a.Balance) }
                 };
 
             query = sortingService.Sort(query, sortColumn, sortOrder, sortExpressions);
