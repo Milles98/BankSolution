@@ -9,6 +9,9 @@ This solution consists of four projects:
 
 Each project serves a specific purpose in the overall solution.
 
+Azure link:
+https://millesbankapp.azurewebsites.net/
+
 ## BankWeb
 BankWeb is a web application project that uses ASP.NET Core 8.0. 
 
