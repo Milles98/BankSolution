@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 namespace BankWeb.Pages
 {
     [ResponseCache(Duration = 60, VaryByQueryKeys = ["country"])]
-    [IgnoreAntiforgeryToken]
     public class CountryDetailsModel : PageModel
     {
         private readonly ILogger<CountryDetailsModel> _logger;
