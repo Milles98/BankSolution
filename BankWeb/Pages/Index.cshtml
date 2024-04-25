@@ -123,8 +123,15 @@
                     <img src="assets/images/service_01.jpg" alt="">
                     <div class="down-content">
                         <h4>Transactions</h4>
-                        <p>Login as a Cashier and manage money deposits, transfers, withdraw and much more!</p>
-                        <a asp-page="/Transactions/TransactionAdminInfo" class="filled-button">See Transactions</a>
+                        <p>Our cashiers manages the assets, money, deposits, transfers, withdraw and much more!</p>
+                        @if (User.IsInRole("Cashier"))
+                        {
+                            <a asp-page="/Transactions/TransactionAdminInfo" class="filled-button">Transactions</a>
+                        }
+                        else
+                        {
+                            
+                        }
                     </div>
                 </div>
             </div>
@@ -133,8 +140,15 @@
                     <img src="assets/images/service_02.jpg" alt="">
                     <div class="down-content">
                         <h4>Customers</h4>
-                        <p>With our large database, handle customers information by creating, updating, reading and deleting.</p>
-                        <a asp-page="/Customers/CustomerAdminInfo" class="filled-button">See Customers</a>
+                        <p>With our large database, cashiers handle customers information by creating, updating, reading and deleting.</p>
+                        @if (User.IsInRole("Cashier"))
+                        {
+                            <a asp-page="/Customers/CustomerAdminInfo" class="filled-button">Customers</a>
+                        }
+                        else
+                        {
+
+                        }
                     </div>
                 </div>
             </div>
@@ -144,13 +158,13 @@
                     <div class="down-content">
                         <h4>Assets</h4>
                         <p>With our plentiful amount of customers, our assets are in a good spot. Together this company will exceed expectations.</p>
-                        @if (!User.Identity.IsAuthenticated)
+                        @if (User.IsInRole("Cashier"))
                         {
-                            <a asp-area="Identity" asp-page="/Account/Login" class="filled-button">Login as Admin/Cashier</a>
+                            <a asp-page="/Accounts/AccountsAdminInfo" class="filled-button">Accounts</a>
                         }
                         else
                         {
-                            <a asp-page="/Customers/CustomerAdminInfo" class="filled-button">Go back to work!</a>
+                            
                         }
                     </div>
                 </div>
@@ -164,7 +178,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="left-content">
-                    <span>Founded in 2024</span>
+                    <span>Founded in 2024 By Mille Elfver</span>
                     <h2>Our solutions makes <em>businesses grow</em></h2>
                     <p>
                         With our vast network of customers, accounts and assets, we can deliver quality banking options for our customers.
@@ -181,25 +195,25 @@
                     <div class="col-md-6">
                         <div class="count-area-content">
                             <div class="count-digit">@Model.TotalCustomers</div>
-                            <div class="count-title">Total Customers</div>
+                            <div class="count-title">Customers</div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="count-area-content">
                             <div class="count-digit">@Model.TotalAccounts</div>
-                            <div class="count-title">Total Accounts</div>
+                            <div class="count-title">Accounts</div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="count-area-content">
                             <div style="font-size: 43px; font-weight: bold;"><em>@FormatNumber(Model.TotalAssets)</em></div>
-                            <div class="count-title">Total Assets</div>
+                            <div class="count-title">Balance</div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="count-area-content">
                             <div class="count-digit">@Model.TotalCountries</div>
-                            <div class="count-title">Total Countries</div>
+                            <div class="count-title">Countries</div>
                         </div>
                     </div>
                 </div>
@@ -223,7 +237,7 @@
                             <div class="right-content">
                                 <span>Who we are</span>
                                 <h2>Get to know about <em>our company</em></h2>
-                                <p>Sometimes there's alot to say, sometimes there's not.<br><br>Check out our About page to learn more!</p>
+                                <p>Sometimes there's alot to say, sometimes there's not.<br><br>Check out our about us page to learn more!</p>
                                 <a asp-page="/AboutUs" class="filled-button">About Us</a>
                             </div>
                         </div>
