@@ -42,6 +42,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
+                        <li>
+                            @await Component.InvokeAsync("Weather")
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Menu
@@ -89,8 +92,8 @@
 
 
     <!-- Footer Starts Here -->
-    <footer>
-        <div class="container">
+    @* <footer> *@
+        @* <div class="container">
             <div class="row">
                 <div class="col-md-3 footer-item">
                     <h4>Finance Business</h4>
@@ -152,8 +155,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </footer>
+        </div> *@
+    @* </footer> *@
 
     <div class="sub-footer">
         <div class="container">
@@ -162,8 +165,6 @@
                     <p>
                         Copyright &copy; 2024 Milles Bank Co., Ltd.
 
-                        - Design: <a rel="nofollow noopener" href="https://templatemo.com" target="_blank">TemplateMo</a><br>
-                        Distributed By: <a rel="nofollow noopener" href="https://themewagon.com" target="_blank">ThemeWagon</a>
                     </p>
                 </div>
             </div>
