@@ -31,6 +31,8 @@ builder.Services.AddTransient<ITransactionService, TransactionService>();
 builder.Services.AddTransient<ICountryService, CountryService>();
 builder.Services.AddTransient<IPersonService, PersonService>();
 
+builder.Services.AddHttpClient();
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddResponseCaching();
