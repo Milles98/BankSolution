@@ -7,7 +7,7 @@
 <div class="page-heading header-text" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
     <h1>Top 10</h1>
     <img src="@Model.ImagePath" alt="@Model.Country" style="width: 200px; height: 100px; z-index: 1; border-radius: 5px;">
-    <h3 class="mt-3">@Model.Country</h3>
+    <h3 class="mt-3">Customers in @Model.Country</h3>
     <button type="button" class="btn btn-secondary mt-3" onclick="window.history.back();">
         <i class="fa-solid fa-arrow-left mr-2"></i>Return
     </button>
@@ -20,8 +20,11 @@
             <th class="d-none d-sm-table-cell" scope="col">Customer ID</th>
             <th class="d-none d-sm-table-cell" scope="col">Full Name</th>
             <th scope="col">Balance</th>
-            <th class="d-none d-sm-table-cell" scope="col">Loyalty Program</th>
-            <th scope="col">See Customer Details</th>
+            @if (User.IsInRole("Cashier"))
+            {
+                <th class="d-none d-sm-table-cell" scope="col">Loyalty Program</th>
+                <th scope="col">See Customer Details</th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -33,8 +36,11 @@
                 <td class="d-none d-sm-table-cell">@customer.CustomerId</td>
                 <td class="d-none d-sm-table-cell">@customer.Givenname @customer.Surname</td>
                 <td>SEK: @customer.TotalBalance.ToString("N2")</td>
-                <td class="d-none d-sm-table-cell"><a asp-page="/GiftPage" asp-route-id="@customer.CustomerId" class="btn btn-outline-secondary">Send Gift</a></td>
-                <td><a asp-page="/Customers/CustomerDetails" asp-route-id="@customer.CustomerId" class="btn btn-outline-secondary">View Details</a></td>
+                @if (User.IsInRole("Cashier"))
+                {
+                    <td class="d-none d-sm-table-cell"><a asp-page="/GiftPage" asp-route-id="@customer.CustomerId" class="btn btn-outline-secondary">Send Gift</a></td>
+                    <td><a asp-page="/Customers/CustomerDetails" asp-route-id="@customer.CustomerId" class="btn btn-outline-secondary">View Details</a></td>
+                }
             </tr>
         }
     </tbody>
