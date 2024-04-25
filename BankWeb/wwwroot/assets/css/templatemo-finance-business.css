@@ -21,6 +21,10 @@ https://templatemo.com/tm-545-finance-business
     .mobile-login {
         margin-left: -100px;
     }
+
+    .scrolltop-mobile {
+        display: none;
+    }
 }
 
 #account {
