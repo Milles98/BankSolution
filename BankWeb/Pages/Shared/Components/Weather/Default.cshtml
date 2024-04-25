@@ -1,24 +1,22 @@
 ﻿@model BankWeb.ViewComponents.WeatherModel
 
-<div class="nav-link mr-3">
-    <p class="mb-0 text-white">
-        @if (double.TryParse(Model.Temperature, out var temp))
+<a class="nav-link">
+    @if (double.TryParse(Model.Temperature, out var temp))
+    {
+        if (temp > 30)
         {
-            if (temp > 30)
-            {
-                <i class="fas fa-sun"></i> <!-- sunny icon -->
-            }
-            else if (temp > 20)
-            {
-                <i class="fas fa-cloud-sun"></i> <!-- partly cloudy icon -->
-            }
-            else
-            {
-                <i class="fas fa-cloud"></i> <!-- cloudy icon -->
-            }
+            <i class="fas fa-sun"></i> <!-- sunny icon -->
         }
-        @Model.Location
-        @Model.Temperature&#8451;
-    </p>
-</div>
+        else if (temp > 20)
+        {
+            <i class="fas fa-cloud-sun"></i> <!-- partly cloudy icon -->
+        }
+        else
+        {
+            <i class="fas fa-cloud"></i> <!-- cloudy icon -->
+        }
+    }
+    @Model.Location
+    @Model.Temperature&#8451;
+</a>
 

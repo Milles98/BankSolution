@@ -6,72 +6,72 @@
 
 <style>
     .spaced-table {
-        width: 75%; 
-        border-spacing: 0 20px; 
+        width: 75%;
+        border-spacing: 0 20px;
     }
 
         .spaced-table th, .spaced-table td {
-            padding: 15px; 
-            font-weight: 600; 
-            font-size: 1.1rem; 
-            text-align: left; 
+            padding: 15px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: left;
         }
 
         .spaced-table th {
-            letter-spacing: 1px; 
+            letter-spacing: 1px;
         }
 
         .spaced-table tr:hover {
-            background-color: rgba(255, 255, 255, 0.1); 
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
     .country-styling {
-        color: #A4C639; 
-        text-decoration: none; 
+        color: #A4C639;
+        text-decoration: none;
     }
 
         .country-styling:hover {
-            text-decoration: underline; 
+            text-decoration: underline;
         }
 
     .form-control {
-        background-color: transparent; 
-        color: white; 
-        border: 1px solid #555; 
-        border-radius: 4px; 
+        background-color: transparent;
+        color: white;
+        border: 1px solid #555;
+        border-radius: 4px;
     }
 
         .form-control:hover {
-            border-color: #777; 
+            border-color: #777;
         }
 </style>
 
 
 
 <!-- Page Content -->
-    <!-- Banner Starts Here -->
-    <div class="main-banner header-text" id="top">
-        <div class="Modern-Slider">
-          <!-- Item -->
-          <div class="item item-1">
+<!-- Banner Starts Here -->
+<div class="main-banner header-text" id="top">
+    <div class="Modern-Slider">
+        <!-- Item -->
+        <div class="item item-1">
             <div class="img-fill">
                 <div class="text-content container">
                     <h6 class="pl-4">Welcome to the Modern Bank</h6>
                     <h4 class="pl-4">Financial &amp; Banking Statistics</h4>
                     <div class="table-responsive">
-                    <table class="table-borderless spaced-table">
-                        <thead>
-                            <tr>
-                                <th class="text-white custom-width pl-4">Country</th>
+                        <table class="table-borderless spaced-table">
+                            <thead>
+                                <tr>
+                                    <th class="text-white custom-width pl-4">Country</th>
                                     <th class="text-white custom-width d-none d-sm-table-cell">Customers</th>
                                     <th class="text-white custom-width d-none d-sm-table-cell">Accounts</th>
-                                <th class="text-white custom-width">Balance</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                                    <th class="text-white custom-width">Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 <partial name="_Country" model="@Model.DataPerCountry">
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
                     </div>
 
                     @if (User.IsInRole("Cashier"))
@@ -89,166 +89,161 @@
                     }
                 </div>
             </div>
-          </div>
         </div>
     </div>
-    <!-- Banner Ends Here -->
-
+</div>
+<!-- Banner Ends Here -->
+@if (!User.Identity.IsAuthenticated)
+{
     <div class="request-form">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8">
-            <h4>Request a call back right now ?</h4>
-            <span>Mauris ut dapibus velit cras interdum nisl ac urna tempor mollis.</span>
-          </div>
-          <div class="col-md-4">
-            <a href="contact.html" class="border-button">Contact Us</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="services">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="section-heading">
-              <h2>Financial <em>Services</em></h2>
-              <span>Aliquam id urna imperdiet libero mollis hendrerit</span>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="service-item">
-              <img src="assets/images/service_01.jpg" alt="">
-              <div class="down-content">
-                <h4>Digital Currency</h4>
-                <p>Sed tincidunt dictum lobortis. Aenean tempus diam vel augue luctus dignissim. Nunc ornare leo tortor.</p>
-                <a href="" class="filled-button">Read More</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="service-item">
-              <img src="assets/images/service_02.jpg" alt="">
-              <div class="down-content">
-                <h4>Market Analysis</h4>
-                <p>Sed tincidunt dictum lobortis. Aenean tempus diam vel augue luctus dignissim. Nunc ornare leo tortor.</p>
-                <a href="" class="filled-button">Read More</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="service-item">
-              <img src="assets/images/service_03.jpg" alt="">
-              <div class="down-content">
-                <h4>Historical Data</h4>
-                <p>Sed tincidunt dictum lobortis. Aenean tempus diam vel augue luctus dignissim. Nunc ornare leo tortor.</p>
-                <a href="" class="filled-button">Read More</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="fun-facts">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="left-content">
-              <span>Lorem ipsum dolor sit amet</span>
-              <h2>Our solutions for your <em>business growth</em></h2>
-              <p>Pellentesque ultrices at turpis in vestibulum. Aenean pretium elit nec congue elementum. Nulla luctus laoreet porta. Maecenas at nisi tempus, porta metus vitae, faucibus augue. 
-              <br><br>Fusce et venenatis ex. Quisque varius, velit quis dictum sagittis, odio velit molestie nunc, ut posuere ante tortor ut neque.</p>
-              <a href="" class="filled-button">Read More</a>
-            </div>
-          </div>
-          <div class="col-md-6 align-self-center">
+        <div class="container">
             <div class="row">
-              <div class="col-md-6">
-                <div class="count-area-content">
-                  <div class="count-digit">945</div>
-                  <div class="count-title">Work Hours</div>
+                <div class="col-md-8">
+                    <h4>Interested in seeing more ?</h4>
+                    <span>Press the button to the right and login as an Admin or Cashier.</span>
                 </div>
-              </div>
-              <div class="col-md-6">
-                <div class="count-area-content">
-                  <div class="count-digit">1280</div>
-                  <div class="count-title">Great Reviews</div>
+                <div class="col-md-4">
+                    <a asp-area="Identity" asp-page="/Account/Login" class="border-button">Login</a>
                 </div>
-              </div>
-              <div class="col-md-6">
-                <div class="count-area-content">
-                  <div class="count-digit">578</div>
-                  <div class="count-title">Projects Done</div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="count-area-content">
-                  <div class="count-digit">26</div>
-                  <div class="count-title">Awards Won</div>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
+}
 
-    <div class="more-info">
-      <div class="container">
+<div class="services">
+    <div class="container">
         <div class="row">
-          <div class="col-md-12">
-            <div class="more-info-content">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="left-image">
-                    <img src="assets/images/more-info.jpg" alt="">
-                  </div>
+            <div class="col-md-12">
+                <div class="section-heading">
+                    <h2>Financial <em>Services</em></h2>
                 </div>
-                <div class="col-md-6 align-self-center">
-                  <div class="right-content">
-                    <span>Who we are</span>
-                    <h2>Get to know about <em>our company</em></h2>
-                    <p>Curabitur pulvinar sem a leo tempus facilisis. Sed non sagittis neque. Nulla conse quat tellus nibh, id molestie felis sagittis ut. Nam ullamcorper tempus ipsum in cursus<br><br>Praes end at dictum metus. Morbi id hendrerit lectus, nec dapibus ex. Etiam ipsum quam, luctus eu egestas eget, tincidunt</p>
-                    <a href="#" class="filled-button">Read More</a>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
+            <div class="col-md-4">
+                <div class="service-item">
+                    <img src="assets/images/service_01.jpg" alt="">
+                    <div class="down-content">
+                        <h4>Transactions</h4>
+                        <p>Login as a Cashier and manage money deposits, transfers, withdraw and much more!</p>
+                        <a asp-page="/Transactions/TransactionAdminInfo" class="filled-button">See Transactions</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-item">
+                    <img src="assets/images/service_02.jpg" alt="">
+                    <div class="down-content">
+                        <h4>Customers</h4>
+                        <p>With our large database, handle customers information by creating, updating, reading and deleting.</p>
+                        <a asp-page="/Customers/CustomerAdminInfo" class="filled-button">See Customers</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-item">
+                    <img src="assets/images/service_03.jpg" alt="">
+                    <div class="down-content">
+                        <h4>Assets</h4>
+                        <p>With our plentiful amount of customers, our assets are in a good spot. Together this company will exceed expectations.</p>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <a asp-area="Identity" asp-page="/Account/Login" class="filled-button">Login as Admin/Cashier</a>
+                        }
+                        else
+                        {
+                            <a asp-page="/Customers/CustomerAdminInfo" class="filled-button">Go back to work!</a>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
+</div>
 
-    <div class="partners">
-      <div class="container">
+<div class="fun-facts">
+    <div class="container">
         <div class="row">
-          <div class="col-md-12">
-            <div class="owl-partners owl-carousel">
-            
-              <div class="partner-item">
-                <img src="assets/images/client-01.png" title="1" alt="1">
-              </div>
-              
-              <div class="partner-item">
-                <img src="assets/images/client-01.png" title="2" alt="2">
-              </div>
-              
-              <div class="partner-item">
-                <img src="assets/images/client-01.png" title="3" alt="3">
-              </div>
-              
-              <div class="partner-item">
-                <img src="assets/images/client-01.png" title="4" alt="4">
-              </div>
-              
-              <div class="partner-item">
-                <img src="assets/images/client-01.png" title="5" alt="5">
-              </div>
-              
+            <div class="col-md-6">
+                <div class="left-content">
+                    <span>Founded in 2024</span>
+                    <h2>Our solutions makes <em>businesses grow</em></h2>
+                    <p>
+                        With our vast network of customers, accounts and assets, we can deliver quality banking options for our customers.
+                        <br><br>Start handling customers today!
+                    </p>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a asp-area="Identity" asp-page="/Account/Login" class="filled-button">Login</a>
+                    }
+                </div>
             </div>
-          </div>
+            <div class="col-md-6 align-self-center">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="count-area-content">
+                            <div class="count-digit">@Model.TotalCustomers</div>
+                            <div class="count-title">Total Customers</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="count-area-content">
+                            <div class="count-digit">@Model.TotalAccounts</div>
+                            <div class="count-title">Total Accounts</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="count-area-content">
+                            <div style="font-size: 43px; font-weight: bold;"><em>@FormatNumber(Model.TotalAssets)</em></div>
+                            <div class="count-title">Total Assets</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="count-area-content">
+                            <div class="count-digit">@Model.TotalCountries</div>
+                            <div class="count-title">Total Countries</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
+</div>
+
+<div class="more-info" style="margin-bottom: 125px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="more-info-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="left-image">
+                                <img src="assets/images/more-info.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="col-md-6 align-self-center">
+                            <div class="right-content">
+                                <span>Who we are</span>
+                                <h2>Get to know about <em>our company</em></h2>
+                                <p>Sometimes there's alot to say, sometimes there's not.<br><br>Check out our About page to learn more!</p>
+                                <a asp-page="/AboutUs" class="filled-button">About Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    public static string FormatNumber(decimal num)
+    {
+        if (num >= 1000000000)
+            return (num / 1000000000).ToString("0.0") + "B";
+        else if (num >= 1000000)
+            return (num / 1000000).ToString("0.0") + "M";
+        else if (num >= 1000)
+            return (num / 1000).ToString("0.0") + "K";
+        else
+            return num.ToString("0.0");
+    }
+}
