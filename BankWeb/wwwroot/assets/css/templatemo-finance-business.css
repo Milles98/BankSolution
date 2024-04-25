@@ -13,6 +13,16 @@ https://templatemo.com/tm-545-finance-business
     }
 }
 
+@media (max-width: 768px) {
+    .form-control-mobile {
+        width: 75%; /* Or any other size you want */
+    }
+
+    .mobile-login {
+        margin-left: -100px;
+    }
+}
+
 #account {
     width: 500px !important;
 }
