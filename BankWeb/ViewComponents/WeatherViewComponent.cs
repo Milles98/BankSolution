@@ -32,8 +32,8 @@ namespace BankWeb.ViewComponents
                 }
                 else
                 {
-                    weatherData.Location = "Unknown";
-                    weatherData.Temperature = "Unknown";
+                    weatherData.Location = "Weather";
+                    weatherData.Temperature = "Unavailable";
                 }
             }
 
