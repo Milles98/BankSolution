@@ -3,21 +3,21 @@
 
 @{
     ViewData["Title"] = "Delete";
+    var confirmModalId = "confirmDeleteModal";
 }
 
 <div class="page-heading header-text">
-    <h1>@ViewData["Title"]</h1>
-    <h3>Are you sure you want to delete Customer Id @Model.Customer.CustomerId?</h3>
+    <h1 class="mt-3">@ViewData["Title"] @Model.Customer.Givenname @Model.Customer.Surname, ID @Model.Customer.CustomerId?</h1>
+    <h3 class="mt-3 text-danger">All associated data for @Model.Customer.Givenname @Model.Customer.Surname will be permanently lost!</h3>
     <button type="button" class="btn btn-secondary mt-3" onclick="window.history.back();">
-        <i class="fa-solid fa-arrow-left mr-2"></i>Return to Customer
+        <i class="fa-solid fa-arrow-left mr-2"></i>No! Take me back
     </button>
 </div>
 
 <div class="container">
     <div class="row d-flex justify-content-center align-items-center min-vh-100">
         <div class="col-md-8">
-            <hr />
-            <table class="table table-striped">
+            <table class="table table-hover shadow mt-3">
                 <tbody>
                     <tr>
                         <th>@Html.DisplayNameFor(model => model.Customer.Gender)</th>
@@ -73,7 +73,7 @@
                     </tr>
                 </tbody>
             </table>
-            <form method="post">
+            <form id="deleteForm" method="post">
                 <input type="hidden" asp-for="Customer.CustomerId" />
                 <div class="form-group d-flex justify-content-center">
                     <input type="submit" value="Delete" class="btn btn-danger mr-2" />
@@ -83,4 +83,37 @@
     </div>
 </div>
 
+<div class="modal fade" id="@confirmModalId" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Are you sure? This action is irreversible</h5>
+            </div>
+            <div class="modal-body">
+                Type CONFIRM to delete
+                <input type="text" id="confirmInput" class="form-control" />
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        document.getElementById('deleteForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            $('#' + '@confirmModalId').modal('show');
+        });
+
+        document.getElementById('confirmDeleteButton').addEventListener('click', function () {
+            if (document.getElementById('confirmInput').value === 'CONFIRM') {
+                document.getElementById('deleteForm').submit();
+            }
+        });
+    </script>
+}
 
