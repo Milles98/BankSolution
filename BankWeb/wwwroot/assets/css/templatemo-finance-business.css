@@ -56,6 +56,10 @@ body, html {
     .edit-btn-mobile {
         margin-bottom: 10px;
     }
+
+    .mobile-github-aboutme {
+        margin-top: 20px;
+    }
 }
 
 #account {
