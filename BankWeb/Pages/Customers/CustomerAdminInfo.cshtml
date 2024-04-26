@@ -31,7 +31,7 @@
         </div>
 
         <div>
-            <a asp-page="/Customers/Create" id="update-profile-button" class="btn btn-primary">
+            <a asp-page="/Customers/Create" id="update-profile-button" class="btn btn-primary create-cust-mobile">
                 <i class="fa-solid fa-plus mr-2"></i>Create New Customer
             </a>
         </div>
@@ -48,132 +48,132 @@
     }
 
     <table class="table table-hover table-bordered shadow p-3 mb-5 bg-white rounded">
-    <thead>
-        <tr>
-            <th scope="col">
-                Customer ID
-                <a asp-page="/Customers/CustomerAdminInfo"
-                   asp-route-sortColumn="CustomerId"
-                   asp-route-sortOrder="asc"
-                   asp-route-query="@Model.Search"
-                   style="text-decoration: none">
-                    <i class="fa-solid fa-angle-up"></i>
-                </a>
-                <a asp-page="/Customers/CustomerAdminInfo"
-                   asp-route-sortColumn="CustomerId"
-                   asp-route-sortOrder="desc"
-                   asp-route-query="@Model.Search"
-                   style="text-decoration: none">
-                    <i class="fa-solid fa-angle-down"></i>
-                </a>
-            </th>
+        <thead>
+            <tr>
+                <th scope="col">
+                    Customer ID
+                    <a asp-page="/Customers/CustomerAdminInfo"
+                       asp-route-sortColumn="CustomerId"
+                       asp-route-sortOrder="asc"
+                       asp-route-query="@Model.Search"
+                       style="text-decoration: none">
+                        <i class="fa-solid fa-angle-up"></i>
+                    </a>
+                    <a asp-page="/Customers/CustomerAdminInfo"
+                       asp-route-sortColumn="CustomerId"
+                       asp-route-sortOrder="desc"
+                       asp-route-query="@Model.Search"
+                       style="text-decoration: none">
+                        <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                </th>
                 <th scope="col" class="d-none d-sm-table-cell">
-                Accounts
-            </th>
+                    Accounts
+                </th>
                 <th scope="col" class="d-none d-sm-table-cell">
-                National ID
-                <a asp-page="/Customers/CustomerAdminInfo"
-                    asp-route-sortColumn="NationalId"
-                    asp-route-sortOrder="asc"
-                    asp-route-query="@Model.Search"
-                    style="text-decoration: none">
-                    <i class="fa-solid fa-angle-up"></i>
-                </a>
-                <a asp-page="/Customers/CustomerAdminInfo"
-                    asp-route-sortColumn="NationalId"
-                    asp-route-sortOrder="desc"
-                    asp-route-query="@Model.Search"
-                    style="text-decoration: none">
-                    <i class="fa-solid fa-angle-down"></i>
-                </a>
-            </th>
+                    National ID
+                    <a asp-page="/Customers/CustomerAdminInfo"
+                       asp-route-sortColumn="NationalId"
+                       asp-route-sortOrder="asc"
+                       asp-route-query="@Model.Search"
+                       style="text-decoration: none">
+                        <i class="fa-solid fa-angle-up"></i>
+                    </a>
+                    <a asp-page="/Customers/CustomerAdminInfo"
+                       asp-route-sortColumn="NationalId"
+                       asp-route-sortOrder="desc"
+                       asp-route-query="@Model.Search"
+                       style="text-decoration: none">
+                        <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                </th>
 
                 <th scope="col">
-                Name
-                <a asp-page="/Customers/CustomerAdminInfo"
-                   asp-route-sortColumn="Givenname"
-                   asp-route-sortOrder="asc"
-                   asp-route-query="@Model.Search"
-                   style="text-decoration: none">
-                    <i class="fa-solid fa-angle-up"></i>
-                </a>
-                <a asp-page="/Customers/CustomerAdminInfo"
-                   asp-route-sortColumn="Givenname"
-                   asp-route-sortOrder="desc"
-                   asp-route-query="@Model.Search"
-                   style="text-decoration: none">
-                    <i class="fa-solid fa-angle-down"></i>
-                </a>
-            </th>
-                <th scope="col" class="d-none d-sm-table-cell">
-                Lastname
-                <a asp-page="/Customers/CustomerAdminInfo"
-                   asp-route-sortColumn="Surname"
-                   asp-route-sortOrder="asc"
-                   asp-route-query="@Model.Search"
-                   style="text-decoration: none">
-                    <i class="fa-solid fa-angle-up"></i>
-                </a>
-                <a asp-page="/Customers/CustomerAdminInfo"
-                   asp-route-sortColumn="Surname"
-                   asp-route-sortOrder="desc"
-                   asp-route-query="@Model.Search"
-                   style="text-decoration: none">
-                    <i class="fa-solid fa-angle-down"></i>
-                </a>
-            </th>
-                <th scope="col" class="d-none d-sm-table-cell">
-                Address
-                <a asp-page="/Customers/CustomerAdminInfo"
-                   asp-route-sortColumn="Streetaddress"
-                   asp-route-sortOrder="asc"
-                   style="text-decoration: none">
-                    <i class="fa-solid fa-angle-up"></i>
-                </a>
-                <a asp-page="/Customers/CustomerAdminInfo"
-                   asp-route-sortColumn="Streetaddress"
-                   asp-route-sortOrder="desc"
-                   style="text-decoration: none">
-                    <i class="fa-solid fa-angle-down"></i>
-                </a>
-            </th>
-                <th scope="col" class="d-none d-sm-table-cell">
-                City
-                <a asp-page="/Customers/CustomerAdminInfo"
-                   asp-route-sortColumn="City"
-                   asp-route-sortOrder="asc"
-                   asp-route-query="@Model.Search"
-                   style="text-decoration: none">
-                    <i class="fa-solid fa-angle-up"></i>
-                </a>
-                <a asp-page="/Customers/CustomerAdminInfo"
-                   asp-route-sortColumn="City"
-                   asp-route-sortOrder="desc"
-                   asp-route-query="@Model.Search"
-                   style="text-decoration: none">
-                    <i class="fa-solid fa-angle-down"></i>
-                </a>
-            </th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var customer in Model.Customers.Results)
-        {
-            <tr>
-                <td>
-                    <a asp-page="/Customers/CustomerDetails" asp-route-id="@customer.CustomerId" class="btn btn-block btn-outline-secondary">
-                            <i class="fa-solid fa-eye mr-2"></i>@customer.CustomerId
+                    Name
+                    <a asp-page="/Customers/CustomerAdminInfo"
+                       asp-route-sortColumn="Givenname"
+                       asp-route-sortOrder="asc"
+                       asp-route-query="@Model.Search"
+                       style="text-decoration: none">
+                        <i class="fa-solid fa-angle-up"></i>
                     </a>
-                </td>
-                <td class="d-none d-sm-table-cell">
-                    <a asp-page="/Accounts/Account" asp-route-accountIds="@string.Join(',', customer.Accounts.Select(a => a.AccountId))" class="btn btn-outline-secondary btn-block">
+                    <a asp-page="/Customers/CustomerAdminInfo"
+                       asp-route-sortColumn="Givenname"
+                       asp-route-sortOrder="desc"
+                       asp-route-query="@Model.Search"
+                       style="text-decoration: none">
+                        <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                </th>
+                <th scope="col" class="d-none d-sm-table-cell">
+                    Lastname
+                    <a asp-page="/Customers/CustomerAdminInfo"
+                       asp-route-sortColumn="Surname"
+                       asp-route-sortOrder="asc"
+                       asp-route-query="@Model.Search"
+                       style="text-decoration: none">
+                        <i class="fa-solid fa-angle-up"></i>
+                    </a>
+                    <a asp-page="/Customers/CustomerAdminInfo"
+                       asp-route-sortColumn="Surname"
+                       asp-route-sortOrder="desc"
+                       asp-route-query="@Model.Search"
+                       style="text-decoration: none">
+                        <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                </th>
+                <th scope="col" class="d-none d-sm-table-cell">
+                    Address
+                    <a asp-page="/Customers/CustomerAdminInfo"
+                       asp-route-sortColumn="Streetaddress"
+                       asp-route-sortOrder="asc"
+                       style="text-decoration: none">
+                        <i class="fa-solid fa-angle-up"></i>
+                    </a>
+                    <a asp-page="/Customers/CustomerAdminInfo"
+                       asp-route-sortColumn="Streetaddress"
+                       asp-route-sortOrder="desc"
+                       style="text-decoration: none">
+                        <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                </th>
+                <th scope="col" class="d-none d-sm-table-cell">
+                    City
+                    <a asp-page="/Customers/CustomerAdminInfo"
+                       asp-route-sortColumn="City"
+                       asp-route-sortOrder="asc"
+                       asp-route-query="@Model.Search"
+                       style="text-decoration: none">
+                        <i class="fa-solid fa-angle-up"></i>
+                    </a>
+                    <a asp-page="/Customers/CustomerAdminInfo"
+                       asp-route-sortColumn="City"
+                       asp-route-sortOrder="desc"
+                       asp-route-query="@Model.Search"
+                       style="text-decoration: none">
+                        <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var customer in Model.Customers.Results)
+            {
+                <tr>
+                    <td>
+                        <a asp-page="/Customers/CustomerDetails" asp-route-id="@customer.CustomerId" class="btn btn-block btn-outline-secondary">
+                            <i class="fa-solid fa-eye mr-2"></i>@customer.CustomerId
+                        </a>
+                    </td>
+                    <td class="d-none d-sm-table-cell">
+                        <a asp-page="/Accounts/Account" asp-route-accountIds="@string.Join(',', customer.Accounts.Select(a => a.AccountId))" class="btn btn-outline-secondary btn-block">
                             <i class="fa-solid fa-eye mr-2"></i>View
                         </a>
-                </td>
-                <td class="d-none d-sm-table-cell">@customer.NationalId</td>
-                <td>@customer.Givenname</td>
-                <td class="d-none d-sm-table-cell">@customer.Surname</td>
+                    </td>
+                    <td class="d-none d-sm-table-cell">@customer.NationalId</td>
+                    <td>@customer.Givenname</td>
+                    <td class="d-none d-sm-table-cell">@customer.Surname</td>
                     <td class="d-none d-sm-table-cell">
                         @if (customer.Streetaddress.Length > 20)
                         {
@@ -184,10 +184,10 @@
                             @customer.Streetaddress
                         }
                     </td>
-                <td class="d-none d-sm-table-cell">@customer.City</td>
-            </tr>
-        }
-    </tbody>
+                    <td class="d-none d-sm-table-cell">@customer.City</td>
+                </tr>
+            }
+        </tbody>
 
         <tfoot>
             <tr>
@@ -233,5 +233,5 @@
         </tfoot>
 
 
-</table>
+    </table>
 </div>
