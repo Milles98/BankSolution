@@ -101,10 +101,10 @@
                 </div>
             </div>
             
-            <a asp-page="/Accounts/CreateAccount" asp-route-customerId="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary">
+            <a asp-page="/Accounts/CreateAccount" asp-route-customerId="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary create-acnt-mobile">
                 <i class="fa-solid fa-plus mr-2"></i>Create New Account
             </a>
-            <a asp-page="/Customers/Edit" asp-route-id="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary">
+            <a asp-page="/Customers/Edit" asp-route-id="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary edit-cust-mobile">
                 <i class="fa-solid fa-pen-to-square mr-2"></i>Edit Customer
             </a>
             <a asp-page="/Customers/Delete" asp-route-id="@Model.Customer.CustomerId" class="btn btn-danger">
@@ -122,7 +122,7 @@
                 <th scope="col" class="d-none d-sm-table-cell">Balance</th>
                 <th scope="col" class="d-none d-sm-table-cell">Type</th>
                 <th scope="col">Transactions</th>
-                <th scope="col">Actions</th>
+                <th scope="col" class="d-none d-sm-table-cell">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -143,7 +143,7 @@
                             <i class="fa-solid fa-eye mr-2"></i>View
                         </a>
                     </td>
-                    <td>
+                    <td class="d-none d-sm-table-cell">
                         <a asp-page="/Transactions/Deposit" asp-route-accountId="@account.AccountId" id="update-profile-button" class="btn btn-primary" title="Deposit">
                             <i class="fa-solid fa-plus"></i>
                         </a>
