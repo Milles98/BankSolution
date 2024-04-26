@@ -17,13 +17,13 @@
         <thead>
             <tr>
                 <th>Email</th>
-                <th>Roles</th>
+                <th class="d-none d-sm-table-cell">Roles</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>@Model.Email</td>
-                <td>
+                <td class="d-none d-sm-table-cell">
                     @string.Join(", ", await Model.GetRoles())
                 </td>
             </tr>
