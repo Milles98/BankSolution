@@ -4,9 +4,9 @@
 <div class="page-heading header-text">
     <h1>@ViewData["Title"]</h1>
     <h3>Are you sure you want to delete Account Id @Model.Account.AccountId?</h3>
-    <button type="button" class="btn btn-secondary mt-3" onclick="window.history.back();">
-        <i class="fa-solid fa-arrow-left mr-2"></i>Return to Account
-    </button>
+    <a class="btn btn-secondary mt-3" asp-page="/Customers/CustomerAdminInfo">
+        <i class="fa-solid fa-arrow-left mr-2"></i>Return to Customers
+    </a>
 </div>
 
 <div class="container">
