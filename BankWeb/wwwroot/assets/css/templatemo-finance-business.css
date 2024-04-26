@@ -35,6 +35,14 @@ body, html {
         margin-bottom: 10px;
         margin-right: 10px;
     }
+
+    .edit-cust-mobile {
+        margin-bottom: 5px;
+    }
+
+    .create-acnt-mobile {
+        margin-bottom: 5px;
+    }
 }
 
 #account {
