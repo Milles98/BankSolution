@@ -30,6 +30,11 @@ body, html {
     .scrolltop-mobile {
         display: none;
     }
+
+    .create-cust-mobile {
+        margin-bottom: 10px;
+        margin-right: 10px;
+    }
 }
 
 #account {
