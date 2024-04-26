@@ -35,7 +35,7 @@
 }
 
     <div class="d-flex justify-content-between align-items-center">
-        <form method="get" class="my-2 my-lg-0" asp-page="/Users/ManageUsers">
+        <form method="get" class="my-2 my-lg-0 d-none d-sm-table-cell" asp-page="/Users/ManageUsers">
             <div class="input-group" style="width: 400px; margin-top: 10px; margin-bottom: 15px;">
                 <input type="text" class="form-control" name="query" placeholder="Search User Email" value="@Request.Query["query"]">
                 <div class="input-group-append">
@@ -46,7 +46,7 @@
             </div>
         </form>
 
-        <a asp-area="Identity" asp-page="/Account/Register" id="update-profile-button" class="btn btn-primary">
+        <a asp-area="Identity" asp-page="/Account/Register" id="update-profile-button" class="btn btn-primary user-search-mobile">
             <i class="fa-solid fa-plus mr-2"></i>Create New User
         </a>
     </div>
@@ -54,7 +54,7 @@
     <table class="table container table-hover table-bordered shadow p-3 mb-5 bg-white rounded">
         <thead>
             <tr>
-                <th style="width: 40%;">Email</th>
+                <th class="d-none d-sm-table-cell" style="width: 40%;">Email</th>
                 <th style="width: 30%;">Roles</th>
                 <th style="width: 30%;">Actions</th>
             </tr>
@@ -65,13 +65,13 @@
                 var isSelf = user.Id == Model.LoggedInUserId;
                 var isProtectedUser = user.Email == "richard.erdos.chalk@gmail.se" || user.Email == "richard.chalk@systementor.se";
                 <tr>
-                    <td>@user.Email</td>
+                    <td class="d-none d-sm-table-cell">@user.Email</td>
                     <td>
                         @string.Join(", ", await Model.GetRoles(user))
                     </td>
                     <td>
                         <div class="row">
-                            <div class="col">
+                            <div class="col edit-btn-mobile">
                                 <a class="btn btn-outline-secondary btn-block" asp-page="EditUser" asp-route-id="@user.Id">
                                     <i class="fa-solid fa-pen-to-square mr-2"></i>Edit
                                 </a>
