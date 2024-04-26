@@ -40,7 +40,7 @@ namespace BankWeb.Pages.AccountsFolder
                 return NotFound();
             }
 
-            return RedirectToPage("/Customers/DeleteAccessDenied");
+            //return RedirectToPage("/Customers/DeleteAccessDenied");
 
             if (Account.Balance > 0)
             {
