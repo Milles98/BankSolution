@@ -43,6 +43,10 @@ body, html {
     .create-acnt-mobile {
         margin-bottom: 5px;
     }
+
+    .acc-details-mobile {
+        padding-bottom: 100px;
+    }
 }
 
 #account {
