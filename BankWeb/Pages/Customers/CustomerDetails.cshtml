@@ -101,10 +101,10 @@
                 </div>
             </div>
             
-            <a asp-page="/Accounts/CreateAccount" asp-route-customerId="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary create-acnt-mobile">
+            <a asp-page="/Accounts/CreateAccount" asp-route-customerId="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary create-acnt-mobile mr-2">
                 <i class="fa-solid fa-plus mr-2"></i>Create New Account
             </a>
-            <a asp-page="/Customers/Edit" asp-route-id="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary edit-cust-mobile">
+            <a asp-page="/Customers/Edit" asp-route-id="@Model.Customer.CustomerId" id="update-profile-button" class="btn btn-primary edit-cust-mobile mr-2">
                 <i class="fa-solid fa-pen-to-square mr-2"></i>Edit Customer
             </a>
             <a asp-page="/Customers/Delete" asp-route-id="@Model.Customer.CustomerId" class="btn btn-danger">
