@@ -6,6 +6,11 @@ https://templatemo.com/tm-545-finance-business
 
 */
 
+body, html {
+    overflow-x: hidden;
+}
+
+
 @media (max-width: 576px) {
     #account {
         width: 300px !important;
