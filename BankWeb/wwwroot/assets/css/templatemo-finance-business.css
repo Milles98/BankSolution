@@ -60,6 +60,14 @@ body, html {
     .mobile-github-aboutme {
         margin-top: 20px;
     }
+
+    .login-mobile-padding {
+        padding-left: 0 !important;
+    }
+}
+
+.login-mobile-padding {
+    padding-left: 20px;
 }
 
 #account {
