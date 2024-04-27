@@ -31,32 +31,35 @@
                     <form id="account" method="post">
                         <!-- Email Input -->
                         <div class="row">
-                            <div class="col-lg-12">
-                                <fieldset>
-                                    <input style="border: 2px solid #808080;" asp-for="Input.Email" class="form-control form-control-mobile" autocomplete="username" aria-required="true" placeholder="Email" />
-                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                                </fieldset>
-                            </div>
+                            <!-- Email Input -->
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <fieldset>
+                                        <input style="border: 2px solid #808080; font-size: 16px;" asp-for="Input.Email" class="form-control form-control-mobile" autocomplete="username" aria-required="true" placeholder="Email" />
+                                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
 
-                            <!-- Password Input -->
-                            <div class="col-lg-12">
-                                <fieldset>
-                                    <input style="border: 2px solid #808080;" asp-for="Input.Password" class="form-control form-control-mobile" autocomplete="current-password" aria-required="true" placeholder="Password" />
-                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                                </fieldset>
+                                <!-- Password Input -->
+                                <div class="col-lg-12">
+                                    <fieldset>
+                                        <input style="border: 2px solid #808080; font-size: 16px;" asp-for="Input.Password" class="form-control form-control-mobile" autocomplete="current-password" aria-required="true" placeholder="Password" />
+                                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
                             </div>
 
                             <!-- Remember Me Checkbox -->
-                            <div class="col-lg-12">
+                            @* <div class="col-lg-12">
                                 <fieldset>
                                     <label class="form-label">
                                         <input class="form-check-input" asp-for="Input.RememberMe" /> Remember Me
                                     </label>
                                 </fieldset>
-                            </div>
+                            </div> *@
 
                             <!-- Submit Button -->
-                            <div class="col-lg-12">
+                            <div class="col-lg-12 mb-2">
                                 <fieldset>
                                     <button id="login-submit" type="submit" class="filled-button">Log in</button>
                                 </fieldset>
