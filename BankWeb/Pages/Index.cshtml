@@ -50,195 +50,177 @@
 
 <!-- Page Content -->
 <!-- Banner Starts Here -->
-<div class="main-banner header-text" id="top">
-    <div class="Modern-Slider">
-        <!-- Item -->
-        <div class="item item-1">
-            <div class="img-fill">
-                <div class="text-content container">
-                    <h6 class="pl-4">Welcome to the Modern Bank</h6>
-                    <h4 class="pl-4">Financial &amp; Banking Statistics</h4>
-                    <div class="table-responsive">
-                        <table class="table-borderless spaced-table">
-                            <thead>
-                                <tr>
-                                    <th class="text-white custom-width pl-4 d-none d-sm-table-cell">Country</th>
-                                    <th class="text-white custom-width d-none d-sm-table-cell">Customers</th>
-                                    <th class="text-white custom-width d-none d-sm-table-cell">Accounts</th>
-                                    <th class="text-white custom-width d-none d-sm-table-cell">Balance</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <partial name="_Country" model="@Model.DataPerCountry"/>
-                            </tbody>
-                        </table>
-                    </div>
+<main>
+    <div class="main-banner header-text" id="top">
+        <div class="Modern-Slider">
+            <!-- Item -->
+            <div class="item item-1">
+                <div class="img-fill">
+                    <div class="text-content container">
+                        <h6 class="pl-4">Welcome to the Modern Bank</h6>
+                        <h4 class="pl-4">Financial &amp; Banking Statistics</h4>
+                        <div class="table-responsive">
+                            <table class="table-borderless spaced-table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-white custom-width pl-4 d-none d-sm-table-cell">Country</th>
+                                        <th class="text-white custom-width d-none d-sm-table-cell">Customers</th>
+                                        <th class="text-white custom-width d-none d-sm-table-cell">Accounts</th>
+                                        <th class="text-white custom-width d-none d-sm-table-cell">Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <partial name="_Country" model="@Model.DataPerCountry" />
+                                </tbody>
+                            </table>
+                        </div>
 
-                    @if (User.IsInRole("Cashier"))
-                    {
-                        <form class="my-2 my-lg-0 pl-3 d-none d-sm-block" method="get" asp-page="/Customers/CustomerAdminInfo">
-                            <div class="input-group" style="width: 410px; margin-top: 10px;">
-                                <input class="form-control" type="search" placeholder="Search Customer ID, Name or City" aria-label="Search" name="query" required style="background-color: transparent; color: white;" value="@Request.Query["query"]">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="submit">
-                                        <i class="fa-solid fa-magnifying-glass mr-2"></i>Search
-                                    </button>
+                        @if (User.IsInRole("Cashier"))
+                        {
+                            <form class="my-2 my-lg-0 pl-3 d-none d-sm-block" method="get" asp-page="/Customers/CustomerAdminInfo">
+                                <div class="input-group" style="width: 410px; margin-top: 10px;">
+                                    <input class="form-control" type="search" placeholder="Search Customer ID, Name or City" aria-label="Search" name="query" required style="background-color: transparent; color: white;" value="@Request.Query["query"]">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" type="submit">
+                                            <i class="fa-solid fa-magnifying-glass mr-2"></i>Search
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
-                    }
+                            </form>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</main>
 <!-- Banner Ends Here -->
-@if (!User.Identity.IsAuthenticated)
-{
-    <div class="request-form">
+<section>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <div class="request-form">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4>Interested in seeing more ?</h4>
+                        <span>Press the button to the right and login as an Admin or Cashier.</span>
+                    </div>
+                    <div class="col-md-4">
+                        <a asp-area="Identity" asp-page="/Account/Login" class="border-button">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</section>
+
+<section>
+    <div class="services" style="margin-top: 50px;">
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
-                    <h4>Interested in seeing more ?</h4>
-                    <span>Press the button to the right and login as an Admin or Cashier.</span>
+                <div class="col-md-12">
+                    <div class="section-heading">
+                        <h2>Financial <em>Services</em></h2>
+                    </div>
                 </div>
                 <div class="col-md-4">
-                    <a asp-area="Identity" asp-page="/Account/Login" class="border-button">Login</a>
-                </div>
-            </div>
-        </div>
-    </div>
-}
+                    <div class="service-item">
+                        <img src="assets/images/service_01.jpg" alt="">
+                        <div class="down-content">
+                            <h4>Transactions</h4>
+                            <p>Our cashiers manages the assets, money, deposits, transfers, withdraw and much more!</p>
+                            @if (User.IsInRole("Cashier"))
+                            {
+                                <a asp-page="/Transactions/TransactionAdminInfo" class="filled-button">Transactions</a>
+                            }
+                            else
+                            {
 
-<div class="services" style="margin-top: 50px;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="section-heading">
-                    <h2>Financial <em>Services</em></h2>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="service-item">
-                    <img src="assets/images/service_01.jpg" alt="">
-                    <div class="down-content">
-                        <h4>Transactions</h4>
-                        <p>Our cashiers manages the assets, money, deposits, transfers, withdraw and much more!</p>
-                        @if (User.IsInRole("Cashier"))
-                        {
-                            <a asp-page="/Transactions/TransactionAdminInfo" class="filled-button">Transactions</a>
-                        }
-                        else
-                        {
-                            
-                        }
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="service-item">
-                    <img src="assets/images/service_02.jpg" alt="">
-                    <div class="down-content">
-                        <h4>Customers</h4>
-                        <p>With our large database, cashiers handle customers information by creating, updating, reading and deleting.</p>
-                        @if (User.IsInRole("Cashier"))
-                        {
-                            <a asp-page="/Customers/CustomerAdminInfo" class="filled-button">Customers</a>
-                        }
-                        else
-                        {
-
-                        }
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="service-item">
-                    <img src="assets/images/service_03.jpg" alt="">
-                    <div class="down-content">
-                        <h4>Assets</h4>
-                        <p>With our plentiful amount of customers, our assets are in a good spot. Together this company will exceed expectations.</p>
-                        @if (User.IsInRole("Cashier"))
-                        {
-                            <a asp-page="/Accounts/AccountsAdminInfo" class="filled-button">Accounts</a>
-                        }
-                        else
-                        {
-                            
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="fun-facts" style="margin-top: 50px;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="left-content">
-                    <span>Founded in 2024 By Mille Elfver</span>
-                    <h2>Our solution makes <em>business grow</em></h2>
-                    <p>
-                        With our vast network of customers, accounts and assets, we can deliver quality banking options for our customers.
-                        <br><br>Start handling customers today, login as a cashier!
-                    </p>
-                    @if (!User.Identity.IsAuthenticated)
-                    {
-                        <a asp-area="Identity" asp-page="/Account/Login" class="filled-button">Login</a>
-                    }
-                </div>
-            </div>
-            <div class="col-md-6 align-self-center">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="count-area-content">
-                            <div class="count-digit">@Model.TotalCustomers</div>
-                            <div class="count-title">Customers</div>
+                            }
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="count-area-content">
-                            <div class="count-digit">@Model.TotalAccounts</div>
-                            <div class="count-title">Accounts</div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-item">
+                        <img src="assets/images/service_02.jpg" alt="">
+                        <div class="down-content">
+                            <h4>Customers</h4>
+                            <p>With our large database, cashiers handle customers information by creating, updating, reading and deleting.</p>
+                            @if (User.IsInRole("Cashier"))
+                            {
+                                <a asp-page="/Customers/CustomerAdminInfo" class="filled-button">Customers</a>
+                            }
+                            else
+                            {
+
+                            }
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="count-area-content">
-                            <div style="font-size: 43px; font-weight: bold;"><em>@FormatNumber(Model.TotalAssets)</em></div>
-                            <div class="count-title">Balance</div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="count-area-content">
-                            <div class="count-digit">@Model.TotalCountries</div>
-                            <div class="count-title">Countries</div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-item">
+                        <img src="assets/images/service_03.jpg" alt="">
+                        <div class="down-content">
+                            <h4>Assets</h4>
+                            <p>With our plentiful amount of customers, our assets are in a good spot. Together this company will exceed expectations.</p>
+                            @if (User.IsInRole("Cashier"))
+                            {
+                                <a asp-page="/Accounts/AccountsAdminInfo" class="filled-button">Accounts</a>
+                            }
+                            else
+                            {
+
+                            }
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<div class="more-info" style="margin-bottom: 125px; margin-top: 50px;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="more-info-content">
+<section>
+    <div class="fun-facts" style="margin-top: 50px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="left-content">
+                        <span>Founded in 2024 By Mille Elfver</span>
+                        <h2>Our solution makes <em>business grow</em></h2>
+                        <p>
+                            With our vast network of customers, accounts and assets, we can deliver quality banking options for our customers.
+                            <br><br>Start handling customers today, login as a cashier!
+                        </p>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <a asp-area="Identity" asp-page="/Account/Login" class="filled-button">Login</a>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-6 align-self-center">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="left-image">
-                                <img src="assets/images/more-info.jpg" alt="">
+                            <div class="count-area-content">
+                                <div class="count-digit">@Model.TotalCustomers</div>
+                                <div class="count-title">Customers</div>
                             </div>
                         </div>
-                        <div class="col-md-6 align-self-center">
-                            <div class="right-content">
-                                <span>Who I am</span>
-                                <h2>Get to know about <em>this project</em></h2>
-                                <p>Sometimes there's alot to say, sometimes there's not.<br><br>Check out the about page to learn more!</p>
-                                <a asp-page="/AboutUs" class="filled-button">About Page</a>
+                        <div class="col-md-6">
+                            <div class="count-area-content">
+                                <div class="count-digit">@Model.TotalAccounts</div>
+                                <div class="count-title">Accounts</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="count-area-content">
+                                <div style="font-size: 43px; font-weight: bold;"><em>@FormatNumber(Model.TotalAssets)</em></div>
+                                <div class="count-title">Balance</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="count-area-content">
+                                <div class="count-digit">@Model.TotalCountries</div>
+                                <div class="count-title">Countries</div>
                             </div>
                         </div>
                     </div>
@@ -246,7 +228,35 @@
             </div>
         </div>
     </div>
-</div>
+</section>
+
+<section>
+    <div class="more-info" style="margin-bottom: 125px; margin-top: 50px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="more-info-content">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="left-image">
+                                    <img src="assets/images/more-info.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="col-md-6 align-self-center">
+                                <div class="right-content">
+                                    <span>Who I am</span>
+                                    <h2>Get to know about <em>this project</em></h2>
+                                    <p>Sometimes there's alot to say, sometimes there's not.<br><br>Check out the about page to learn more!</p>
+                                    <a asp-page="/AboutUs" class="filled-button">About Page</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 @functions {
     public static string FormatNumber(decimal num)
