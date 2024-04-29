@@ -64,6 +64,10 @@ body, html {
     .login-mobile-padding {
         padding-left: 0 !important;
     }
+
+    .index-mobile {
+        display: none !important;
+    }
 }
 
 .login-mobile-padding {
@@ -84,10 +88,6 @@ body, html {
     left: 0;
     width: 100%;
     color: red;
-}
-
-.custom-width {
-    /*width: 29%;*/
 }
 
 .country-styling {

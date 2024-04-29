@@ -17,13 +17,15 @@
 @foreach (var entry in Model)
 {
     <tr>
-        <td class="text-white custom-width">
-            <a class="btn btn-outline-secondary btn-block" asp-page="/CountryDetails" asp-route-country="@entry.Key">
+        <td class="text-white">
+            <a class="btn btn-outline-secondary btn-block text-left" style="width: 120px;" asp-page="/CountryDetails" asp-route-country="@entry.Key">
                 <i class="fa-solid fa-eye mr-2"></i>@entry.Key
             </a>
         </td>
-        <td class="text-white custom-width pl-4 d-none d-sm-table-cell">@entry.Value.customers</td>
-        <td class="text-white custom-width pl-4 d-none d-sm-table-cell">@entry.Value.accounts</td>
-        <td class="text-white custom-width pl-2">SEK: @FormatNumber(entry.Value.totalBalance)</td>
+        <td class="text-white pl-4 d-none d-sm-table-cell">@entry.Value.customers</td>
+        <td class="text-white pl-4 d-none d-sm-table-cell">@entry.Value.accounts</td>
+        <td class="text-white pl-2">
+            <span class="d-none d-sm-inline">SEK: </span>@FormatNumber(entry.Value.totalBalance)
+        </td>
     </tr>
 }
