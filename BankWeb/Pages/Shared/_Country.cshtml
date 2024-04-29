@@ -24,8 +24,8 @@
         </td>
         <td class="text-white pl-4 d-none d-sm-table-cell">@entry.Value.customers</td>
         <td class="text-white pl-4 d-none d-sm-table-cell">@entry.Value.accounts</td>
-        <td class="text-white pl-2">
-            <span class="d-none d-sm-inline">SEK: </span>@FormatNumber(entry.Value.totalBalance)
+        <td class="text-white pl-2" style="white-space: nowrap;">
+            <span class="d-inline">SEK: </span>@FormatNumber(entry.Value.totalBalance)
         </td>
     </tr>
 }
