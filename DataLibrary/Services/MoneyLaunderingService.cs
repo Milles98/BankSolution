@@ -51,9 +51,6 @@ namespace DataLibrary.Services
                 var reportFilePath = Path.Combine(currentDirectory, "..", "..", "..", "SuspicionReport", $"report_{country}.txt");
                 GenerateReport(suspiciousUsers, reportFilePath, country);
 
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Detected {suspiciousUsers.Count} suspicious users for {country}.\n");
-                Console.ResetColor();
                 Console.WriteLine("--------------------------------------------\n");
                 latestTransactionDateAcrossCountries = latestTransactionDate > latestTransactionDateAcrossCountries ? latestTransactionDate : latestTransactionDateAcrossCountries;
             }
@@ -80,24 +77,11 @@ namespace DataLibrary.Services
                 Console.Write($"\rChecking customer {currentDisposition} of {totalDispositions} for suspicious activity...");
 
                 var account = disposition.Account;
-                var date = lastRunDate;
-                var transactions = account.Transactions.Where(t => t.Date >= date && t.Date <= today);
+                var transactions = account.Transactions;
 
-                foreach (var transaction in transactions)
-                {
-                    if (Math.Abs(transaction.Amount) > SingleTransactionLimit)
-                    {
-                        suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, Account ID: {account.AccountId}, Transaction ID: {transaction.TransactionId}, 'Single transaction exceeds limit'");
-                    }
-                }
+                CheckSingleTransactionLimit(transactions, disposition, suspiciousUsers);
 
-                var recentTransactions = account.Transactions.Where(t => t.Date >= threeDaysAgo && t.Date <= today);
-                var totalAmountLastThreeDays = recentTransactions.Sum(t => t.Amount);
-
-                if (Math.Abs(totalAmountLastThreeDays) > TotalTransactionLimit)
-                {
-                    suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, Account ID: {account.AccountId}, 'Total transactions in last three days exceed limit'");
-                }
+                CheckTotalTransactionLimit(transactions, threeDaysAgo, today, disposition, suspiciousUsers);
 
                 if (transactions.Any())
                 {
@@ -109,6 +93,29 @@ namespace DataLibrary.Services
             Console.WriteLine($"\nCompleted checking all customers for suspicious activity.");
             return (suspiciousUsers, lastRunDate);
         }
+
+        private void CheckSingleTransactionLimit(IEnumerable<Transaction> transactions, Disposition disposition, List<string> suspiciousUsers)
+        {
+            foreach (var transaction in transactions)
+            {
+                if (Math.Abs(transaction.Amount) > SingleTransactionLimit)
+                {
+                    suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, Account ID: {disposition.Account.AccountId}, Transaction ID: {transaction.TransactionId}, Amount: {transaction.Amount} SEK, 'Single transaction exceeds limit'");
+                }
+            }
+        }
+
+        private void CheckTotalTransactionLimit(IEnumerable<Transaction> transactions, DateOnly threeDaysAgo, DateOnly today, Disposition disposition, List<string> suspiciousUsers)
+        {
+            var recentTransactions = transactions.Where(t => t.Date >= threeDaysAgo && t.Date <= today);
+            var totalAmountLastThreeDays = recentTransactions.Sum(t => t.Amount);
+
+            if (Math.Abs(totalAmountLastThreeDays) > TotalTransactionLimit)
+            {
+                suspiciousUsers.Add($"{disposition.Customer.Givenname} {disposition.Customer.Surname}, Account ID: {disposition.Account.AccountId}, Total Amount in Last Three Days: {totalAmountLastThreeDays} SEK, 'Total transactions in last three days exceed limit'");
+            }
+        }
+
 
         public void GenerateReport(List<string> suspiciousUsers, string filePath, string country)
         {
@@ -122,7 +129,6 @@ namespace DataLibrary.Services
             if (File.Exists(filePath))
             {
                 existingEntries = new HashSet<string>(File.ReadAllLines(filePath));
-                File.AppendAllText(filePath, "\n---\n");
             }
 
             List<string> newEntries = new List<string>();
@@ -135,7 +141,20 @@ namespace DataLibrary.Services
             }
 
             File.AppendAllLines(filePath, newEntries);
-            Console.WriteLine($"\nReport for {country} generated with {newEntries.Count} new suspicious users.");
+            if (newEntries.Count > 0)
+            {
+                File.AppendAllText(filePath, "\n---\n");
+                File.AppendAllLines(filePath, newEntries);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"\nReport for {country} generated with {newEntries.Count} new suspicious transactions.");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"\nNo new suspicious transactions for {country}.");
+                Console.ResetColor();
+            }
         }
 
         public void SaveLastRunTime(string filePath)
