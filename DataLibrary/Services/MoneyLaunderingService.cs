@@ -51,14 +51,18 @@ namespace DataLibrary.Services
                 var reportFilePath = Path.Combine(currentDirectory, "..", "..", "..", "SuspicionReport", $"report_{country}.txt");
                 GenerateReport(suspiciousUsers, reportFilePath, country);
 
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Detected {suspiciousUsers.Count} suspicious users for {country}.\n");
+                Console.ResetColor();
                 Console.WriteLine("--------------------------------------------\n");
                 latestTransactionDateAcrossCountries = latestTransactionDate > latestTransactionDateAcrossCountries ? latestTransactionDate : latestTransactionDateAcrossCountries;
             }
 
             SaveLastRunTime(lastRunTimeFilePath);
 
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Suspicious activity detection completed.");
+            Console.ResetColor();
         }
 
         public (List<string>, DateOnly) DetectSuspiciousActivity(List<Disposition> dispositions, DateOnly lastRunDate)
