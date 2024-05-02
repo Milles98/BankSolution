@@ -143,7 +143,6 @@ namespace DataLibrary.Services
             File.AppendAllLines(filePath, newEntries);
             if (newEntries.Count > 0)
             {
-                File.AppendAllText(filePath, "\n---\n");
                 File.AppendAllLines(filePath, newEntries);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"\nReport for {country} generated with {newEntries.Count} new suspicious transactions.");
