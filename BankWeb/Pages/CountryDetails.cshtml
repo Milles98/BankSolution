@@ -38,8 +38,8 @@
                 <td>SEK: @customer.TotalBalance.ToString("N2")</td>
                 @if (User.IsInRole("Cashier"))
                 {
-                    <td class="d-none d-sm-table-cell"><a asp-page="/GiftPage" asp-route-id="@customer.CustomerId" class="btn btn-outline-secondary">Send Gift</a></td>
-                    <td><a asp-page="/Customers/CustomerDetails" asp-route-id="@customer.CustomerId" class="btn btn-outline-secondary">View Details</a></td>
+                    <td class="d-none d-sm-table-cell"><a asp-page="/GiftPage" asp-route-id="@customer.CustomerId" class="btn btn-outline-secondary btn-block">Send Gift</a></td>
+                    <td><a asp-page="/Customers/CustomerDetails" asp-route-id="@customer.CustomerId" class="btn btn-outline-secondary btn-block">View Details</a></td>
                 }
             </tr>
         }
