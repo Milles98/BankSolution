@@ -42,7 +42,7 @@ namespace DataLibrary.Services
 
         public async Task<Customer> GetCustomerAsync(int id)
         {
-            return await context.Customers.FirstAsync(m => m.CustomerId == id);
+            return await context.Customers.FirstOrDefaultAsync(m => m.CustomerId == id);
         }
 
         public async Task<Customer?> GetCustomerByEmailAsync(string email)
