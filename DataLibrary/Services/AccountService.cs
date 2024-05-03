@@ -139,8 +139,16 @@ namespace DataLibrary.Services
                 throw new Exception("Account not found");
             }
 
-            var dispositions = context.Dispositions.Where(d => d.AccountId == id);
-            context.Dispositions.RemoveRange(dispositions);
+            var customerDispositions = context.Dispositions.Where(d => d.AccountId == id);
+            var customerId = customerDispositions.First().CustomerId;
+            var customerAccounts = context.Dispositions.Where(d => d.CustomerId == customerId);
+
+            if (customerAccounts.Count() <= 1)
+            {
+                throw new Exception("Cannot delete account, create new one first");
+            }
+
+            context.Dispositions.RemoveRange(customerDispositions);
 
             var transactions = context.Transactions.Where(t => t.AccountId == id);
             context.Transactions.RemoveRange(transactions);
@@ -149,6 +157,7 @@ namespace DataLibrary.Services
 
             await context.SaveChangesAsync();
         }
+
 
         public int GetTotalAccounts()
         {
