@@ -22,7 +22,7 @@ public class CustomerProfile : Profile
 
 
         CreateMap<Customer, CustomerViewModel>()
-            .ForMember(dest => dest.AccountId, opt => opt.MapFrom(src => src.Dispositions.Select(d => d.AccountId).First()))
+            .ForMember(dest => dest.AccountId, opt => opt.MapFrom(src => src.Dispositions.Select(d => d.AccountId).FirstOrDefault()))
             .ForMember(dest => dest.Accounts, opt => opt.MapFrom(src => src.Dispositions.Select(d => d.Account).ToList()));
     }
 }
