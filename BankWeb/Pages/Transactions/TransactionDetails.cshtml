@@ -20,7 +20,6 @@
                 <th scope="col">Transaction ID</th>
                 <th scope="col" class="d-none d-sm-table-cell">Account ID</th>
                 <th scope="col">Amount</th>
-                <th scope="col" class="d-none d-sm-table-cell">Balance</th>
                 <th scope="col">Date of Transaction</th>
                 <th scope="col" class="d-none d-sm-table-cell">Operation</th>
             </tr>
@@ -34,7 +33,6 @@
                     </a>
                 </td>
                 <td>@Model.Transaction.Amount SEK</td>
-                <td class="d-none d-sm-table-cell">@Model.Transaction.Balance SEK</td>
                 <td>@Model.Transaction.DateOfTransaction</td>
                 <td class="d-none d-sm-table-cell">@Model.Transaction.Operation</td>
             </tr>
