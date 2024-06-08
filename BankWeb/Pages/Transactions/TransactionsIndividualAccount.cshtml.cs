@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankWeb.Pages.Transactions
 {
-    [Authorize(Roles = "Cashier")]
+    // [Authorize(Roles = "Cashier")]
     public class TransactionsIndividualAccountModel(ITransactionService transactionService) : PageModel
     {
         public int AccountId { get; set; }

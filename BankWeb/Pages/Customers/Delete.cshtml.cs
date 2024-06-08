@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BankWeb.Pages.Customers
 {
-    [Authorize(Roles = "Cashier")]
+    // [Authorize(Roles = "Cashier")]
     public class DeleteModel(IPersonService personService) : PageModel
     {
         [BindProperty]

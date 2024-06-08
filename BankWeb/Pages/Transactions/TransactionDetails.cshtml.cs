@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BankWeb.Pages.Transactions
 {
-    [Authorize(Roles = "Cashier")]
+    // [Authorize(Roles = "Cashier")]
     public class TransactionDetailsModel(ITransactionService transactionService) : PageModel
     {
         public TransactionViewModel Transaction { get; set; }

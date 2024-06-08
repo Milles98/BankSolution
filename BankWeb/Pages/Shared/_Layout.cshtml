@@ -48,8 +48,8 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-page="/AboutUs">About</a>
                         </li>
-                        @if (User.IsInRole("Cashier"))
-                        {
+                        @* @if (User.IsInRole("Cashier")) *@
+                        @* { *@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownServices" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Services
@@ -60,7 +60,7 @@
                                     <a class="dropdown-item" asp-page="/Accounts/AccountsAdminInfo">Accounts</a>
                                 </div>
                             </li>
-                        }
+                        @* } *@
 
                         @if (User.IsInRole("Admin"))
                         {
