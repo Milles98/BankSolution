@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankWeb.Pages.Customers
 {
-    [Authorize(Roles = "Cashier")]
+    // [Authorize(Roles = "Cashier")]
     public class CustomerDetailsModel(ICustomerService customerService) : PageModel
     {
         public CustomerAccountViewModel Customer { get; set; }

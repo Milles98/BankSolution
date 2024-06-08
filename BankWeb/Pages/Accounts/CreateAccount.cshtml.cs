@@ -1,12 +1,11 @@
 using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BankWeb.Pages.AccountsFolder
+namespace BankWeb.Pages.Accounts
 {
-    [Authorize(Roles = "Cashier")]
+    // [Authorize(Roles = "Cashier")]
     public class CreateAccountModel(
         IAccountService accountService,
         ICustomerService customerService,

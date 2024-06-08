@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BankWeb.Pages.Transactions
 {
-    [Authorize(Roles = "Cashier")]
+    // [Authorize(Roles = "Cashier")]
     public class DepositModel(IBankService bankService) : PageModel
     {
         [BindProperty]

@@ -1,13 +1,10 @@
 using DataLibrary.Services.Interfaces;
 using DataLibrary.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Generic;
 
-namespace BankWeb.Pages.AccountsFolder
+namespace BankWeb.Pages.Accounts
 {
-    [Authorize(Roles = "Cashier")]
+    // [Authorize(Roles = "Cashier")]
     public class AccountModel(IAccountService accountService) : PageModel
     {
         public List<AccountViewModel> Accounts { get; set; }

@@ -3,7 +3,7 @@ using DataLibrary.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BankWeb.Pages.AccountsFolder
+namespace BankWeb.Pages.Accounts
 {
     public class DeleteAccountModel(IAccountService accountService) : PageModel
     {

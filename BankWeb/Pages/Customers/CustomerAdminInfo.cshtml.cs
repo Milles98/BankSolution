@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace BankWeb.Pages.Customers
 {
-    [Authorize(Roles = "Cashier")]
+    // [Authorize(Roles = "Cashier")]
     public class CustomerAdminInfoModel(ICustomerService customerService) : PageModel
     {
         public PagedResult<CustomerViewModel> Customers { get; set; }
