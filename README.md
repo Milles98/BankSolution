@@ -5,8 +5,10 @@
 3. [DataLibrary](#datalibrary)
 4. [MoneyLaunderingSafetyMeasure](#moneylaunderingsafetymeasure)
 5. [WebAPI](#webapi)
-6. [Getting Started](#getting)
-7. [Building The Solution](#building)
+6. [Getting Started](#getting-started)
+7. [Building The Solution](#building-the-solution)
+8. [Running The Solution](#running-the-solution)
+9. [Testing the Solution](#testing-the-solution)
 
 
 ## Overview
