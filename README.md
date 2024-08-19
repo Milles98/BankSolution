@@ -1,7 +1,11 @@
 # BankSolution ReadMe
 
 1. [Overview](#overview)
-   - [Azure](#azure)
+2. [BankWeb](#bankweb)
+3. [DataLibrary](#datalibrary)
+4. [MoneyLaunderingSafetyMeasure](#moneylaunderingsafetymeasure)
+5. [WebAPI](#webapi)
+6. [Getting Started](#gettingstarted)
 
 
 ## Overview
