@@ -1,5 +1,24 @@
 # BankSolution ReadMe
 
+1. [Introduction](#introduction)
+   - [Azure](#azure)
+   - [User Logins](#user-logins)
+2. [Backend](#backend)
+   - [Database](#database)
+   - [ViewModels & Services](#viewmodels--services)
+   - [Libraries](#libraries)
+3. [Frontend](#frontend)
+   - [Design](#design)
+   - [Pages](#pages)
+     - [Landing Page](#landing-page)
+     - [Users](#users)
+     - [Customers](#customers)
+       - [All Customers Page](#all-customers-page)
+       - [Customer Profile](#customer-profile)
+       - [Account Page](#account-page)
+       - [Transactions](#transactions)
+4. [Input Validation](#input-validation)
+
 ## Overview
 This solution consists of four projects: 
 * BankWeb
